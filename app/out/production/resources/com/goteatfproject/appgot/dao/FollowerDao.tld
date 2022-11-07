@@ -1,0 +1,87 @@
+<!--<?xml version="1.0" encoding="UTF-8" ?>-->
+<!--<!DOCTYPE mapper-->
+<!--    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"-->
+<!--    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">-->
+<!--<mapper namespace="com.goteatfproject.appgot.dao.FollowerDao">-->
+
+<!--  &lt;!&ndash; 자바 객체의 프로퍼티와 컬럼 이름을 연결한다. &ndash;&gt;-->
+<!--  <resultMap type="follower" id="followMap">-->
+<!--    <id column="follow" property="follow"/>-->
+<!--    <id column="following" property="following"/>-->
+<!--    <result column="nick" property="nick"/>-->
+<!--    <result column="intro" property="intro"/>-->
+<!--    <result column="profile" property="profile"/>-->
+
+<!--&lt;!&ndash;    <association property="writer" javaType="member"> &lt;!&ndash; member객체는 party객체의 setter writer에 담아 &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;      <id column="mno" property="no"/>&ndash;&gt;-->
+<!--&lt;!&ndash;      <result column="nick" property="nick"/>&ndash;&gt;-->
+<!--&lt;!&ndash;    </association>&ndash;&gt;-->
+
+<!--  </resultMap>-->
+
+
+
+<!--  &lt;!&ndash;    <collection property="followerUser" javaType="member">&ndash;&gt;-->
+<!--  &lt;!&ndash;      <id column="mno" property="no"/>&ndash;&gt;-->
+<!--  &lt;!&ndash;      <result column="nick" property="nick"/>&ndash;&gt;-->
+<!--  &lt;!&ndash;      <result column="intro" property="intro"/>&ndash;&gt;-->
+<!--  &lt;!&ndash;      <result column="profile" property="profile"/>&ndash;&gt;-->
+<!--  &lt;!&ndash;    </collection>&ndash;&gt;-->
+
+
+<!--  &lt;!&ndash; 팔로우 기능 &ndash;&gt;-->
+<!--  <insert id="follow">-->
+<!--    insert into follower(follow, following) values(#{follow},#{following})-->
+<!--  </insert>-->
+
+<!--  &lt;!&ndash; 언팔로우 기능 &ndash;&gt;-->
+<!--  <delete id="unfollow">-->
+<!--    delete from where follow=#{follow} and following=#{following}-->
+<!--  </delete>-->
+
+<!--  &lt;!&ndash; 팔로우 유무 조회 기능 &ndash;&gt;-->
+<!--  <select id="isFollow" resultType="int">-->
+<!--    select count(*)-->
+<!--    from follower-->
+<!--    where follow=#{follow}-->
+<!--    and following=#{following}-->
+<!--  </select>-->
+
+<!--  &lt;!&ndash; 팔로우 리스트 조회 &ndash;&gt;-->
+<!--  <select id="selectFollowList" parameterType="int" resultMap="followMap">-->
+<!--    select-->
+<!--    F.follow,-->
+<!--    F.following,-->
+<!--    m.mno,-->
+<!--    m.nick,-->
+<!--    m.intro,-->
+<!--    m.profile-->
+<!--    from follower F-->
+<!--    join member m on m.mno = F.following-->
+<!--    where follow=#{follow}-->
+<!--  </select>-->
+
+<!--  &lt;!&ndash; 팔로잉 리스트 조회 &ndash;&gt;-->
+<!--  <select id="selectFollowingList" resultMap="followMap">-->
+<!--    select-->
+<!--    F.follow,-->
+<!--    F.following,-->
+<!--    m.mno,-->
+<!--    m.nick,-->
+<!--    m.intro,-->
+<!--    m.profile-->
+<!--    from follower F-->
+<!--    join member m on m.mno = F.following-->
+<!--    where following=#{following}-->
+<!--  </select>-->
+
+<!--  &lt;!&ndash; 탈퇴시 팔로우 삭제 &ndash;&gt;-->
+<!--  <delete id="deleteAllFollow">-->
+<!--    delete from follower where follow=#{follow}-->
+<!--  </delete>-->
+
+
+<!--</mapper>-->
+
+
+

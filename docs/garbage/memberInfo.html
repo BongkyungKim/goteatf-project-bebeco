@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>BEBECO</title>
+</head>
+<body>
+<ul>
+<!--  <li th:text="${member.no}"></li>-->
+  <li th:text="${member.id}"></li>
+  <li th:text="${member.pwd}"></li>
+<!--  <li th:text="${member.grade}"></li>-->
+  <li th:text="${member.grade}"></li>
+  <li th:text="${member.name}"></li>
+  <li th:text="${member.nick}"></li>
+<!--  <li th:text="${member.birth}"></li>-->
+  <li th:text="${member.tel}"></li>
+<!--  <li th:text="${member.gender}"></li>-->
+  <li th:text="${member.inDate}"></li>
+  <li th:text="${member.postNum}"></li>
+  <li th:text="${member.mainAddr}"></li>
+<!--  <li th:text="${member.subAddr}"></li>-->
+  <li th:text="${member.interest == ''} ? '(입력안함)' : ${member.interest}"></li>
+<!--  <li th:text="${member.outState ==} ? "></li>-->
+<!--  <li th:text="${member.outDate}"></li>-->
+<!--  <li th:text="${member.pImg}"></li>-->
+<!--  <li th:text="${member.intro}"></li>-->
+
+</ul>
+</body>
+</html>

@@ -1,0 +1,598 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link href="/css/board/boardstyle.css" rel="stylesheet">
+</head>
+<body>
+<!-------------------------------구분선-------------------------->
+<div class="b-example-divider"></div>
+<!------------------------------header------------------------------>
+<header class="p-3 mb-3 bg-white border-bottom fixed-top">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a class="navbar-brand" th:href="@{/}">
+            <img src="/images/logo.png" alt="Bootstrap" width="100" height="88">
+          </a>
+         <!-------------------------------구분선-------------------------->
+          <div class="col-2"></div>
+          
+         <form class="col-12 col-lg-4 mb-3 mb-lg-0 me-lg-4" role="search">
+            <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+          </form>
+<!-------------------------------구분선-------------------------->
+          <div class="col-2"></div>
+
+      <div th:if="${session.loginMember == null}" class="d-grid me-lg-4 gap-2">
+        <button type="button" onclick="location.href='/auth/login'" class="btn btn-secondary" data-bs-toggle="button">로그인</button>
+      </div>
+
+      <div th:if="${session.loginMember != null}" class="d-grid me-lg-4 gap-2">
+        <button type="button" onclick="location.href='/auth/logout'" class="btn btn-secondary" data-bs-toggle="button">로그아웃</button>
+      </div>
+          
+      <div class="dropdown text-end me-lg-4">
+        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="/images/mypage.png" alt="mdo" width="32" height="32" class="rounded-circle">
+        </a>
+
+        <ul class="dropdown-menu text-small ">
+          <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">New project...</a></li>
+          <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">Settings</a></li>
+          <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">Profile</a></li>
+          <li><hr class="dropdown-divider"></li>
+
+          <li th:if="${session.loginMember == null}"><a class="dropdown-item" th:href="@{/auth/login}">Sign in</a></li>
+          <li th:if="${session.loginMember != null}"><a class="dropdown-item" th:href="@{/auth/logout}">Sign out</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
+<!-------------------------------구분선-------------------------->
+<div class="line-3"></div>
+<div class="line-3"></div>
+<!------------------------------nav------------------------------>
+<nav class="navbar navbar-expand-lg border-bottom bg-light" aria-label="Tenth navbar example">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample08" aria-controls="navbarsExample08" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-md-center " id="navbarsExample08">
+        <ul class="navbar-nav fw-bold text-dark ">
+          <li class="nav-item p-1">
+            <a class="nav-link" aria-current="page" href="#">파티게시판</a>
+          </li>
+          <li class="nav-item p-1">
+            <a class="nav-link" href="#">피드게시판</a>
+          </li>
+          <li class="nav-item p-1">
+            <a class="nav-link" href="#">이벤트게시판</a>
+          </li>
+          <li class="nav-item dropdown p-1">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">고객센터</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">공지사항</a></li>
+              <li><a class="dropdown-item" href="#">1:1 문의</a></li>
+              <li><a class="dropdown-item" href="#">자주 묻는 질문</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<!-------------------------------구분선-------------------------->
+<div class="line-3"></div>
+
+<div module="board_paging_9" class="ec-base-paginate">
+    <a href="{$param_prev}"> < <alt="이전 페이지" /></a>
+    <ol>
+        <li><a href="{$param_num}" class="{$param_class}">{$page_num}</a></li>
+        <li><a href="{$param_num}" class="{$param_class}">{$page_num}</a></li>
+    </ol>
+    <a href="{$param_next}"> > < alt="다음 페이지" /></a>
+</div>
+
+<!-------------------------------hashtag-title-------------------------->
+<div id ="hashtag">
+  <div class="container">
+  <!-------------------------------브래드-------------------------->
+  <div id="breadcrumb">
+  <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#">#</a></li>
+      <li class="breadcrumb-item active" aria-current="page">#</li>
+      <li class="breadcrumb-item active" aria-current="page">#</li>
+    </ol>
+  </nav>
+</div>
+
+<!-------------------------------버튼-------------------------->
+<div class="btn-group">
+  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
+    Default dropdown
+  </button>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="#">Menu item</a></li>
+    <li><a class="dropdown-item" href="#">Menu item</a></li>
+    <li><a class="dropdown-item" href="#">Menu item</a></li>
+  </ul>
+</div>
+
+<div class="btn-group">
+  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="inside" aria-expanded="false">
+    Clickable outside
+  </button>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="#">Menu item</a></li>
+    <li><a class="dropdown-item" href="#">Menu item</a></li>
+    <li><a class="dropdown-item" href="#">Menu item</a></li>
+  </ul>
+</div>
+
+<div class="btn-group">
+  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+    Clickable inside
+  </button>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="#">Menu item</a></li>
+    <li><a class="dropdown-item" href="#">Menu item</a></li>
+    <li><a class="dropdown-item" href="#">Menu item</a></li>
+  </ul>
+</div>
+
+<!-------------------------------구분선-------------------------->
+<div class="line-3"></div>
+<!-------------------------------Party_content-------------------------->
+<div id="party-board">
+    <div class="container text-center">
+     <div class="row">
+        <div class="col-12">
+            <div class="row row-cols-1 row-cols-md-4 g-4">
+               <!--1번 카드-->
+                <div class="card">
+                <div class="card-header bg-transparent border-secondary">[점심파티] <span class="badge bg-warning">New</span></h1> </div>
+                <img src="/images/1.jpg" class="card-img-top" alt="...">
+                <div class="card-body text-small">
+                  <h5 class="card-title">제목:#</h5>
+                  <p class="card-text">작성자:#</p>
+                  <div class="card-footer bg-transparent border-secondary">#</div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-outline-secondary">20대</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary">남자만</button>
+                        <!--버튼 모달-->
+                        <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalToggleLabel"><div id="party-title"></div></h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  [점심파티] ~ 에 참석하시겠습니까?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                  <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">참석하기</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">파티 참석 시</h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  이 파티에 참석하셨습니다.
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">확인</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">참여</a>
+
+                      </div>
+                </div>
+              </div>
+              <!--2번 카드-->
+                <div class="card">
+                    <div class="card-header bg-transparent border-success">[저녁파티] <span class="badge bg-warning">New</span></h1> </div>
+                  <img src="/images/2.jpg" class="card-img-top" alt="...">
+                  <div class="card-body text-small">
+                    <h5 class="card-title">제목:#</h5>
+                    <p class="card-text">작성자:#</p>
+                    <div class="card-footer bg-transparent border-secondary">#</div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-outline-secondary">20대</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary">남자만</button>
+                        <!--버튼 모달-->
+                        <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalToggleLabel"><div id="party-title"></div></h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  [점심파티] ~ 에 참석하시겠습니까?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                  <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">참석하기</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">파티 참석 시</h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  이 파티에 참석하셨습니다.
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">확인</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">참여</a>
+                      </div>
+                </div>
+              </div>
+              <!--3번 카드-->
+                <div class="card">
+                    <div class="card-header bg-transparent border-success">[점심파티]<span class="badge bg-warning">New</span></h1> </div>
+                  <img src="/images/3.jpg" class="card-img-top" alt="...">
+                  <div class="card-body text-small">
+                    <h5 class="card-title">제목:#</h5>
+                    <p class="card-text">작성자:#</p>
+                    <div class="card-footer bg-transparent border-secondary">#</div>
+                      <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-outline-secondary">20대</button>
+                          <button type="button" class="btn btn-sm btn-outline-secondary">남자만</button>
+                                <!--버튼 모달-->
+                                <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h1 class="modal-title fs-5" id="exampleModalToggleLabel"><div id="party-title"></div></h1>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                          [점심파티] ~ 에 참석하시겠습니까?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                          <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">참석하기</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+        
+                                  <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">파티 참석 시</h1>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                          이 파티에 참석하셨습니다.
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">확인</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">참여</a>
+                              </div>
+                        </div>
+                      </div>
+             
+                   <!--4번 카드-->
+                <div class="card">
+                    <div class="card-header bg-transparent border-success">[점심파티]<span class="badge bg-warning">New</span></h1> </div>
+                  <img src="/images/4.jpg" class="card-img-top" alt="...">
+                  <div class="card-body text-small">
+                    <h5 class="card-title">제목:#</h5>
+                    <p class="card-text">작성자:#</p>
+                    <div class="card-footer bg-transparent border-secondary">#</div>
+                      <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-outline-secondary">20대</button>
+                          <button type="button" class="btn btn-sm btn-outline-secondary">남자만</button>
+                               <!--버튼 모달-->
+                               <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="exampleModalToggleLabel"><div id="party-title"></div></h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      [점심파티] ~ 에 참석하시겠습니까?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                      <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">참석하기</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+    
+                              <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">파티 참석 시</h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      이 파티에 참석하셨습니다.
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">확인</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">참여</a>
+                          </div>
+                    </div>
+                  </div>
+<!--5번 카드-->
+                <div class="card">
+                    <div class="card-header bg-transparent border-success">[점심파티]<span class="badge bg-warning">New</span></h1> </div>
+                  <img src="/images/6.jpg" class="card-img-top" alt="...">
+                  <div class="card-body text-small">
+                    <h5 class="card-title">제목:#</h5>
+                    <p class="card-text">작성자:#</p>
+                    <div class="card-footer bg-transparent border-secondary">#</div>
+                      <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-outline-secondary">20대</button>
+                          <button type="button" class="btn btn-sm btn-outline-secondary">남자만</button>
+                               <!--버튼 모달-->
+                               <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="exampleModalToggleLabel"><div id="party-title"></div></h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      [점심파티] ~ 에 참석하시겠습니까?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                      <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">참석하기</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+    
+                              <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">파티 참석 시</h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      이 파티에 참석하셨습니다.
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">확인</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">참여</a>
+                          </div>
+                    </div>
+                  </div>
+                  <!--6번 카드-->
+                <div class="card">
+                    <div class="card-header bg-transparent border-success">[점심파티]<span class="badge bg-primary">마감</span></h1> </div>
+                  <img src="/images/8.jpg" class="card-img-top" alt="...">
+                  <div class="card-body text-small">
+                    <h5 class="card-title">제목:#</h5>
+                    <p class="card-text">작성자:#</p>
+                    <div class="card-footer bg-transparent border-secondary">#</div>
+                      <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-outline-secondary">20대</button>
+                          <button type="button" class="btn btn-sm btn-outline-secondary">남자만</button>
+                               <!--버튼 모달-->
+                               <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="exampleModalToggleLabel"><div id="party-title"></div></h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      [점심파티] ~ 에 참석하시겠습니까?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                      <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">참석하기</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+    
+                              <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">파티 참석 시</h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      이 파티에 참석하셨습니다.
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">확인</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">참여</a>
+                          </div>
+                    </div>
+                  </div>
+                  <!--7번 카드-->
+                <div class="card">
+                    <div class="card-header bg-transparent border-success">[점심파티]<span class="badge bg-primary">마감</span></h1> </div>
+                  <img src="/images/9.jpg" class="card-img-top" alt="...">
+                  <div class="card-body text-small">
+                    <h5 class="card-title">제목:#</h5>
+                    <p class="card-text">작성자:#</p>
+                    <div class="card-footer bg-transparent border-secondary">#</div>
+                      <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-outline-secondary">20대</button>
+                          <button type="button" class="btn btn-sm btn-outline-secondary">남자만</button>
+                               <!--버튼 모달-->
+                               <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="exampleModalToggleLabel"><div id="party-title"></div></h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      [점심파티] ~ 에 참석하시겠습니까?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                      <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">참석하기</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+    
+                              <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">파티 참석 시</h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      이 파티에 참석하셨습니다.
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">확인</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">참여</a>
+                          </div>
+                    </div>
+                  </div>
+                  <!--8번 카드-->
+                <div class="card">
+                    <div class="card-header bg-transparent border-success">[점심파티]<span class="badge bg-primary">마감</span></h1> </div>
+                  <img src="/images/2.jpg" class="card-img-top" alt="...">
+                  <div class="card-body text-small">
+                    <h5 class="card-title">제목:#</h5>
+                    <p class="card-text">작성자:#</p>
+                    <div class="card-footer bg-transparent border-secondary">#</div>
+                      <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-outline-secondary">20대</button>
+                          <button type="button" class="btn btn-sm btn-outline-secondary">남자만</button>
+                               <!--버튼 모달-->
+                               <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="exampleModalToggleLabel"><div id="party-title"></div></h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      [점심파티] ~ 에 참석하시겠습니까?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                      <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">참석하기</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+    
+                              <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">파티 참석 시</h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      이 파티에 참석하셨습니다.
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">확인</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">참여</a>
+                          </div>
+                    </div>
+                  </div>
+            </div>
+          </div>
+<!-------------------------------구분선-------------------------->
+<div class="line-3"></div>
+<!-------------------------------페이지-------------------------->
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    <li class="page-item disabled">
+      <a class="page-link">이전</a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#">다음</a>
+    </li>
+  </ul>
+</nav>
+<!-------------------------------구분선-------------------------->
+<div class="line-3"></div>
+<!------------------------------footer------------------------------>
+  <footer class="py-3 my-4">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a th:href="@{/}" class="nav-link px-2 text-muted">Home</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pricing</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+    </ul>
+    <p class="text-center text-muted">© 2022 Chunderella Corp & TwoAppleteam. All Rights Reserved.</p>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+

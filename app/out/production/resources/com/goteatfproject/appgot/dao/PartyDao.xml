@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goteatfproject.appgot.dao.PartyDao">
+
+  <!-- SQL 문에 값 삽입하기 : in-parameter 지정하기
+      => parameterType에 지정된 객체의 프로퍼티 명을 사용하여 값을 삽입한다.
+         예) #{프로퍼티명}
+      => paramterType이 primitive/String/wrapper class 인 경우 아무 이름을 적어도 된다.
+         예) #{아무이름}
+      => parameterType이 Map 객체인 경우는 Map에 저장된 값의 key를 적는다.
+         예) #{key}
+      => parameterType에 지정할 수 있는 타입:
+      int      => _int
+      Integer  => int
+      String   => string
+      Map      => map
+      HashMap  => hashmap
+      Board    => board -->
+
+ <!-- 자바 객체의 프로퍼티와 컬럼 이름을 연결한다. -->
+  <!-- type : 자바 객체의 클래스명 또는 별명
+       id : 연결 정보를 가리키는 식별자. SQL문을 설정할 때 사용.-->
+  <!-- 컬럼 이름과 자바 객체의 프로퍼티 이름이 같을 경우 생략 가능 -->
+  <resultMap type="party" id="partyMap">
+    <id column="pno" property="no"/>
+    <result column="meal" property="meal"/>
+    <result column="title" property="title"/>
+<!--    <result column="nick" property="nick"/>-->
+    <result column="cont" property="content"/>
+    <result column="lit" property="limit"/>
+    <result column="loc" property="location"/>
+    <result column="addr" property="address"/>
+    <result column="viewcnt" property="viewCnt"/>
+    <result column="gender" property="gender"/>
+    <result column="age" property="age"/>
+    <result column="img" property="image"/>
+    <result column="createdate" property="createDate"/>
+    <!-- select 결과에서 mno와 name이 있으면 mno와 name을 담을 user객체를 만들어서
+          그 user객체에다가 mno값은 no에 name값은 name프러퍼티에 담은 다음에 그 member 객체를
+          party객체의 writer필드에 담는다. -->
+    <!-- 조인 결과에서 같은 게시글에 대해 한 개의 회원 데이터를 담을 경우 -->
+        <association property="writer" javaType="member"> <!-- member객체는 party객체의 setter writer에 담아 -->
+          <id column="mno" property="no"/>
+          <result column="nick" property="nick"/>
+        </association>
+
+    <!--    &lt;!&ndash; 조인 결과에서 같은 게시글에 대해 여러 개의 첨부 파일 데이터를 담을 경우 &ndash;&gt;-->
+    <!-- AttachedFile객체는 Party객체의 attachedFiles 필드에 담아-->
+  <collection property="attachedFiles" ofType="attachedFile">
+    <id column="pfileno" property="no"/>
+    <result column="path" property="filepath"/>
+    <result column="filename" property="fileName"/>
+    <result column="savename" property="saveName"/>
+  </collection>
+
+</resultMap>
+
+  <resultMap type="attachedFile" id="attachedFileMap">
+      <id column="pfileno" property="no"/>
+      <result column="path" property="filepath"/>
+    <result column="filename" property="fileName"/>
+    <result column="savename" property="saveName"/>
+    <result column="pno" property="partyNo"/>
+
+    </resultMap>
+
+
+<!--  Member writer = new Member();-->
+<!--  writer.setNo(rs.getInt("mno"));-->
+<!--  writer.setName(rs.getString("name"));-->
+<!--  작성자 번호를 가지고 작성자를 받아야 한다. + 리스트 포함-->
+<!--  board.setWriter(writer);-->
+
+    <insert id="insert" parameterType="party"
+            useGeneratedKeys="true" keyColumn="pno" keyProperty="no">
+<!--      insert into party(title,cont,mno)-->
+<!--      values(#{title},#{content},#{writer.no})-->
+      insert into party(mno, meal, food, title, cont, gender, max, time, age,
+      lit, loc, post, addr, viewcnt, createdate)
+      values(#{writer.no}, #{meal}, #{food}, #{title}, #{content}, #{gender}, #{max},
+      #{time}, #{age}, #{limit}, #{location}, '', #{address}, 0, now())
+    </insert>
+
+
+
+
+
+
+  <!-- resultMap : 컬럼과 프로퍼티의 연결을 정의한 resultMap="id" -->
+  <!-- resultType : 오리지널 클래스 이름-->
+  <select id="findAll" resultMap="partyMap">
+    select
+    p.pno,
+    p.title,
+    p.meal,
+    p.lit,
+<!--    p.nick,-->
+    p.age,
+    p.gender,
+    p.max,
+    p.viewcnt,
+    p.img,
+    p.createdate,
+    m.mno,
+    m.nick
+    from
+    party p
+    join member m on m.mno = p.mno
+    order by
+    pno desc
+  </select>
+
+    <select id="findByNo" resultMap="partyMap">
+      select
+      p.pno,
+      p.title,
+      p.viewcnt,
+      p.createdate,
+      m.nick,
+      m.mno,
+      pf.pfileno,
+      pf.path
+      from
+      party p
+      join member m on m.mno = p.mno
+      left outer join party_file pf on p.pno = pf.pno
+      where
+      p.pno = #{value}
+    </select>
+
+    <update id="update" parameterType="party">
+      update party set
+      title = #{title},
+      cont = #{content}
+      where
+      pno = #{no}
+    </update>
+
+    <delete id="delete">
+      delete from party
+      where pno = #{value}
+    </delete>
+
+<!-- 파일첨부관련 -->
+
+  <insert id="insertFiles" parameterType="party">
+    insert into party_file(path, pno, filename, savename)
+    <!--      insert into party_file(path, pno)-->
+    values
+    <!--  여러 파일 들어가면 첨부파일 , 사용해서 구분-->
+    <foreach collection="attachedFiles" item="file" separator=",">
+      (#{file.filepath}, #{no}, #{file.fileName}, #{file.saveName})
+      <!--        (#{file.filepath}, #{no})-->
+    </foreach>
+  </insert>
+
+    <select id="findFileByNo" resultMap="attachedFileMap">
+      select
+        pfileno,
+        path,
+        pno
+      from
+        party_file
+      where
+        pfileno = #{value}
+    </select>
+
+    <select id="findFilesByParty" resultMap="attachedFileMap">
+      select
+      pfileno,
+      path,
+      bno
+      from
+      party_file
+      where
+      pno = #{value}
+    </select>
+
+    <delete id="deleteFile">
+      delete from party_file
+      where pfileno = #{value}
+    </delete>
+
+    <delete id="deleteFiles">
+      delete from party_file
+      where pno = #{value}
+    </delete>
+
+    <delete id="deleteFilesByMemberBoards">
+      delete from party_file
+      where pno in (select pno from party where mno = #{value})
+    </delete>
+
+
+
+
+
+
+  <!--  <delete id="deleteByMember">-->
+  <!--    delete from party-->
+  <!--    where pno=#{value}-->
+  <!--  </delete>-->
+
+
+
+
+
+
+
+
+
+
+</mapper>
+
+
+
