@@ -90,7 +90,8 @@
 
   <!-- resultMap : 컬럼과 프로퍼티의 연결을 정의한 resultMap="id" -->
   <!-- resultType : 오리지널 클래스 이름-->
-  <select id="findAll" resultMap="partyMap">
+<!--  기존findAll 리스트-->
+    <select id="findAll" resultMap="partyMap">
     select
     p.pno,
     p.title,
@@ -111,6 +112,30 @@
     order by
     pno desc
   </select>
+  <!-- 페이징 리스트 -->
+    <select id="selectPartyList" resultMap="partyMap" parameterType="hashmap">
+      <![CDATA[
+      select
+      p.pno,
+      p.title,
+      p.meal,
+      p.lit,
+      p.age,
+      p.gender,
+      p.max,
+      p.viewcnt,
+      p.img,
+      p.createdate,
+      m.mno,
+      m.nick
+      from
+      party p
+      join member m on m.mno = p.mno
+      order by
+      pno desc
+      LIMIT #{pageStart}, #{perPageNum}
+      ]]>
+    </select>
 
     <select id="findByNo" resultMap="partyMap">
       select
@@ -203,6 +228,7 @@
   <!--    where pno=#{value}-->
   <!--  </delete>-->
 
+<!-- 테스트 -->
 
 
 

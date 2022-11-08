@@ -36,6 +36,27 @@
 
   </select>
 
+<!--   페이징 리스트-->
+  <select id="selectFeedList" resultMap="feedMap" parameterType="hashmap">
+    <![CDATA[
+      select
+    f.fno,
+    m.mno,
+    m.nick,
+    m.addr,
+    f.title,
+    f.cont,
+    f.date,
+    f.img
+    from
+    feed f
+    join member m on m.mno = f.mno
+      order by
+      fno desc
+      LIMIT #{pageStart}, #{perPageNum}
+      ]]>
+  </select>
+
 
   <insert id="insert" parameterType="feed"
       useGeneratedKeys="true" keyColumn="fno" keyProperty="no">

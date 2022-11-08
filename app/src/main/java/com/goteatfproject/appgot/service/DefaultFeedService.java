@@ -2,8 +2,10 @@ package com.goteatfproject.appgot.service;
 
 import com.goteatfproject.appgot.dao.FeedDao;
 import com.goteatfproject.appgot.dao.PartyDao;
+import com.goteatfproject.appgot.vo.Criteria;
 import com.goteatfproject.appgot.vo.Feed;
 import com.goteatfproject.appgot.vo.Party;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,5 +32,9 @@ public class DefaultFeedService implements FeedService {
     // if(feed.getAttachedFiles().size() > 0) {
     // feedDao.insertFiles(feed);
     // }
+  }
+
+  public List<Map<String, Object>> selectFeedList(Criteria cri) {
+    return feedDao.selectFeedList(cri);
   }
 }

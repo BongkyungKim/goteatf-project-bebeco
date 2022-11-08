@@ -1,6 +1,8 @@
 package com.goteatfproject.appgot.web;
 
 import com.goteatfproject.appgot.vo.AttachedFile;
+import com.goteatfproject.appgot.vo.Criteria;
+import com.goteatfproject.appgot.vo.PageMaker;
 import com.goteatfproject.appgot.vo.Party;
 import com.goteatfproject.appgot.vo.Member;
 import java.io.File;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.goteatfproject.appgot.service.PartyService;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/party/")
@@ -44,10 +47,31 @@ public class PartyController {
   //  }
 
   // 파티 리스트
+//  @GetMapping("list")
+//  public String partyList(Model model) throws Exception {
+//    model.addAttribute("parties", partyService.list());
+//    return "party/partyList";
+//  }
+
   @GetMapping("list")
-  public String partyList(Model model) throws Exception {
-    model.addAttribute("parties", partyService.list());
-    return "party/partyList";
+  public ModelAndView partyList(Criteria cri) throws Exception {
+
+    // 기존에는 return에서 보냈으면 mv에서는 여기서 보냄
+//    ModelAndView mv = new ModelAndView("party/partyList");
+    ModelAndView mv = new ModelAndView();
+
+    PageMaker pageMaker = new PageMaker();
+    pageMaker.setCri(cri);
+    pageMaker.setTotalCount(50);
+
+    List<Map<String, Object>> list = partyService.selectPartyList(cri);
+    mv.addObject("list", list);
+    mv.addObject("pageMaker", pageMaker);
+
+    mv.setViewName("party/partyList");
+//    model.addAttribute("parties", partyService.list());
+//    return "party/partyList";
+    return mv;
   }
 
   // 파티 리스트 게시물 등록
@@ -184,4 +208,7 @@ public class PartyController {
     }
     return "redirect:detail?no=" + party.getNo();
   }
+
+  // 테스트
+
 }

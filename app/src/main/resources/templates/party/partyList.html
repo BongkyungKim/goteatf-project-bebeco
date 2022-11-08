@@ -133,7 +133,7 @@
         var good_a = ["한식", "분식", "동남아식", "중식", "일식", "양식"];
         var good_b = ["한식", "분식", "동남아식", "중식", "일식", "양식"];
         var good_c = ["한식", "분식", "동남아식", "중식", "일식", "양식"];
-        var good_e = ["한식", "분식", "동남아식", "중식", "일식", "양식"];
+        var good_f = ["한식", "분식", "동남아식", "중식", "일식", "양식"];
         var good_e = ["한식", "분식", "동남아식", "중식", "일식", "양식"];
         var target = document.getElementById("good");
 
@@ -184,7 +184,8 @@
           <div class="col-12">
             <div class="row row-cols-1 row-cols-md-4 g-4">
               <!--1번 카드-->
-              <th:block th:each="party : ${parties}">
+<!--              <th:block th:each="party : ${parties}">-->
+              <th:block th:each="party : ${list}">
                 <div class="card">
 
                   <!--                  <div class="card-header bg-transparent border-secondary" th:text="${party.meal}"><span class="badge bg-warning">New</span></h1> </div>-->
@@ -195,7 +196,7 @@
                   <div class="card-body text-small">
                     <a th:href="@{detail(no=${party.no})}"><h5 class="card-title" th:text="${party.title}"></h5></a>
                     <p class="card-text"></p>
-                    <div class="card-footer bg-transparent border-secondary">#</div>
+                    <div class="card-footer bg-transparent border-secondary" th:text="${party.writer.nick}">#</div>
                     <div class="btn-group">
                       <!--                      <button type="button" class="btn btn-sm btn-outline-secondary">20대</button> &lt;!&ndash; TODO 우섭햄 수정1 &ndash;&gt;-->
                       <!--                      <button type="button" class="btn btn-sm btn-outline-secondary">남자만</button>-->
@@ -252,16 +253,36 @@
     <!-------------------------------구분선-------------------------->
     <div class="line-3"></div>
     <!-------------------------------페이지-------------------------->
+<!--    <nav aria-label="Page navigation example">-->
+<!--      <ul class="pagination justify-content-center">-->
+<!--        <li class="page-item disabled">-->
+<!--          <a class="page-link">이전</a>-->
+<!--        </li>-->
+<!--        <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+<!--        <li class="page-item"><a class="page-link" href="#">2</a></li>-->
+<!--        <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+<!--        <li class="page-item">-->
+<!--          <a class="page-link" href="#">다음</a>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </nav>-->
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-center">
-        <li class="page-item disabled">
-          <a class="page-link">이전</a>
+        <li class="page-item disabled" th:if="${pageMaker.prev}">
+          <a class="page-link"
+             th:href="@{list(pageMaker.startPage-1)}" aria-label="Previous">
+            <span aria-hidden="true">이전페이지</span>
+          </a>
         </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#">다음</a>
+        <th:block th:each="pageNum: ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+          <li class="page-item">
+            <a class="page-link" th:href="@{list(page=${pageNum})}"><i th:text="${pageNum}"></i></a>
+          </li>
+        </th:block>
+        <li class="page-item" th:if="${pageMaker.next && pageMaker.endPage >0}">
+          <a class="page-link" th:href="@{list(page=${pageMaker.endPage+1})}" aria-label="Next">
+            <span aria-hidden="true">다음페이지</span>
+          </a>
         </li>
       </ul>
     </nav>
