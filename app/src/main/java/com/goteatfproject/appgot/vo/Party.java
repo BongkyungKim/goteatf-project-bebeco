@@ -36,10 +36,20 @@ public class Party {
   private String address;
   private int viewCnt;
   private String image;
-  private String pub;
+  private boolean pub;
   private Date createDate;
 
   private Member writer;
 
   private List<AttachedFile> attachedFiles;
+
+  public List<AttachedFile> getAttachedFiles() {
+    return attachedFiles;
+  }
+
+  public void setAttachedFiles(List<AttachedFile> attachedFiles) {
+    this.attachedFiles = attachedFiles;
+  }
+
+
 }

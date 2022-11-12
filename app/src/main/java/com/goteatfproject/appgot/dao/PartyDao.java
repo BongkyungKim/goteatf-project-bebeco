@@ -35,5 +35,7 @@ public interface PartyDao {
   int deleteFilesByMemberParties(int memberNo);
 
   // 테스트
+//  public void insertComment(Comment comment);
+
 
 }

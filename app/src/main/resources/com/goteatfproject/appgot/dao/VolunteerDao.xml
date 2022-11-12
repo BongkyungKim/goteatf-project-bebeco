@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goteatfproject.appgot.dao.VolunteerDao">
+  <resultMap type="volunteer" id="volunteerMap">
+    <id column="vno" property="partyNo"/>
+    <id column="mno" property="memberNo"/>
+    <result column="date" property="date"/>
+    <result column="state" property="state"/>
+    <result column="etc" property="etc"/>
+
+    <association property="writer" javaType="member">
+      <id column="mno" property="no"/>
+      <result column="nick" property="nick"/>
+    </association>
+
+<!--    <collection property="writer" ofType="member">-->
+<!--      <id column="no" property="mno"/>-->
+<!--      <result column="nick" property="nick"/>-->
+<!--    </collection>-->
+    <!--    컬렉션 짱짱맨 간치 -->
+
+  </resultMap>
+
+
+  <!--  <select id="findAll" resultMap="volunteerMap">-->
+  <!--    select-->
+  <!--      v.date,-->
+  <!--      p.pno,-->
+  <!--      v.vno,-->
+  <!--      v.mno-->
+  <!--    from member m-->
+  <!--      join volunteer v on m.mno = v.mno-->
+  <!--      join party p on v.vno = p.pno-->
+  <!--    where-->
+  <!--      vno = #{no}-->
+  <!--    order by-->
+  <!--      vno, date desc;-->
+  <!--  </select>-->
+
+  <insert id="partyJoin" parameterType="volunteer">
+    insert into volunteer (vno, mno, date)
+    values (#{urlNo}, #{writer.no}, now())
+  </insert>
+
+  <select id="findAll" resultMap="volunteerMap">
+    select
+    v.date,
+    v.vno,
+    v.mno,
+    m.nick
+    from member m
+    join volunteer v on m.mno = v.mno
+    order by vno, date desc;
+  </select>
+
+  <select id="findByNo" resultMap="volunteerMap">
+    select
+    v.date,
+    v.vno,
+    v.mno,
+    m.nick
+    from member m
+    join volunteer v on m.mno = v.mno
+    where vno = #{value}
+    order by vno, date asc
+  </select>
+
+  <!--  select-->
+  <!--  v.date,-->
+  <!--  #        m.mno,-->
+  <!--  p.pno,-->
+  <!--  v.vno,-->
+  <!--  v.mno-->
+  <!--  from member m-->
+  <!--  join volunteer v on m.mno = v.mno-->
+  <!--  join party p on v.vno = p.pno-->
+  <!--  where vno = 3-->
+  <!--  order by vno, date desc;-->
+
+</mapper>

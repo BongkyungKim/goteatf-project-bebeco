@@ -1,12 +1,10 @@
 package com.goteatfproject.appgot.service;
 
-import ch.qos.logback.core.encoder.EchoEncoder;
 import com.goteatfproject.appgot.dao.PartyDao;
 import com.goteatfproject.appgot.vo.AttachedFile;
 import com.goteatfproject.appgot.vo.Criteria;
 import com.goteatfproject.appgot.vo.Party;
 import java.util.Map;
-import javax.servlet.http.Part;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -74,6 +72,12 @@ public class DefaultPartyService implements PartyService {
   public boolean deleteAttachedFile(int fileNo) throws Exception {
     return partyDao.deleteFile(fileNo) > 0;
   }
+
+//  @Override
+//  public void insertComment(Comment comment) throws Exception {
+//    partyDao.insertComment(comment);
+//  }
+
 
 
 }

@@ -74,7 +74,7 @@
 <!--  board.setWriter(writer);-->
 
     <insert id="insert" parameterType="party"
-            useGeneratedKeys="true" keyColumn="pno" keyProperty="no">
+        useGeneratedKeys="true" keyColumn="pno" keyProperty="no">
 <!--      insert into party(title,cont,mno)-->
 <!--      values(#{title},#{content},#{writer.no})-->
       insert into party(mno, meal, food, title, cont, gender, max, time, age,
@@ -229,7 +229,10 @@
   <!--  </delete>-->
 
 <!-- 테스트 -->
-
+<!--  <insert id="insertComment" parameterType="comment">-->
+<!--    insert into party_reply (mno, pno, cont, pub)-->
+<!--    vaules (#{}, #{}, #{content}, 0)-->
+<!--  </insert>-->
 
 
 

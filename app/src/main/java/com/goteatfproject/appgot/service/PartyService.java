@@ -19,4 +19,7 @@ public interface PartyService {
   boolean deleteAttachedFile(int fileNo) throws Exception;
 
   // 테스트
+//  public void insertComment(Comment comment) throws Exception;
+
+
 }

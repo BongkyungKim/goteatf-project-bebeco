@@ -1,5 +1,6 @@
 package com.goteatfproject.appgot.web;
 
+import com.goteatfproject.appgot.service.VolunteerService;
 import com.goteatfproject.appgot.vo.AttachedFile;
 import com.goteatfproject.appgot.vo.Criteria;
 import com.goteatfproject.appgot.vo.PageMaker;
@@ -210,5 +211,15 @@ public class PartyController {
   }
 
   // 테스트
+//  @PostMapping("comment")
+//  public String inseertComment(@RequestParam("no") int no,
+//      @RequestParam("contnet") String content) throws Exception {
+//    Comment comment = new Comment();
+//    comment.setContent(content);
+////    comment.setPartyPage(no);
+//    partyService.insertComment(comment);
+//    String redirect_url = "redirect:party/detail?no=" + no;
+//    return redirect_url;
+//  }
 
 }
