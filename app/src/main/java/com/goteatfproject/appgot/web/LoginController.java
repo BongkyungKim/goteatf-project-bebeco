@@ -31,7 +31,6 @@ public class LoginController {
     return "auth/login"; // TODO login 다시 복구
   }
 
-
   @PostMapping("/login")
   public String login(
       String id,

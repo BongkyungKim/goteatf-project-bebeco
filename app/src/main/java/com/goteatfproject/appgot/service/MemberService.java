@@ -15,6 +15,14 @@ public interface MemberService {
 
   List<Member> list() throws Exception;
 
-  //페이징
-//List<Map>
+
+  // 밑에는 피드의 사용 기능
+
+  // 팔로우 박스 랜덤 리스트 출력
+  List<Member> randomList() throws Exception;
+
+  // 유저 번호로 유저 프로필 정보 조회
+  Member profileByNo(int no) throws Exception;
+
+  Member profileByNick(String nick) throws Exception;
 }

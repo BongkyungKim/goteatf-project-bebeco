@@ -2,6 +2,7 @@ package com.goteatfproject.appgot.service;
 
 import com.goteatfproject.appgot.dao.PartyDao;
 import com.goteatfproject.appgot.vo.AttachedFile;
+import com.goteatfproject.appgot.vo.Comment;
 import com.goteatfproject.appgot.vo.Criteria;
 import com.goteatfproject.appgot.vo.Party;
 import java.util.Map;
@@ -32,6 +33,12 @@ public class DefaultPartyService implements PartyService {
   @Override
   public List<Party> list() throws Exception {
     return partyDao.findAll();
+  }
+
+  // 파티게시판 - 카테고리
+  @Override
+  public List<Party> list2(String meal, String food) throws Exception {
+    return partyDao.findAll2(meal, food);
   }
 
   //페이징
@@ -73,10 +80,10 @@ public class DefaultPartyService implements PartyService {
     return partyDao.deleteFile(fileNo) > 0;
   }
 
-//  @Override
-//  public void insertComment(Comment comment) throws Exception {
-//    partyDao.insertComment(comment);
-//  }
+  @Override
+  public void insertComment(Comment comment) throws Exception {
+    partyDao.insertComment(comment);
+  }
 
 
 

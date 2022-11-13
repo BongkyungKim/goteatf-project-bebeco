@@ -26,8 +26,8 @@
   <resultMap type="party" id="partyMap">
     <id column="pno" property="no"/>
     <result column="meal" property="meal"/>
+    <result column="food" property="food"/>
     <result column="title" property="title"/>
-<!--    <result column="nick" property="nick"/>-->
     <result column="cont" property="content"/>
     <result column="lit" property="limit"/>
     <result column="loc" property="location"/>
@@ -35,7 +35,7 @@
     <result column="viewcnt" property="viewCnt"/>
     <result column="gender" property="gender"/>
     <result column="age" property="age"/>
-    <result column="img" property="image"/>
+    <result column="thumbnail" property="thumbnail"/>
     <result column="createdate" property="createDate"/>
     <!-- select 결과에서 mno와 name이 있으면 mno와 name을 담을 user객체를 만들어서
           그 user객체에다가 mno값은 no에 name값은 name프러퍼티에 담은 다음에 그 member 객체를
@@ -66,6 +66,26 @@
 
     </resultMap>
 
+  <resultMap type="comment" id="commentMap">
+    <id column="prno" property="no"/>
+    <result column="pno" property="partyNo"/>
+    <result column="cont" property="commentCont"/>
+    <result column="date" property="date"/>
+
+    <association property="writer" javaType="member"> <!-- member객체는 party객체의 setter writer에 담아 -->
+      <id column="mno" property="no"/>
+<!--      <result column="nick" property="nick"/>-->
+    </association>
+
+  </resultMap>
+
+  <!-- 테스트 -->
+  <insert id="insertComment" parameterType="comment">
+    insert into party_reply (mno, pno, cont, date)
+    values (#{writer.no}, #{partyNo}, #{commentCont}, now())
+  </insert>
+
+
 
 <!--  Member writer = new Member();-->
 <!--  writer.setNo(rs.getInt("mno"));-->
@@ -78,9 +98,9 @@
 <!--      insert into party(title,cont,mno)-->
 <!--      values(#{title},#{content},#{writer.no})-->
       insert into party(mno, meal, food, title, cont, gender, max, time, age,
-      lit, loc, post, addr, viewcnt, createdate)
+      lit, loc, post, addr, viewcnt, createdate, thumbnail)
       values(#{writer.no}, #{meal}, #{food}, #{title}, #{content}, #{gender}, #{max},
-      #{time}, #{age}, #{limit}, #{location}, '', #{address}, 0, now())
+      #{time}, #{age}, #{limit}, #{location}, '', #{address}, 0, now(), #{thumbnail})
     </insert>
 
 
@@ -90,19 +110,18 @@
 
   <!-- resultMap : 컬럼과 프로퍼티의 연결을 정의한 resultMap="id" -->
   <!-- resultType : 오리지널 클래스 이름-->
-<!--  기존findAll 리스트-->
+<!--  기존 리스트-->
     <select id="findAll" resultMap="partyMap">
     select
     p.pno,
     p.title,
     p.meal,
     p.lit,
-<!--    p.nick,-->
     p.age,
     p.gender,
     p.max,
     p.viewcnt,
-    p.img,
+    p.thumbnail,
     p.createdate,
     m.mno,
     m.nick
@@ -112,7 +131,42 @@
     order by
     pno desc
   </select>
-  <!-- 페이징 리스트 -->
+
+<!-- 파티게시물 출력 : 카테고리 추가 -->
+  <select id="findAll2" resultMap="partyMap">
+    select
+    p.pno,
+    p.title,
+    p.meal,
+    p.lit,
+    p.age,
+    p.gender,
+    p.max,
+    p.viewcnt,
+    p.createdate,
+    p.thumbnail,
+    p.food,
+    m.mno,
+    m.nick,
+    pf.path
+    from
+    party p
+    join member m on m.mno = p.mno
+    left outer join party_file pf on p.pno = pf.pno
+    <!--meal = all일 경우 if문 실행안되면서 전체 컬럼 값 출력 -->
+    <if test="meal != 'all'">
+      where p.meal = #{meal}
+    </if>
+    <if test="food != null">
+      and p.food = #{food}
+    </if>
+    <!-- 회원번호를 기준으로 그룹으로 묶어서 첨부파일을 한개만 나오게 하기 위함-->
+    group by pno
+    order by
+    pno desc
+  </select>
+
+  <!-- 페이징 -->
     <select id="selectPartyList" resultMap="partyMap" parameterType="hashmap">
       <![CDATA[
       select
@@ -124,7 +178,7 @@
       p.gender,
       p.max,
       p.viewcnt,
-      p.img,
+      p.thumbnail,
       p.createdate,
       m.mno,
       m.nick
@@ -228,11 +282,7 @@
   <!--    where pno=#{value}-->
   <!--  </delete>-->
 
-<!-- 테스트 -->
-<!--  <insert id="insertComment" parameterType="comment">-->
-<!--    insert into party_reply (mno, pno, cont, pub)-->
-<!--    vaules (#{}, #{}, #{content}, 0)-->
-<!--  </insert>-->
+
 
 
 

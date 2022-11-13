@@ -183,25 +183,20 @@
         <div class="row">
           <div class="col-12">
             <div class="row row-cols-1 row-cols-md-4 g-4">
+
               <!--1번 카드-->
-<!--              <th:block th:each="party : ${parties}">-->
               <th:block th:each="party : ${list}">
                 <div class="card">
-
-                  <!--                  <div class="card-header bg-transparent border-secondary" th:text="${party.meal}"><span class="badge bg-warning">New</span></h1> </div>-->
                   <div class="card-header bg-transparent border-secondary" th:text="'[' + ${party.meal} + '파티]'"><span class="badge bg-warning" th:text="${party.no}">New</span></div>
-                  <!--              <div class="card-header bg-transparent border-secondary"><span class="badge bg-warning">New</span></h1> </div>-->
-                  <!--                  <img src="/images/1.jpg" class="card-img-top" alt="...">-->
                   <a th:href="@{detail(no=${party.no})}"><img src="/images/1.jpg " class="card-img-top"></a>
                   <div class="card-body text-small">
                     <a th:href="@{detail(no=${party.no})}"><h5 class="card-title" th:text="${party.title}"></h5></a>
                     <p class="card-text"></p>
                     <div class="card-footer bg-transparent border-secondary" th:text="${party.writer.nick}">#</div>
                     <div class="btn-group">
-                      <!--                      <button type="button" class="btn btn-sm btn-outline-secondary">20대</button> &lt;!&ndash; TODO 우섭햄 수정1 &ndash;&gt;-->
-                      <!--                      <button type="button" class="btn btn-sm btn-outline-secondary">남자만</button>-->
                       <button type="button" class="btn btn-sm btn-outline-secondary" th:text="'[' + ${party.age} + '대]'">20대</button>
                       <button type="button" class="btn btn-sm btn-outline-secondary"th:text="'[' + ${party.gender} + ']'">남자만</button>
+
                       <!--버튼 모달-->
                       <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
                         <div class="modal-dialog modal-dialog-centered">
@@ -215,7 +210,7 @@
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                              <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">참석하기</button>
+                              <button class="btn btn-primary xx-join2" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-th-value="true">참석하기</button>
                             </div>
                           </div>
                         </div>
@@ -237,12 +232,16 @@
                           </div>
                         </div>
                       </div>
-                      <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">참여</a>
+                        <a class="btn btn-primary xx-join1" data-bs-toggle="modal" href="#exampleModalToggle" role="button" data-th-id="${party.no}">참여</a>
+                        <!-- 참여완료 => 라이터.아이디 == 쿠키.아이디 같으면 참여완료 버튼으로 -->
+                      <!--버튼 모달 end-->
                     </div>
+<!--                    <a th:href="@{detail(no=${party.no})}"><button type="button" class="btn btn-outline-success" >Success</button></a>-->
+                    <a th:href="@{../volunteer/detail(no=${party.no})}"><button type="button" class="btn btn-outline-success" >Success</button></a>
                   </div>
-
                 </div>
               </th:block>
+              <!--1번 카드 end -->
 
             </div>
           </div>
@@ -253,19 +252,6 @@
     <!-------------------------------구분선-------------------------->
     <div class="line-3"></div>
     <!-------------------------------페이지-------------------------->
-<!--    <nav aria-label="Page navigation example">-->
-<!--      <ul class="pagination justify-content-center">-->
-<!--        <li class="page-item disabled">-->
-<!--          <a class="page-link">이전</a>-->
-<!--        </li>-->
-<!--        <li class="page-item"><a class="page-link" href="#">1</a></li>-->
-<!--        <li class="page-item"><a class="page-link" href="#">2</a></li>-->
-<!--        <li class="page-item"><a class="page-link" href="#">3</a></li>-->
-<!--        <li class="page-item">-->
-<!--          <a class="page-link" href="#">다음</a>-->
-<!--        </li>-->
-<!--      </ul>-->
-<!--    </nav>-->
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-center">
         <li class="page-item disabled" th:if="${pageMaker.prev}">
@@ -286,6 +272,7 @@
         </li>
       </ul>
     </nav>
+    <!-------------------------------페이지 end-------------------------->
     <!-------------------------------구분선-------------------------->
     <div class="line-3"></div>
     <!------------------------------footer------------------------------>
@@ -308,9 +295,67 @@
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
 
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.1.js"
+            integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+            crossorigin="anonymous"></script>
+    <!-- jquery end-->
+
+    <script>
+
+      var no = "";
+
+      $('.xx-join1').click(function () {
+        no = $(this).attr("id")
+        console.log(no);
+      })
+
+      // $('.xx-join2').click(function () {
+      //   $(this).attr("id", no);
+      //   console.log(no)
+      // })
+
+      // $('.xx-join2').click(function () {
+      //   console.log(no)
+      // })
+
+      $('.xx-join2').click(function () {
+        let urlNo = no; // jquery : detail?no=78
+        let join = $(this).attr('value');
+        let data = {"state": join, "urlNo": urlNo};
+
+        $.ajax({
+          url: "/volunteer/add",
+          type: "POST",
+          dataType: "json",
+          contentType: "application/json",
+          data: JSON.stringify(data),
+          success: function (result) {
+            if (result == "0") {
+              alert("다시 확인 후 시도해 주세요.");
+            } else {
+              alert("성공");
+              // window.location.href = "/auth/loginSave"; // TODO 1. cookie 1번
+              // window.location.href = "/auth/loginSave"; // TODO 2. cookie 2번
+              // modal.style.display = "none";
+            }
+          },
+          error: function (jpXHR, status, error) {
+            alert("다시!!!! [ " + error + " ]");
+          }
+        });
+      })
+
+
+    </script>
+
     <!-- 버튼 디테일 링크 jquery -->
 
 </body>
 </html>
 
 
+<!-- e.preventDefault() 행위를 막는 -->
+<!-- <tbody data-page-no="1" data-page-size="3" data-max-page-no="5"> -->
+<!-- encodeURIComponent(keyword) -->
+<!-- 이전 또는 다음 최대에 도착하면 버튼 비활성화 태그가 있음 -->

@@ -128,7 +128,7 @@
                           size='60'></td>
   </tr>
   <tr>
-    <th>내용</th><td><textarea name='content'></textarea></td>
+    <th>내용</th><td><textarea name='content' data-th-id="content"></textarea></td>
   </tr>
   <tr>
     <th>조회수</th><td th:text="${party.viewCnt}"></td>
@@ -162,22 +162,22 @@
   <button type="submit" class="btn btn-outline-secondary">변경</button>
   <button type="button" class="btn btn-outline-secondary"><a th:href="@{delete(no=${party.no})}">삭제</a></button>
 
-  <!-- Comments Form -->
-<!--  <div class="card my-4">-->
-<!--    <h5 class="card-header">Leave a Comment:</h5>-->
-<!--    <div class="card-body">-->
-<!--      <form name="comment-form" action="/board/comment/write" method="post" autocomplete="off">-->
-<!--        <div class="form-group">-->
-<!--          <input type="hidden" name="idx" th:value="*{idx}" />-->
-<!--          <textarea name="content" class="form-control" rows="3"></textarea>-->
-<!--        </div>-->
-<!--        <button type="submit" class="btn btn-primary">Submit</button>-->
-<!--      </form>-->
-<!--    </div>-->
-<!--  </div>-->
-  <!-- Comments Form end-->
 <!--                                onclick="location.href='/auth/logout'"-->
 </form>
+<!-- Comments Form TODO 댓글 1 -->
+  <div class="card my-4">
+    <h5 class="card-header">Leave a Comment:</h5>
+    <div class="card-body">
+      <form name="comment-form" data-th-action="@{/party/comment}" method="post" autocomplete="off">
+        <div class="form-group">
+          <input type="hidden" name="no" data-th-value="${party.no}"/>
+          <textarea name="commentCont" class="form-control" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+<!-- Comments Form end-->
 
 
 <!---------------------------- 상세보기 end ------------------------------>
@@ -217,7 +217,7 @@
 <!-- 서머노트 -->
 <script>
   $(document).ready(function () {
-    $('textarea').summernote({
+    $('textarea#content').summernote({
       height: 400, width: 800,
     });
   });

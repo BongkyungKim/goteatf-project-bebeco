@@ -102,3 +102,8 @@
   #breadcrumb {
     font-size: xx-large;
   }
+
+.img-thumbnail {
+  height: 300px;
+  width: 500px;
+}

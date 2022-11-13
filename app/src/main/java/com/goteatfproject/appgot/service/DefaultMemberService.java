@@ -30,4 +30,18 @@ public class DefaultMemberService implements MemberService {
   public List<Member> list() throws Exception {
     return memberDao.findAll();
   }
+
+  // 밑에는 피드의 사용 기능
+
+  public List<Member> randomList() throws Exception {
+    return memberDao.userList();
+  }
+
+  public Member profileByNo(int no) throws Exception {
+    return memberDao.profileByNo(no);
+  }
+
+  public Member profileByNick(String nick) throws Exception {
+    return memberDao.profileByNick(nick);
+  }
 }

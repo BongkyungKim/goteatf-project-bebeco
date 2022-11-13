@@ -35,7 +35,7 @@
     <result column="viewcnt" property="viewCnt"/>
     <result column="gender" property="gender"/>
     <result column="age" property="age"/>
-    <result column="img" property="image"/>
+    <result column="thumbnail" property="thumbnail"/>
     <result column="createdate" property="createDate"/>
     <!-- select 결과에서 mno와 name이 있으면 mno와 name을 담을 user객체를 만들어서
           그 user객체에다가 mno값은 no에 name값은 name프러퍼티에 담은 다음에 그 member 객체를
@@ -74,7 +74,7 @@
 <!--  board.setWriter(writer);-->
 
     <insert id="insert" parameterType="party"
-            useGeneratedKeys="true" keyColumn="pno" keyProperty="no">
+        useGeneratedKeys="true" keyColumn="pno" keyProperty="no">
 <!--      insert into party(title,cont,mno)-->
 <!--      values(#{title},#{content},#{writer.no})-->
       insert into party(mno, meal, food, title, cont, gender, max, time, age,
@@ -102,7 +102,7 @@
     p.gender,
     p.max,
     p.viewcnt,
-    p.img,
+    p.thumbnail,
     p.createdate,
     m.mno,
     m.nick
@@ -124,7 +124,7 @@
       p.gender,
       p.max,
       p.viewcnt,
-      p.img,
+      p.thumbnail,
       p.createdate,
       m.mno,
       m.nick
@@ -229,7 +229,10 @@
   <!--  </delete>-->
 
 <!-- 테스트 -->
-
+<!--  <insert id="insertComment" parameterType="comment">-->
+<!--    insert into party_reply (mno, pno, cont, pub)-->
+<!--    vaules (#{}, #{}, #{content}, 0)-->
+<!--  </insert>-->
 
 
 

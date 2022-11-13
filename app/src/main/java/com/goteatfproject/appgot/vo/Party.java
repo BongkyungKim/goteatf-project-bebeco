@@ -35,9 +35,9 @@ public class Party {
   private String post;
   private String address;
   private int viewCnt;
-  private String image;
   private boolean pub;
   private Date createDate;
+  private String thumbnail;
 
   private Member writer;
 
@@ -50,6 +50,4 @@ public class Party {
   public void setAttachedFiles(List<AttachedFile> attachedFiles) {
     this.attachedFiles = attachedFiles;
   }
-
-
 }
