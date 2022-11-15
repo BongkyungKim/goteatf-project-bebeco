@@ -21,7 +21,6 @@ public class Volunteer {
   //  private int partyNo; // vno
   private Member writer;
   private int urlNo;
-
 //  /////
 }
 

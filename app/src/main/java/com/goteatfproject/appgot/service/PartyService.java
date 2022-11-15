@@ -26,5 +26,7 @@ public interface PartyService {
   // 테스트
   public void insertComment(Comment comment) throws Exception;
 
+  public List<Comment> getCommentList(Comment comment) throws Exception;
 
+  boolean updateComment(Comment comment) throws Exception;
 }

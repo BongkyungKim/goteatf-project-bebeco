@@ -42,7 +42,6 @@
       <form class="col-12 col-lg-4 mb-3 mb-lg-0 me-lg-4" role="search">
         <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
       </form>
-      인
       <!-------------------------------구분선-------------------------->
       <div class="col-2"></div>
 
@@ -163,6 +162,14 @@
   <button type="button" class="btn btn-outline-secondary"><a th:href="@{delete(no=${party.no})}">삭제</a></button>
 
 <!--                                onclick="location.href='/auth/logout'"-->
+  <h5>Comment : </h5>
+<!--  <div data-th-id="comment" data-userid="10" data-th-data-userid="${loginMember.no}"></div> --> <!-- 강사님 -->
+  <div data-th-id="comment"></div>
+<!--  <button data-th-id="xx-update" data-th-if="${session.loginMember.getNo()==comment.writer.no}">테스트</button>-->
+<!--  <button data-th-id="xx-update" type="button" class="btn btn-primary">댓글수정</button>-->
+<!--  <div data-th-id="xx-update"></div>-->
+<!--  <input name='partyReplyNo' type='number' value='1' readonly hidden/>-->
+
 </form>
 <!-- Comments Form TODO 댓글 1 -->
   <div class="card my-4">
@@ -171,13 +178,28 @@
       <form name="comment-form" data-th-action="@{/party/comment}" method="post" autocomplete="off">
         <div class="form-group">
           <input type="hidden" name="no" data-th-value="${party.no}"/>
+          <input data-th-if="${session.loginMember != null}" name="session" data-th-value="${session.loginMember.getNo()}" hidden/>
           <textarea name="commentCont" class="form-control" rows="3"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">댓글등록</button>
       </form>
     </div>
   </div>
 <!-- Comments Form end-->
+
+<div class="card my-4" data-th-id="xx-updateBox" hidden>
+  <h5 class="card-header">Leave a Comment:</h5>
+  <div class="card-body">
+    <form name="comment-form" data-th-action="@{/party/comment}" method="post" autocomplete="off">
+      <div class="form-group">
+        <input type="hidden" name="no" data-th-value="${party.no}"/>
+        <input data-th-if="${session.loginMember != null}" name="session" data-th-value="${session.loginMember.getNo()}" hidden/>
+        <textarea name="commentCont" class="form-control" rows="3"></textarea>
+      </div>
+      <button type="button" class="btn btn-primary">댓글 수정</button>
+    </form>
+  </div>
+</div>
 
 
 <!---------------------------- 상세보기 end ------------------------------>
@@ -199,6 +221,12 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
+
+<!-- jquery -->
+<script src="https://code.jquery.com/jquery-3.6.1.js"
+        integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+        crossorigin="anonymous"></script>
+<!-- jquery end-->
 
 <!-- 서머노트 -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -223,6 +251,99 @@
   });
 </script>
 <!-- 서머노트 end-->
+
+<script th:inline="javascript">
+  /*<![CDATA[*/
+// $(document).ready(function () {
+//   getCommentList(); // 실행할 기능을 정의
+// })
+
+// 위 명령과 동일
+$(function () {
+  getCommentList(); // 실행할 기능을 정의
+})
+
+function getCommentList() {
+  var pno = $('input[name = no]').val(); // 디테일 페이지 no
+  var sno = $('input[name = session]').val(); // 로그인 세션 no
+
+  // var userNo = $("#comment").attr("data-userid"); 강사님
+
+  $.ajax({
+    url: '/party/getCommentList',
+    type: 'GET',
+    data: {pno},
+    success: function (result) {
+      for (var i = 0; i < result.length; i++) {
+        console.log('작성자no : ' + result[i].writer.no) // 작성자 no
+        console.log('로그인no :' + sno) // 로그인 세션 no
+        console.log(sno == result[i].writer.no);
+        // console.log(userNo == result[i].writer.no); // 강사님
+        // 임시1
+        var str = "<div class=\"comment\"><span class=\"xx-nick\">"
+            str = str + '작성자 : ' + result[i].writer.nick + "</span><br>" + '내용 : ' + result[i].commentCont + "</div></hr>";
+        // if (userNo == result[i].writer.no) { // 강사님
+        if (sno == result[i].writer.no) {
+          str =  str + "<button type='button' class='xx-updateComment' name='partyReplyNo' data-prno='" + result[i].partyReplyNo + "' data-mno='" + result[i].writer.no + "'>댓글 수정</button>" +
+              "<button type='button' class='xx-deleteComment' data-prno='" + result[i].partyReplyNo + "' data-mno='" + result[i].writer.no + "'>댓글 삭제</button><br>";
+        }
+
+        $("#comment").append(str);
+
+        // 임시2
+        // ajax로는 그냥 값만 보내고, 위 input에서 댓글 입력 th:each써라~
+        //
+      }
+    },
+    error: function (result) {
+
+    },
+    complete: function () {
+    }
+  });
+
+  // ===============
+
+  $(document).ready(function () {
+    $('.xx-updateComment').click(function () {
+      $('#xx-updateBox').toggle();
+    });
+  });
+
+// $(document).on('click', '.xx-updateComment', function () {
+//   console.log('댓글 번호 : ' + $(this).attr("data-prno"));
+//   // console.log(this.getAttribute("data-prno"));
+//   console.log('댓글 작성자 번호 : ' + $(this).attr("data-mno"));
+//
+//
+//
+//   let prno = $(this).attr("data-prno");
+//   let mno = $(this).attr("data-mno");
+//   let data = {"partyReplyNo":prno, "memberNo": mno}
+//   var pno = $('input[name = no]').val();
+//
+//   $.ajax({
+//     url: "/party/updateComment",
+//     type: "POST",
+//     dataType: "json",
+//     contentType: "application/json",
+//     data: JSON.stringify(data),
+//     success: function (updateComment) {
+//       if (updateComment == "1") {
+//         alert("댓글 변경 성공!")
+//         location.href="/party/detail?no=" + pno
+//       }
+//     },
+//     error: function (jpXHR, status, error) {
+//       alert("댓글 다시!!! [ " + error + " ]");
+//     }
+//   });
+//
+// });
+
+}
+  /*]]>*/
+</script>
 
 </body>
 </html>

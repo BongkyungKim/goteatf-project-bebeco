@@ -45,5 +45,8 @@ public interface PartyDao {
   // 테스트
   public void insertComment(Comment comment);
 
+  public List<Comment> selectCommentList(Comment comment);
+
+  int updateComment(Comment comment);
 
 }

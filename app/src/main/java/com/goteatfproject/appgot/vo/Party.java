@@ -1,8 +1,5 @@
 package com.goteatfproject.appgot.vo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 import java.util.List;
 import lombok.Getter;
@@ -42,6 +39,9 @@ public class Party {
   private Member writer;
 
   private List<AttachedFile> attachedFiles;
+
+  private Comment commentList;
+
 
   public List<AttachedFile> getAttachedFiles() {
     return attachedFiles;

@@ -46,6 +46,12 @@
           <result column="nick" property="nick"/>
         </association>
 
+    <association property="commentList" javaType="comment"> <!-- comment객체는 party객체의 setter commentList에 담아 -->
+      <id column="prno" property="partyReplyNo"/>
+    </association>
+
+
+
     <!--    &lt;!&ndash; 조인 결과에서 같은 게시글에 대해 여러 개의 첨부 파일 데이터를 담을 경우 &ndash;&gt;-->
     <!-- AttachedFile객체는 Party객체의 attachedFiles 필드에 담아-->
   <collection property="attachedFiles" ofType="attachedFile">
@@ -67,23 +73,55 @@
     </resultMap>
 
   <resultMap type="comment" id="commentMap">
-    <id column="prno" property="no"/>
+    <id column="prno" property="partyReplyNo"/>
     <result column="pno" property="partyNo"/>
     <result column="cont" property="commentCont"/>
     <result column="date" property="date"/>
 
     <association property="writer" javaType="member"> <!-- member객체는 party객체의 setter writer에 담아 -->
       <id column="mno" property="no"/>
-<!--      <result column="nick" property="nick"/>-->
+      <result column="nick" property="nick"/>
     </association>
 
   </resultMap>
 
-  <!-- 테스트 -->
+  <!-- 댓글 테스트 -->
+<!-- 댓글 작성 -->
   <insert id="insertComment" parameterType="comment">
     insert into party_reply (mno, pno, cont, date)
     values (#{writer.no}, #{partyNo}, #{commentCont}, now())
   </insert>
+
+<!-- 댓글 출력 -->
+  <select id="selectCommentList" resultMap="commentMap">
+<!--    select *-->
+<!--    from-->
+<!--    party_reply-->
+<!--    where pno = #{partyNo}-->
+    select
+    pr.prno,
+    pr.pno,
+    pr.cont,
+    pr.date,
+    pr.pub,
+    m.nick,
+    m.mno
+    from
+    party_reply pr
+    join member m on pr.mno = m.mno
+    where pno = #{partyNo}
+  </select>
+
+  <update id="updateComment" parameterType="comment">
+    update
+      party_reply
+    set
+      cont = #{commentCont}
+    where
+    prno = #{partyReplyNo}
+    and
+    mno = #{writer.no}
+  </update>
 
 
 

@@ -85,6 +85,14 @@ public class DefaultPartyService implements PartyService {
     partyDao.insertComment(comment);
   }
 
+  @Override
+  public List<Comment> getCommentList(Comment comment) throws Exception {
+    return partyDao.selectCommentList(comment);
+  }
 
+  @Override
+  public boolean updateComment(Comment comment) throws Exception {
 
+    return partyDao.updateComment(comment) != 0; // 넘어오는 값이 0이 아니면 true, 0이면 false
+  }
 }
