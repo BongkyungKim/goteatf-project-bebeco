@@ -187,20 +187,16 @@
   </div>
 <!-- Comments Form end-->
 
-<div class="card my-4" data-th-id="xx-updateBox" hidden>
-  <h5 class="card-header">Leave a Comment:</h5>
-  <div class="card-body">
-    <form name="comment-form" data-th-action="@{/party/comment}" method="post" autocomplete="off">
-      <div class="form-group">
-        <input type="hidden" name="no" data-th-value="${party.no}"/>
-        <input data-th-if="${session.loginMember != null}" name="session" data-th-value="${session.loginMember.getNo()}" hidden/>
-        <textarea name="commentCont" class="form-control" rows="3"></textarea>
-      </div>
-      <button type="button" class="btn btn-primary">댓글 수정</button>
-    </form>
-  </div>
-</div>
 
+<!--<div class="card my-4">-->
+<!--  <h5 class="card-header">Leave a Comment:</h5>-->
+<!--  <div class="card-body">-->
+<!--      <div class="form-group">-->
+<!--        <textarea name="commentCont" class="form-control" rows="3"></textarea>-->
+<!--      </div>-->
+<!--      <button type="submit" class="btn btn-primary">댓글수정</button>-->
+<!--  </div>-->
+<!--</div>-->
 
 <!---------------------------- 상세보기 end ------------------------------>
 
@@ -218,6 +214,27 @@
   <p class="text-center text-muted">© 2022 Chunderella Corp & TwoAppleteam. All Rights Reserved.</p>
 </footer>
 
+<script id="commentTemplate" type="text/x-handlebars-template">
+  <form>
+    <input type="hidden" name="memberNo" value="11">
+    <input type="hidden" name="partyNo" value="22">
+  <div class="comment" style="border:5px solid red;">
+    <span class="xx-nick">작성자 : {{writer.nick}}</span><br>
+    <span class="xx-comment-cont">내용 : {{commentCont}}</span>
+    <div class="xx-comment-cont-edit">내용 : <textarea name="content" rows="3" cols="50">{{commentCont}}</textarea></div>
+    <br>
+    {{#if}}
+    <button class="xx-updateComment" data-th-id="prno8" name="status" value="update" data-prno="8" data-mno="52">댓글 수정</button>
+    <button class="xx-deleteComment" data-th-id="prno8" name="status" value="delete" data-prno="8" data-mno="52">댓글 삭제</button>
+    {{else}}
+    <input type="hidden">
+    {{/if}}
+  </div>
+  </form>
+</script>
+
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
@@ -233,6 +250,9 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <!-- 서머노트 end -->
+
+<!-- Handlebars 템플릿 엔진 -->
+<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 
 <script>
   <!-- jquery링크 -->
@@ -261,12 +281,13 @@
 // 위 명령과 동일
 $(function () {
   getCommentList(); // 실행할 기능을 정의
-})
+});
+
+var commentTemplate = Handlebars.compile($("#commentTemplate").html()); // Script id=commentTemplate 사용
 
 function getCommentList() {
   var pno = $('input[name = no]').val(); // 디테일 페이지 no
   var sno = $('input[name = session]').val(); // 로그인 세션 no
-
   // var userNo = $("#comment").attr("data-userid"); 강사님
 
   $.ajax({
@@ -278,17 +299,30 @@ function getCommentList() {
         console.log('작성자no : ' + result[i].writer.no) // 작성자 no
         console.log('로그인no :' + sno) // 로그인 세션 no
         console.log(sno == result[i].writer.no);
+
+        Handlebars.registerHelper('if', function(options) {
+          if(sno == result[i].writer.no){
+            return options.fn(this); // 코드 입력 1 실행
+          } else {
+            return options.inverse(this); // 코드 입력 2 실행
+          }
+        });
         // console.log(userNo == result[i].writer.no); // 강사님
         // 임시1
+        /*
         var str = "<div class=\"comment\"><span class=\"xx-nick\">"
             str = str + '작성자 : ' + result[i].writer.nick + "</span><br>" + '내용 : ' + result[i].commentCont + "</div></hr>";
         // if (userNo == result[i].writer.no) { // 강사님
         if (sno == result[i].writer.no) {
-          str =  str + "<button type='button' class='xx-updateComment' name='partyReplyNo' data-prno='" + result[i].partyReplyNo + "' data-mno='" + result[i].writer.no + "'>댓글 수정</button>" +
-              "<button type='button' class='xx-deleteComment' data-prno='" + result[i].partyReplyNo + "' data-mno='" + result[i].writer.no + "'>댓글 삭제</button><br>";
+          // str =  str + "<button type='button' class='xx-updateComment' name='partyReplyNo' data-prno='" + result[i].partyReplyNo + "' data-mno='" + result[i].writer.no + "'>댓글 수정</button>" +
+          //     "<button type='button' class='xx-deleteComment' data-prno='" + result[i].partyReplyNo + "' data-mno='" + result[i].writer.no + "'>댓글 삭제</button><br>";
+          str =  str + "<button type='button' class='xx-updateComment' id='prno"+result[i].partyReplyNo+"' name='partyReplyNo' data-prno='" + result[i].partyReplyNo + "' data-mno='" + result[i].writer.no + "'>댓글 수정</button>" +
+              "<button type='button' class='xx-deleteComment' id='prno"+result[i].partyReplyNo+"'  data-prno='" + result[i].partyReplyNo + "' data-mno='" + result[i].writer.no + "'>댓글 삭제</button><br>";
         }
+        */
 
-        $("#comment").append(str);
+
+        $("#comment").append(commentTemplate(result[i]));
 
         // 임시2
         // ajax로는 그냥 값만 보내고, 위 input에서 댓글 입력 th:each써라~
@@ -303,19 +337,33 @@ function getCommentList() {
   });
 
   // ===============
+  $(document).on('click', '.xx-updateComment', function () {
+  var prno = $(this).attr("data-prno");
+  console.log('댓글번호 : ' + prno)
+  //
+  //     var uc;
+  //   // uc = '<div class="card my-4" data-th-id="prno'+prno+'">'
+  //   uc = '<div class="card my-4">'
+  //     uc = uc + '<h5 class="card-header">수정</h5>'
+  //     uc = uc + '<div class="card-body">'
+  //       uc = uc + '<div class="form-group">'
+  //         uc = uc + '<textarea name="commentCont" class="form-control" rows="3"></textarea>'
+  //       uc = uc + '</div>'
+  //       uc = uc + '<button type="button" class="btn btn-primary">댓글수정</button>'
+  //     uc = uc + '</div>'
+  //       uc = uc + '</div>'
+  //   console.log(uc)
+  //
+  //   // $('#prno'+prno).replaceWith(uc);
+  //   $('#prno'+prno).replaceWith(uc);
 
-  $(document).ready(function () {
-    $('.xx-updateComment').click(function () {
-      $('#xx-updateBox').toggle();
-    });
-  });
+  }); // on click 끝
 
+// ======== ajax 부분 삭제 ㄴㄴ
 // $(document).on('click', '.xx-updateComment', function () {
 //   console.log('댓글 번호 : ' + $(this).attr("data-prno"));
 //   // console.log(this.getAttribute("data-prno"));
 //   console.log('댓글 작성자 번호 : ' + $(this).attr("data-mno"));
-//
-//
 //
 //   let prno = $(this).attr("data-prno");
 //   let mno = $(this).attr("data-mno");
