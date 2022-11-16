@@ -94,21 +94,17 @@
 
 <!-- 댓글 출력 -->
   <select id="selectCommentList" resultMap="commentMap">
-<!--    select *-->
-<!--    from-->
-<!--    party_reply-->
-<!--    where pno = #{partyNo}-->
     select
-    pr.prno,
-    pr.pno,
-    pr.cont,
-    pr.date,
-    pr.pub,
-    m.nick,
-    m.mno
+      pr.prno,
+      pr.pno,
+      pr.cont,
+      pr.date,
+      pr.pub,
+      m.nick,
+      m.mno
     from
-    party_reply pr
-    join member m on pr.mno = m.mno
+      party_reply pr
+      join member m on pr.mno = m.mno
     where pno = #{partyNo}
   </select>
 
@@ -122,6 +118,15 @@
     and
     mno = #{writer.no}
   </update>
+
+  <delete id="deleteComment">
+    delete from
+      party_reply
+    where
+      prno = #{partyReplyNo}
+<!--    and-->
+<!--      mno = #{writer.no}-->
+  </delete>
 
 
 

@@ -305,7 +305,6 @@ public class PartyController {
     }
     return "1";
   }
-
   private void checkOwner2(HttpSession session, Comment comment) throws Exception {
     Member loginMember = (Member) session.getAttribute("loginMember");
     // 개인이해메모
@@ -316,6 +315,36 @@ public class PartyController {
       throw new Exception("댓글 작성자가 아닙니다.");
     }
   }
+
+  @GetMapping("deleteComment")
+  @ResponseBody
+  public String deleteComment(@RequestParam("deletePartyReplyNo") int deletePartyReplyNo, HttpSession session) throws Exception {
+    if (!partyService.deleteComment(deletePartyReplyNo)) {
+      throw new Exception("댓글을 삭제할 수 없습니다.");
+    }
+    return "1";
+  }
+
+//  @GetMapping("delete")
+//  public String delete(int no, HttpSession session) throws Exception {
+//    checkOwner(no, session);
+//    if (!partyService.delete(no)) {
+//      throw new Exception("게시글을 삭제할 수 없습니다.");
+//    }
+//    return "redirect:list?meal=all";
+//  }
+
+//  private void checkOwner3(int prno, HttpSession session) throws Exception {
+//    Member loginMember = (Member) session.getAttribute("loginMember");
+//    // 개인이해메모
+//    // getWriter().getNo() != loginMember.getNo() // 로그인 멤버no 꺼내서 party에 있는 Member writer 이용해서 일치여부 확인
+//    // 방향 ----->
+//    // 넘어온 댓글 멤버번호 != 세션 멤버번호
+//    if (comment.getMemberNo() != loginMember.getNo()) {
+//      throw new Exception("댓글 작성자가 아닙니다.");
+//    }
+//  }
+
 
 //  @PostMapping("update")
 //  public String update(Party party, HttpSession session,

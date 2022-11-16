@@ -42,11 +42,16 @@ public interface PartyDao {
 
   int deleteFilesByMemberParties(int memberNo);
 
-  // 테스트
+  // 댓글 등록
   public void insertComment(Comment comment);
 
+  // 댓글 리스트 출력
   public List<Comment> selectCommentList(Comment comment);
 
+  // 댓글 수정
   int updateComment(Comment comment);
+
+  // 댓글 삭제
+  int deleteComment(int no);
 
 }

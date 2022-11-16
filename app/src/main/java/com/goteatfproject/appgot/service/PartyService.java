@@ -23,10 +23,15 @@ public interface PartyService {
   AttachedFile getAttachedFile(int fileNo) throws Exception;
   boolean deleteAttachedFile(int fileNo) throws Exception;
 
-  // 테스트
+  // 댓글 등록
   public void insertComment(Comment comment) throws Exception;
 
+  // 댓글 리스트 출력
   public List<Comment> getCommentList(Comment comment) throws Exception;
 
+  // 댓글 수정
   boolean updateComment(Comment comment) throws Exception;
+
+  // 댓글 삭제
+  boolean deleteComment(int no) throws Exception;
 }

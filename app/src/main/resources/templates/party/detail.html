@@ -280,7 +280,7 @@
 </script>
 <!-- 서머노트 end-->
 
-<!-- 일반적인 부분 -->
+<!-- 댓글 일반적인 부분 -->
 <script th:inline="javascript">
   /*<![CDATA[*/
 // $(document).ready(function () {
@@ -292,44 +292,50 @@ $(function () {
   getCommentList(); // 실행할 기능을 정의
 });
 
-function getCommentList() {
-  var pno = $('input[name = no]').val(); // 디테일 페이지 no
-  var sno = $('input[name = session]').val(); // 로그인 세션 no
-  // var userNo = $("#comment").attr("data-userid"); 강사님
+  function getCommentList() {
+    var pno = $('input[name = no]').val(); // 디테일 페이지 no
+    var sno = $('input[name = session]').val(); // 로그인 세션 no
+    // var userNo = $("#comment").attr("data-userid"); 강사님
 
-  $.ajax({
-    url: '/party/getCommentList',
-    type: 'GET',
-    data: {pno},
-    success: function (result) {
-      for (var i = 0; i < result.length; i++) {
-        console.log('작성자no : ' + result[i].writer.no) // 작성자 no
-        console.log('로그인no :' + sno) // 로그인 세션 no
-        console.log(sno == result[i].writer.no);
-        // console.log(userNo == result[i].writer.no); // 강사님
+    $.ajax({
+      url: '/party/getCommentList',
+      type: 'GET',
+      data: {pno},
+      success: function (result) {
+        for (var i = 0; i < result.length; i++) {
+          console.log('작성자no : ' + result[i].writer.no) // 작성자 no
+          console.log('로그인no :' + sno) // 로그인 세션 no
+          console.log(sno == result[i].writer.no);
+          // console.log(userNo == result[i].writer.no); // 강사님
 
-        var str;
-        str = "<div class='comment' style='border:3px solid black;'>"
-        str = str + "<span class='xx-nick'>" + '작성자 : ' + result[i].writer.nick + "</span><br>"
-        str = str + "<span class='xx-comment-cont' id='xx-cont"+result[i].partyReplyNo+"'>" + '내용 : ' + result[i].commentCont + "</span><br>"
-        // if (userNo == result[i].writer.no) { // 강사님
-        if (sno == result[i].writer.no) {
-          str =  str + "<button type='button' class='xx-updateComment' id='prno"+result[i].partyReplyNo+"' name='partyReplyNo' data-prno='" + result[i].partyReplyNo + "' data-mno='" + result[i].writer.no + "'>댓글 수정</button>"
-          str = str + "<button type='button' class='xx-deleteComment' id='prno"+result[i].partyReplyNo+"'  data-prno='" + result[i].partyReplyNo + "' data-mno='" + result[i].writer.no + "'>댓글 삭제</button><br>";
+          var str;
+          str = "<div class='comment' style='border:3px solid black;'>"
+          str = str + "<span class='xx-nick'>" + '작성자 : ' + result[i].writer.nick + "</span><br>"
+          str = str + "<span class='xx-comment-cont' id='xx-cont" + result[i].partyReplyNo + "'>"
+              + '내용 : ' + result[i].commentCont + "</span><br>"
+          // if (userNo == result[i].writer.no) { // 강사님
+          if (sno == result[i].writer.no) {
+            str = str + "<button type='button' class='xx-updateComment' id='xx-prno-update"
+                + result[i].partyReplyNo + "' name='partyReplyNo' data-prno='"
+                + result[i].partyReplyNo + "' data-mno='" + result[i].writer.no + "'>댓글 수정</button>"
+            str = str + "<button type='button' class='xx-deleteComment' id='xx-prno-delete"
+                + result[i].partyReplyNo + "'  data-prno='" + result[i].partyReplyNo
+                + "' data-mno='" + result[i].writer.no + "'>댓글 삭제</button><br>";
+          }
+          str = str + "</div>";
+          $("#comment").append(str);
+          // 임시2
+          // ajax로는 그냥 값만 보내고, 위 input에서 댓글 입력 th:each써라~
+          //
         }
-        str = str + "</div>";
-        $("#comment").append(str);
-        // 임시2
-        // ajax로는 그냥 값만 보내고, 위 input에서 댓글 입력 th:each써라~
-        //
-      }
-    },
-    error: function (result) {
+      },
+      error: function (result) {
 
-    },
-    complete: function () {
-    }
-  });
+      },
+      complete: function () {
+      }
+    });
+  }
 
   // ===============
   $(document).on('click', '.xx-updateComment', function () {
@@ -355,7 +361,7 @@ function getCommentList() {
         uc = uc + "</div>"
     console.log(uc)
 
-    $('#prno'+prno).replaceWith(uc);
+    $('#xx-prno-update'+prno).replaceWith(uc);
   }); // on click 끝
 
 // ======== ajax 부분 삭제 ㄴㄴ
@@ -378,20 +384,44 @@ $(document).on('click', '#xx-update-btn', function () {
     data: JSON.stringify(data),
     success: function (updateComment) {
       if (updateComment == "1") {
-        alert("댓글 변경 성공!")
-        location.href="/party/detail?no=" + pno
+        getCommentList();
+        // $('.comment').load(location.href+' .comment');
+        // alert("댓글 변경 성공!")
+        // location.href="/party/detail?no=" + pno
+        // $('#comment').html(str);
       }
     },
     error: function (jpXHR, status, error) {
-      alert("댓글 다시!!! [ " + error + " ]");
+      alert("댓글 수정 다시!!! [ " + error + " ]");
     }
   });
 });
 
-}
+  $(document).on('click', '.xx-deleteComment', function () {
+    let deletePartyReplyNo = $(this).attr("data-prno");
+    console.log('댓글 삭제 번호 : ' + $(this).attr("data-prno"));
+
+    $.ajax({
+      url: "/party/deleteComment",
+      type: "GET",
+      data: {deletePartyReplyNo},
+      success: function (deleteComment) {
+        if (deleteComment == "1") {
+          // $('.comment').load(location.href+' .comment');
+          getCommentList();
+          // alert("댓글 삭제 성공!")
+          // $('#comment').html(str);
+        }
+      },
+      error: function (jpXHR, status, error) {
+        alert("댓글 삭제 다시!!! [ " + error + " ]");
+      }
+    });
+  });
+
   /*]]>*/
 </script>
-<!-- 일반적인 부분 마지막 -->
+<!-- 댓글 일반적인 부분 마지막 -->
 
 
 <!-- Handlebars 부분 -->
