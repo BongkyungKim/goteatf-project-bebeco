@@ -19,31 +19,32 @@
 <!--      <id column="no" property="mno"/>-->
 <!--      <result column="nick" property="nick"/>-->
 <!--    </collection>-->
-    <!--    컬렉션 짱짱맨 간치 -->
-
   </resultMap>
 
-
-  <!--  <select id="findAll" resultMap="volunteerMap">-->
-  <!--    select-->
-  <!--      v.date,-->
-  <!--      p.pno,-->
-  <!--      v.vno,-->
-  <!--      v.mno-->
-  <!--    from member m-->
-  <!--      join volunteer v on m.mno = v.mno-->
-  <!--      join party p on v.vno = p.pno-->
-  <!--    where-->
-  <!--      vno = #{no}-->
-  <!--    order by-->
-  <!--      vno, date desc;-->
-  <!--  </select>-->
-
+<!-- 파티 참여 -->
   <insert id="partyJoin" parameterType="volunteer">
     insert into volunteer (vno, mno, date)
     values (#{urlNo}, #{writer.no}, now())
   </insert>
 
+<!-- 파티 참여자 카운트  -->
+  <update id="partyJoinCount" parameterType="volunteer">
+    <![CDATA[
+    update
+    party
+    set max = max + 1
+    where (lit, pno) in
+    (select
+    p.lit, v.vno
+    from party p
+    join volunteer v on p.pno = v.vno
+    where
+    vno = #{urlNo})
+    and max < `lit`
+    ]]>
+  </update>
+
+<!-- 모든 게시물 파티참여자 조회 -->
   <select id="findAll" resultMap="volunteerMap">
     select
     v.date,
@@ -55,6 +56,7 @@
     order by vno, date desc;
   </select>
 
+<!-- 특정 게시물 파티참여자 조회 -->
   <select id="findByNo" resultMap="volunteerMap">
     select
     v.date,
@@ -67,16 +69,13 @@
     order by vno, date asc
   </select>
 
-  <!--  select-->
-  <!--  v.date,-->
-  <!--  #        m.mno,-->
-  <!--  p.pno,-->
-  <!--  v.vno,-->
-  <!--  v.mno-->
-  <!--  from member m-->
-  <!--  join volunteer v on m.mno = v.mno-->
-  <!--  join party p on v.vno = p.pno-->
-  <!--  where vno = 3-->
-  <!--  order by vno, date desc;-->
+<!-- 테스트 -->
+  <select id="findByNo2" resultMap="volunteerMap">
+    select
+    *
+    from party p
+    join volunteer v on p.pno = v.vno
+    where vno = #{urlNo}
+  </select>
 
 </mapper>

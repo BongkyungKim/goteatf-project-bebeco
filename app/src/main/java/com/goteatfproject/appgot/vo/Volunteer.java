@@ -13,15 +13,12 @@ public class Volunteer {
   private Boolean state;
   private String etc;
 
-  private int partyNo;
+  private int partyNo; // 컬럼 vno
+  private int memberNo; // 컬럼 mno
 
-  private int memberNo;
-
-
-  //  private int partyNo; // vno
   private Member writer;
   private int urlNo;
-//  /////
+
 }
 
 

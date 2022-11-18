@@ -211,6 +211,8 @@
     <div id="partycontent">
       <div class="container">
         <div class="row row-cols-1 row-cols-md-4 g-4 text-small">
+<!--            <span data-th-each="party : ${parties}">-->
+<!--          <th:block data-th-each="vol : ${party.volTest}">-->
           <th:block th:each="party : ${parties}">
             <div class="card" style="width: 20rem;" th:fragment="fragment-card">
               <div class="cd-header">
@@ -226,7 +228,8 @@
                     <div class="col-4" th:text="'[' + ${party.food} + ']'">
                     </div>
                     <!--                      <div class="col-3"> [4/8]-->
-                    <div class="col-4" th:text="'[' + '#' + '/' + ${party.limit} + ']'">
+<!--                    <div class="col-4" th:text="'[' + '#' + '/' + ${party.limit} + ']'">-->
+                    <div class="col-4" th:text="'[' + ${party.max} + '/' + ${party.limit} + ']'">
                     </div>
                   </div>
 
@@ -271,7 +274,15 @@
               <div class="cd-footer bg-light">
                 <div class="container">
                   <div class="row justify-content-center">
-                    <a class="btn btn-primary xx-join1" data-bs-toggle="modal" href="#exampleModalToggle" role="button" data-th-id="${party.no}">참여하기</a>
+<!--                    <a class="btn btn-primary xx-join1" data-bs-toggle="modal" href="#exampleModalToggle" role="button" data-th-id="${party.no}">참여하기</a>-->
+                  <!-- 세션이 널이 아니면 참여버튼 활성화 // 참여자 멤버 번호가 세션 번호랑 같으면 활성화                   -->
+                    <a data-th-if="${session.loginMember != null}" class="btn btn-primary xx-join1" data-bs-toggle="modal" href="#exampleModalToggle" role="button" data-th-id="${party.no}">참여하기</a>
+
+                    <div class="line-2"></div>
+<!--                    <a data-th-if="${session.loginMember.no == volTest.memberNo}" class="btn btn-primary xx-join1" data-bs-toggle="modal" href="#exampleModalToggle" role="button" data-th-id="${party.no}">참여정보</a>-->
+<!--                    <a th:href="@{../volunteer/detail(no=${party.no})}"><button type="button" class="btn btn-outline-success" >Success</button></a>-->
+                    <button data-th-if="${session.loginMember != null}" type="button" class="btn btn-outline-success"><a th:href="@{../volunteer/detail(no=${party.no})}">참여자정보</a></button>
+<!--                    <button type="button" class="btn btn-outline-success"><a data-th-if="${session.loginMember.no == volTest.memberNo}" th:href="@{../volunteer/detail(no=${party.no})}">참여자정보</a></button>-->
                   </div>
                 </div>
                 <div class="line-2"></div>
@@ -362,6 +373,7 @@
 
             </div><!--card end-->
           </th:block>
+<!--              </span>-->
         </div>
       </div>
     </div>
@@ -520,10 +532,11 @@
           contentType: "application/json",
           data: JSON.stringify(data),
           success: function (result) {
-            if (result == "0") {
-              alert("다시 확인 후 시도해 주세요.");
+            if (result == "3") {
+              alert("인원 초과!!");
             } else {
               alert("성공");
+              location.href = "/party/list?meal=all";
               // window.location.href = "/auth/loginSave"; // TODO 1. cookie 1번
               // window.location.href = "/auth/loginSave"; // TODO 2. cookie 2번
               // modal.style.display = "none";

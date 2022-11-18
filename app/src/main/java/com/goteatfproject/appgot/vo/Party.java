@@ -42,12 +42,4 @@ public class Party {
 
   private Comment commentList;
 
-
-  public List<AttachedFile> getAttachedFiles() {
-    return attachedFiles;
-  }
-
-  public void setAttachedFiles(List<AttachedFile> attachedFiles) {
-    this.attachedFiles = attachedFiles;
-  }
 }

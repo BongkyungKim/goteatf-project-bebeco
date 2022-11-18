@@ -80,11 +80,13 @@ public class DefaultPartyService implements PartyService {
     return partyDao.deleteFile(fileNo) > 0;
   }
 
+  // 댓글 등록
   @Override
   public void insertComment(Comment comment) throws Exception {
     partyDao.insertComment(comment);
   }
 
+  // 댓글 리스트 출력
   @Override
   public List<Comment> getCommentList(Comment comment) throws Exception {
     return partyDao.selectCommentList(comment);

@@ -30,6 +30,7 @@
     <result column="title" property="title"/>
     <result column="cont" property="content"/>
     <result column="lit" property="limit"/>
+    <result column="max" property="max"/>
     <result column="loc" property="location"/>
     <result column="addr" property="address"/>
     <result column="viewcnt" property="viewCnt"/>
@@ -50,9 +51,7 @@
       <id column="prno" property="partyReplyNo"/>
     </association>
 
-
-
-    <!--    &lt;!&ndash; 조인 결과에서 같은 게시글에 대해 여러 개의 첨부 파일 데이터를 담을 경우 &ndash;&gt;-->
+        <!-- 조인 결과에서 같은 게시글에 대해 여러 개의 첨부 파일 데이터를 담을 경우 -->
     <!-- AttachedFile객체는 Party객체의 attachedFiles 필드에 담아-->
   <collection property="attachedFiles" ofType="attachedFile">
     <id column="pfileno" property="no"/>
@@ -82,53 +81,7 @@
       <id column="mno" property="no"/>
       <result column="nick" property="nick"/>
     </association>
-
   </resultMap>
-
-  <!-- 댓글 테스트 -->
-<!-- 댓글 작성 -->
-  <insert id="insertComment" parameterType="comment">
-    insert into party_reply (mno, pno, cont, date)
-    values (#{writer.no}, #{partyNo}, #{commentCont}, now())
-  </insert>
-
-<!-- 댓글 출력 -->
-  <select id="selectCommentList" resultMap="commentMap">
-    select
-      pr.prno,
-      pr.pno,
-      pr.cont,
-      pr.date,
-      pr.pub,
-      m.nick,
-      m.mno
-    from
-      party_reply pr
-      join member m on pr.mno = m.mno
-    where pno = #{partyNo}
-  </select>
-
-  <update id="updateComment" parameterType="comment">
-    update
-      party_reply
-    set
-      cont = #{commentCont}
-    where
-    prno = #{partyReplyNo}
-    and
-    mno = #{writer.no}
-  </update>
-
-  <delete id="deleteComment">
-    delete from
-      party_reply
-    where
-      prno = #{partyReplyNo}
-<!--    and-->
-<!--      mno = #{writer.no}-->
-  </delete>
-
-
 
 <!--  Member writer = new Member();-->
 <!--  writer.setNo(rs.getInt("mno"));-->
@@ -138,18 +91,11 @@
 
     <insert id="insert" parameterType="party"
         useGeneratedKeys="true" keyColumn="pno" keyProperty="no">
-<!--      insert into party(title,cont,mno)-->
-<!--      values(#{title},#{content},#{writer.no})-->
       insert into party(mno, meal, food, title, cont, gender, max, time, age,
       lit, loc, post, addr, viewcnt, createdate, thumbnail)
       values(#{writer.no}, #{meal}, #{food}, #{title}, #{content}, #{gender}, #{max},
       #{time}, #{age}, #{limit}, #{location}, '', #{address}, 0, now(), #{thumbnail})
     </insert>
-
-
-
-
-
 
   <!-- resultMap : 컬럼과 프로퍼티의 연결을 정의한 resultMap="id" -->
   <!-- resultType : 오리지널 클래스 이름-->
@@ -240,6 +186,8 @@
       p.title,
       p.viewcnt,
       p.createdate,
+      p.lit,
+      p.max,
       m.nick,
       m.mno,
       pf.pfileno,
@@ -315,23 +263,52 @@
       where pno in (select pno from party where mno = #{value})
     </delete>
 
-
-
-
-
-
   <!--  <delete id="deleteByMember">-->
   <!--    delete from party-->
   <!--    where pno=#{value}-->
   <!--  </delete>-->
 
+  <!-- 댓글 작성 -->
+  <insert id="insertComment" parameterType="comment">
+    insert into party_reply (mno, pno, cont, date)
+    values (#{writer.no}, #{partyNo}, #{commentCont}, now())
+  </insert>
 
+  <!-- 댓글 출력 -->
+  <select id="selectCommentList" resultMap="commentMap">
+    select
+    pr.prno,
+    pr.pno,
+    pr.cont,
+    pr.date,
+    pr.pub,
+    m.nick,
+    m.mno
+    from
+    party_reply pr
+    join member m on pr.mno = m.mno
+    where pno = #{partyNo}
+  </select>
 
+<!-- 댓글 수정 -->
+  <update id="updateComment" parameterType="comment">
+    update
+    party_reply
+    set
+    cont = #{commentCont}
+    where
+    prno = #{partyReplyNo}
+    and
+    mno = #{writer.no}
+  </update>
 
-
-
-
-
+<!-- 댓글 삭제 -->
+  <delete id="deleteComment">
+    delete from
+    party_reply
+    where
+    prno = #{partyReplyNo}
+  </delete>
 
 
 </mapper>
