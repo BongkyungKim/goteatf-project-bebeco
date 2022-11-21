@@ -42,6 +42,16 @@ public interface PartyDao {
 
   int deleteFilesByMemberParties(int memberNo);
 
+  // 마이페이지 파티게시글 본인 작성 글 리스트
+  List<Map<String, Object>> selectPartyListByNo(Map<String, Object> map);
+
+  // 마이페이지 파티게시글 본인 작성 글 상세보기
+  // 관리자페이지 파티게시글 회원 작성 글 상세보기
+  Party findByMyPartyListDetail(int no);
+
+  // 관리자페이지 파티게시글 비활성화
+  int partyBlock(int no);
+
   // 댓글 등록
   public void insertComment(Comment comment);
 
@@ -54,4 +64,12 @@ public interface PartyDao {
   // 댓글 삭제
   int deleteComment(int no);
 
+  //메인페이지 파티게시물 조회
+  List<Party> findAllMain();
+
+  //메인페이지 파티게시물 조회(@param 으로 값 가져오기)
+  List<Party> findAllMain(@Param("meal") String meal, @Param("food") String food);
+
+  // 마이페이지 파티게시글 연쇄삭제
+  int allDelete(int no);
 }

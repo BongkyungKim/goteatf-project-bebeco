@@ -1,0 +1,152 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EAT-F by Chunderella</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+        crossorigin="anonymous">
+
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+  <link href="/css/notice/style.css" rel="stylesheet"> <!-- TODO 추가 - 2 같지만 수정 -->
+
+  <!-- Core theme CSS (includes Bootstrap)--> <!-- TODO 추가 - 1 -->
+  <link href="/css/notice/noticeStyles.css" rel="stylesheet"/>
+
+</head>
+<body>
+<!-------------------------------구분선-------------------------->
+<div class="b-example-divider"></div>
+<!------------------------------header------------------------------>
+<div th:replace="/common/header.html :: fragment-header"></div>
+<!-------------------------------구분선-------------------------->
+<div class="line-3"></div>
+<div class="line-3"></div>
+<!------------------------------nav------------------------------>
+<div th:replace="/common/nav.html :: fragment-nav"></div>
+<!-------------------------------구분선-------------------------->
+<div class="a-example-divider"></div>
+<!-- 부트스트랩 -->
+
+<!-- 부트스트랩 왼쪽 사이드바 -->
+<div class="d-flex" id="wrapper">
+  <!-- Sidebar-->
+  <div class="border-end bg-white" id="sidebar-wrapper">
+    <div class="sidebar-heading border-bottom bg-light">
+      <a th:href="@{/admin/main}" style="text-decoration-line: none; color: inherit;">관리자페이지</a>
+    </div>
+    <div class="list-group list-group-flush">
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/}">사이트 바로가기</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/admin/adminPartyList}">파티게시물 관리</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/admin/adminFeedList}">피드게시물 관리</a>
+       <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/admin/adminEventList}">이벤트게시물 관리</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/admin/adminMemberList}">회원 관리</a>
+    </div>
+  </div>
+  <!-- Page content wrapper-->
+  <div id="page-content-wrapper">
+    <div class="container-fluid">
+      <h2 class="mt-4">회원 관리</h2>
+
+      <!--  테이블 부트스트랩   -->
+      <table class="table table-hover">
+        <tr>
+          <th scope="col">번호</th>
+          <td th:text="${member.no}"></td>
+        </tr>
+        <tr>
+          <th scope="col">이름</th>
+          <td th:text="${member.name}"></td>
+        </tr>
+        <tr>
+          <th scope="col">닉네임</th>
+          <td th:text="${member.nick}"></td>
+        </tr>
+        <tr>
+          <th scope="col">생년월일</th>
+          <td th:text="${member.birth}"></td>
+        </tr>
+        <tr>
+          <th scope="col">전화번호</th>
+          <td th:text="${member.tel}"></td>
+        </tr>
+        <tr>
+          <th scope="col">성별</th>
+          <td th:text="${member.gender}"></td>
+        </tr>
+        <tr>
+          <th scope="col">가입일</th>
+          <td th:text="${member.createdDate}"></td>
+        </tr>
+        <tr>
+          <th scope="col">기본주소</th>
+          <td th:text="${member.address}"></td>
+        </tr>
+        <tr>
+          <th scope="col">상세주소</th>
+          <td th:text="${member.subAddr}"></td>
+        </tr>
+        <tr>
+          <th scope="col">관심사</th>
+          <td th:text="${member.interest}"></td>
+        </tr>
+        <tr>
+          <th scope="col">탈퇴여부</th>
+          <td th:if="${member.outState == false}" th:text="N"></td>
+          <td th:if="${member.outState == true}" th:text="Y"></td>
+        </tr>
+        <tr>
+          <th scope="col">탈퇴일</th>
+          <td th:text="${member.outDate}"></td>
+        </tr>
+      </table>
+         <button type="button" class="btn btn-outline-secondary" th:if="${member.outState == false}"><a th:href="@{memberBlock(no=${member.no})}">비활성화</a></button>
+         <button type="button" class="btn btn-outline-secondary" th:if="${member.outState == true}"><a th:href="@{memberActive(no=${member.no})}">활성화</a></button>
+      <!--  테이블 부트스트랩 end   -->
+    </div>
+  </div>
+</div>
+
+
+<!-- 페이징 -->
+
+<!--<nav aria-label="Page navigation example">-->
+<!--  <ul class="pagination justify-content-center">-->
+<!--    <li class="page-item disabled" th:if="${pageMaker.prev}">-->
+<!--      <a class="page-link"-->
+<!--         th:href="@{list(pageMaker.startPage-1)}" aria-label="Previous">-->
+<!--        <span aria-hidden="true">이전페이지</span>-->
+<!--      </a>-->
+<!--    </li>-->
+<!--    <th:block th:each="pageNum: ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">-->
+<!--      <li class="page-item">-->
+<!--        <a class="page-link" th:href="@{adminPartyList(page=${pageNum})}"><i th:text="${pageNum}"></i></a>-->
+<!--      </li>-->
+<!--    </th:block>-->
+<!--    <li class="page-item" th:if="${pageMaker.next && pageMaker.endPage >0}">-->
+<!--      <a class="page-link" th:href="@{list(page=${pageMaker.endPage+1})}" aria-label="Next">-->
+<!--        <span aria-hidden="true">다음페이지</span>-->
+<!--      </a>-->
+<!--    </li>-->
+<!--  </ul>-->
+<!--</nav>-->
+
+<!-- 페이징 end-->
+
+
+<!-------------------------------구분선-------------------------->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous">
+</script>
+
+<!-- Core theme JS--> <!-- noticeList 왼쪽 사이드바 --> <!-- TODO 추가 - 6-->
+<script src="/js/notice/notice.js"></script>
+
+</body>
+</html>

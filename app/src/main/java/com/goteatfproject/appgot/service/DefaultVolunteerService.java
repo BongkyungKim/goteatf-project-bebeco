@@ -15,7 +15,6 @@ public class DefaultVolunteerService implements VolunteerService {
   // 파티 참여
   @Override
   public void partyJoin(Volunteer volunteer) throws Exception {
-
     if (volunteerDao.partyJoin(volunteer) == 0) {
       throw new Exception("참여 실패!");
     }
@@ -46,5 +45,22 @@ public class DefaultVolunteerService implements VolunteerService {
       return false;
     }
     return true;
+  }
+
+  // 파티나가기
+  @Override
+  public void partyOut(Volunteer volunteer) throws Exception {
+    if (volunteerDao.partyOut(volunteer) == 0) {
+      throw new Exception("나가기 실패!");
+    }
+  }
+
+  // 파티나가기 카운트
+  @Override
+  public boolean partyOutCount(Volunteer volunteer) throws Exception {
+    if (volunteerDao.partyOutCount(volunteer) == 0) {
+    return false;
+    }
+  return true;
   }
 }

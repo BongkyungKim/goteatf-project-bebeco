@@ -6,6 +6,8 @@ import com.goteatfproject.appgot.service.VolunteerService;
 import com.goteatfproject.appgot.vo.Member;
 import com.goteatfproject.appgot.vo.Party;
 import com.goteatfproject.appgot.vo.Volunteer;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,22 +81,22 @@ public class VolunteerController {
     return "volunteer/volunteerList";
   }
 
-  // 특정 게시물 파티참여자 조회
-  @GetMapping("detail")
-  public Map detail(int no) throws Exception {
-    // <button data-th-if="${session.loginMember != null}" type="button" class="btn btn-outline-success"><a th:href="@{../volunteer/detail(no=${party.no})}">참여자정보</a></button>
-    // th:href="@{../volunteer/detail(no=${party.no})}" 게시물 번호를 가져와서 참여자 정보 조회
-    List<Volunteer> volunteers = volunteerService.get(no);
-
-    if (volunteers == null) {
-      throw new Exception("해당 파티의 참여자가 아닙니다!");
-    }
-
-    Map map = new HashMap<>();
-    map.put("volunteers", volunteers);
-    System.out.println("mapvolunteer = " + map);
-    return map;
-  }
+//  // 특정 게시물 파티참여자 조회
+//  @GetMapping("detail")
+//  public Map detail(int no) throws Exception {
+//    // <button data-th-if="${session.loginMember != null}" type="button" class="btn btn-outline-success"><a th:href="@{../volunteer/detail(no=${party.no})}">참여자정보</a></button>
+//    // th:href="@{../volunteer/detail(no=${party.no})}" 게시물 번호를 가져와서 참여자 정보 조회
+//    List<Volunteer> volunteers = volunteerService.get(no);
+//
+//    if (volunteers == null) {
+//      throw new Exception("해당 파티의 참여자가 아닙니다!");
+//    }
+//
+//    Map map = new HashMap<>();
+//    map.put("volunteers", volunteers);
+//    System.out.println("mapvolunteer = " + map);
+//    return map;
+//  }
 
   private void checkOwner(int partyNo, HttpSession session) throws Exception {
     Member loginMember = (Member) session.getAttribute("loginMember");
@@ -108,5 +110,53 @@ public class VolunteerController {
     }
     //volunteer에서 no를 꺼내와 겟라이터.겟넘버 == 로그인멤버.넘버와 일치하면 중복 신청 불가능
   }
-}
 
+  // 특정 게시물 파티참여자 조회
+  @PostMapping("detail")
+  @ResponseBody
+  public Map<String, Object> detail(@RequestBody Volunteer volunteer) throws Exception {
+    // <button data-th-if="${session.loginMember != null}" type="button" class="btn btn-outline-success"><a th:href="@{../volunteer/detail(no=${party.no})}">참여자정보</a></button>
+    // th:href="@{../volunteer/detail(no=${party.no})}" 게시물 번호를 가져와서 참여자 정보 조회
+    List<Volunteer> volunteers = volunteerService.get(volunteer.getUrlNo());
+
+    if (volunteers == null) {
+      throw new Exception("해당 파티의 참여자가 아닙니다!");
+    }
+
+    Map<String, Object> map = new HashMap<>();
+    map.put("volunteers", volunteers);
+    System.out.println("mapvolunteer = " + map);
+    return map;
+  }
+
+  // 파티나가기 + 파티나가기 카운트
+  @PostMapping("partyOut")
+  @ResponseBody
+  public String partyOut(@RequestBody Volunteer volunteer) throws Exception {
+    System.out.println("volunteerOUTDATE===> " + volunteer.getState());
+    System.out.println("volunteerURLNO====> " + volunteer.getUrlNo());
+    System.out.println("volunteer = " + volunteer.getMemberNo()); // 로그인 사용자 번호가 나옴
+
+    // 참여자 멤버 번호 추출
+    List<Volunteer> vol = volunteerService.get(volunteer.getUrlNo());
+    for (Volunteer value : vol) {
+      System.out.println("i = " + value.getMemberNo());
+
+      // 참여자 멤버와 로그인 멤버 비교해서 있으면 파티나가기 성공
+      // 참여자 멤버와 로그인 멤버 비교해서 없으면 for문 벗어나서 "3" 참여자가 아님!
+      if (value.getMemberNo() != volunteer.getMemberNo()) { // 51 54 != 52
+        continue;
+      }
+      // 파티나가기
+      volunteerService.partyOut(volunteer);
+      // 파티나가기 카운트
+      volunteerService.partyOutCount(volunteer);
+      boolean state = volunteer.getState();
+      if (state) {
+        return "1"; // ajax 미정
+      }
+      return "0"; // ajax 성공
+    }
+return "3"; // ajax 참여자가 아님!
+  }
+}

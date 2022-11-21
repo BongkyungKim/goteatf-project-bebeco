@@ -1,0 +1,252 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chunderella Eventworld</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+          crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link href="/css/board/boardstyle.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.js"></script>
+
+</head>
+
+<body>
+
+<!-------------------------------구분선-------------------------->
+<div class="b-example-divider"></div>
+<!-------------------------------구분선-------------------------->
+<header class="p-3 mb-3 bg-white border-bottom fixed-top">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a class="navbar-brand" th:href="@{/}">
+                <img src="/images/logo.png" alt="Bootstrap" width="100" height="88">
+            </a>
+            <!-------------------------------구분선-------------------------->
+            <div class="col-2"></div>
+
+            <form class="col-12 col-lg-4 mb-3 mb-lg-0 me-lg-4" role="search">
+                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+            </form>
+
+            <!-------------------------------구분선-------------------------->
+            <div class="col-2"></div>
+
+            <div th:if="${session.loginMember == null}" class="d-grid me-lg-4 gap-2">
+                <button type="button" onclick="location.href='/auth/login'" class="btn btn-secondary"
+                        data-bs-toggle="button">로그인
+                </button>
+            </div>
+
+            <div th:if="${session.loginMember != null}" class="d-grid me-lg-4 gap-2">
+                <button type="button" onclick="location.href='/auth/logout'" class="btn btn-secondary"
+                        data-bs-toggle="button">로그아웃
+                </button>
+            </div>
+
+            <div class="dropdown text-end me-lg-4">
+                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="/images/mypage.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                </a>
+
+                <ul class="dropdown-menu text-small ">
+                  <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">New project...</a></li>
+                  <li th:if="${session.loginMember != null}"><a class="dropdown-item" th:href="@{/my/main}">마이페이지</a></li>
+                  <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">설정</a></li>
+                  <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">프로필</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li th:if="${session.loginMember == null}"><a class="dropdown-item"
+                                                                  th:href="@{/register/add}">회원가입</a></li>
+                    <li th:if="${session.loginMember == null}"><a class="dropdown-item"
+                                                                  th:href="@{/auth/login}">로그인</a></li>
+                    <!--          </li>-->
+                    <li th:if="${session.loginMember != null}"><a class="dropdown-item"
+                                                                  th:href="@{/auth/logout}">로그아웃</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+<!-------------------------------구분선-------------------------->
+<div class="line-3"></div>
+<div class="line-3"></div>
+<!------------------------------nav------------------------------>
+<div th:replace="/common/nav.html :: fragment-nav"></div>
+<!-------------------------------구분선-------------------------->
+
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="/images/partybanner.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <p>케빈과 함께 보내던 연말, EAT-F 파티에서 함께하세요!.</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="/images/partybanner.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <p>케빈과 함께 보내던 연말, EAT-F 파티에서 함께하세요!.</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="/images/partybanner.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <p>케빈과 함께 보내던 연말, EAT-F 파티에서 함께하세요!.</p>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<div class="line-3"></div>
+
+<!-----------달력---------------------->
+<div class="container">
+    <div id='calendar'></div>
+</div>
+
+<!-----------달력---------------------->
+
+<div class="line-3"></div>
+
+        <div id="eventcontent">
+            <div class="container">
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="button" class="btn btn-outline-primary"
+                            onclick="location.href='/event/form'">파티원 모집하기
+                    </button>
+                </div>
+
+                <div class="line-3"></div>
+
+                <div class="row row-cols-1 row-cols-md-3 g-4 text-small">
+                    <th:block th:each="event : ${list}">
+                        <div class="card">
+                            <div class="tumbnail">
+                                <a th:href="@{detail(no=${event.no})}"><img id="thumbNail"
+                                                                            th:src="@{/event/files/{path}(path=${event.thumbnail})}"
+                                                                            class="img-thumbnail" alt="이미지가 없습니다."></a>
+                              </div>
+
+                            <div class="card-body">
+                            <h5 class="card-title" th:text="'[' + ${event.title} + ']'"></h5>
+                            <p class="card-text" th:text="'[' + ${event.content} + ']'"></p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item" th:text="'[' + ${event.writer.nick} + ']'"></li>
+                              <li class="list-group-item" th:text="'[' + ${#dates.format(event.date, 'yyyy/MMM/dd HH:mm')} + ']'"></li>
+                              <li class="list-group-item" th:text="'[' + ${event.location} + ']'"></li>
+                            </ul>
+                            <div class="card-body">
+                
+                              <div class="d-grid gap-2">
+                                <button class="btn btn-primary" th:href="@{/event/orderform}" onclick="location.href='/event/orderform'" type="button">파티 참가하기</button>
+                              </div>
+                            </div>
+                          </div>
+                    </th:block>
+                        </div>
+                </div>
+            </div>
+
+        <div class="line-3"></div>
+
+            <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                <li class="page-item disabled" th:if="${pageMaker.prev}">
+                  <a class="page-link"
+                     th:href="@{eventList(pageMaker.startPage-1)}" aria-label="Previous">
+                    <span aria-hidden="true">이전페이지</span>
+                  </a>
+                </li>
+                <th:block th:each="pageNum: ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+                  <li class="page-item">
+                    <a class="page-link" th:href="@{list(page=${pageNum})}"><i th:text="${pageNum}"></i></a>
+                  </li>
+                </th:block>
+                <li class="page-item" th:if="${pageMaker.next && pageMaker.endPage >0}">
+                  <a class="page-link" th:href="@{eventList(page=${pageMaker.endPage+1})}" aria-label="Next">
+                    <span aria-hidden="true">다음페이지</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+
+        <div class="line-3"></div>
+        <!------------------------------footer------------------------------>
+        <footer class="py-3 my-4">
+            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                <li class="nav-item"><a th:href="@{/}" class="nav-link px-2 text-muted">Home</a>
+                </li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a>
+                </li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pricing</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+            </ul>
+            <p class="text-center text-muted">© 2022 Chunderella Corp & ThreeAppleteam. All Rights Reserved.</p>
+        </footer>
+
+        <script
+                src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+                crossorigin="anonymous"></script>
+
+        <!-- jquery -->
+        <script src="https://code.jquery.com/jquery-3.6.1.js"
+                integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+                crossorigin="anonymous"></script>
+        <!-- jquery end-->
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var calendarEl = document.getElementById('calendar');
+
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    googleCalendarApiKey: 'AIzaSyAVU1OirVfiY7F9dDmdEWeVX_rbgpJ3hnY',
+                    eventSources: [
+                        {
+                            googleCalendarId: '69605dd085c4c9b48b6c840bb86fbe59e11b8b60ee2c969de3f14126ed90198b@group.calendar.google.com',
+                            className: '이벤트달력',
+                            color: '#be5683', //rgb,#ffffff 등의 형식으로 할 수 있어요.
+                            //textColor: 'black'
+                        },
+                    ]
+                });
+                calendar.render();
+            });
+        </script>
+
+</body>
+</html>
+
+
+<!-- e.preventDefault() 행위를 막는 -->
+<!-- <tbody data-page-no="1" data-page-size="3" data-max-page-no="5"> -->
+<!-- encodeURIComponent(keyword) -->
+<!-- 이전 또는 다음 최대에 도착하면 버튼 비활성화 태그가 있음 -->

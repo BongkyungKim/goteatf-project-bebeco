@@ -81,7 +81,6 @@
     padding-left: 3%;
 }
 
-
 .line-1 {
     height: 0.1rem;
   }
@@ -97,3 +96,12 @@
   .line-4 {
     height: 17rem;
   }
+
+  #thumbNail {
+    width: 220px;
+    height: 220px;
+  }
+  /*#card\ card-cover\ border\ p-3 {*/
+  /*  width: 500px;*/
+  /*  height: 800px;*/
+  /*}*/

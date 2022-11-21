@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -35,7 +36,6 @@ public class PartyController {
 
   PartyService partyService;
   ServletContext sc;
-
   VolunteerService volunteerService;
 
   public PartyController(PartyService partyService, ServletContext sc, VolunteerService volunteerService) {
@@ -110,7 +110,7 @@ public class PartyController {
     party.setAttachedFiles(saveAttachedFiles(files));
     party.setWriter((Member) session.getAttribute("loginMember"));
 
-    // 첨부파일 사이즈가 0 보다 크면 첨부파일 첫번째의 Filepath값 가져와서 thumbnail로 설정 TODO 추가2
+    // 첨부파일 사이즈가 0 보다 크면 첨부파일 첫번째의 Filepath값 가져와서 thumbnail로 설정
     if (party.getAttachedFiles().size() > 0) {
       List<AttachedFile> attachedFiles = new ArrayList<>();
       attachedFiles = party.getAttachedFiles();
@@ -211,6 +211,18 @@ public class PartyController {
     return map;
   }
 
+  // 파티 게시물 수정페이지
+  @GetMapping("modify")
+  public Map<String, Object> modify(int no, HttpSession session) throws Exception {
+    Party party = partyService.get(no);
+
+    // 게시글 수정을 위해 게시물 작성자 번호와 로그인 번호 일치 여부 확인
+    checkOwner(party.getNo(), session);
+    Map<String, Object> map = new HashMap<>();
+    map.put("party", party);
+    return map;
+  }
+
   // 파티 게시물 수정
   @PostMapping("update")
   public String update(Party party, HttpSession session,
@@ -225,7 +237,6 @@ public class PartyController {
     if (!partyService.update(party)) {
       throw new Exception("게시글을 변경할 수 없습니다.");
     }
-//      return "redirect:list";
     return "redirect:list?meal=all";
   }
 
@@ -320,6 +331,7 @@ public class PartyController {
     return partyService.getCommentList(comment);
   }
 
+  // 댓글 수정
   @PostMapping("updateComment")
   @ResponseBody
   public String updateComment(@RequestBody Comment comment, HttpSession session) throws  Exception {
@@ -348,6 +360,7 @@ public class PartyController {
     }
   }
 
+  // 댓글 삭제
   @GetMapping("deleteComment")
   @ResponseBody
   public String deleteComment(@RequestParam("deletePartyReplyNo") int deletePartyReplyNo, HttpSession session) throws Exception {
@@ -356,4 +369,5 @@ public class PartyController {
     }
     return "1";
   }
+
 }

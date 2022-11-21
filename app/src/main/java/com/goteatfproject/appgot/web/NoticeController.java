@@ -10,22 +10,16 @@ import com.goteatfproject.appgot.service.PartyService;
 @Controller
 @RequestMapping("/notice")
 
-
 public class NoticeController {
-
-
 
   NoticeService noticeService;
   PartyService partyService;
-
-
 
   public NoticeController(NoticeService noticeService,PartyService partyService) {
     System.out.println("NoticeController() 호출됨!");
     this.noticeService = noticeService;
     this.partyService = partyService;
   }
-
 
   //  public NoticeController(PartyService partyService) {
   //    System.out.println("PartyService() 호출됨!");
@@ -54,7 +48,6 @@ public class NoticeController {
     return "notice/noticeList";
   }
 
-
   //  @GetMapping("/detail")
   //  public Map detail(int no) throws Exception {
   //    Notice notice = noticeService.get(no);
@@ -72,8 +65,6 @@ public class NoticeController {
     model.addAttribute("noticesOne", noticeService.list());
     return "notice/noticeOne";
   }
-
-
 
   // 1:1 문의 등록
   //  @PostMapping("/noticeAdd")

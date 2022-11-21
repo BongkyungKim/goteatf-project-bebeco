@@ -12,6 +12,7 @@ public class AttachedFile {
   private String filepath;
   private String saveName;
   private int partyNo;
+  private int eventNo;
 
   public AttachedFile() {}
 

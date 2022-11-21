@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goteatfproject.appgot.dao.FeedLikeDao">
+
+  <!-- 자바 객체의 프로퍼티와 컬럼 이름을 연결한다. -->
+  <resultMap type="feedLike" id="feedLikeMap">
+    <id column="flno" property="flno"/>
+
+    <association property="member" javaType="member">
+      <id column="mno" property="no"/>
+    </association>
+
+    <association property="feed" javaType="feed">
+      <id column="fno" property="no"/>
+      <result column="likecnt" property="likeCnt"/>
+    </association>
+
+  </resultMap>
+
+  <insert id="insertLike" parameterType="member">
+    insert into feed_like(mno, fno) select #{member.no}, #{feed.no}
+    from dual where not exists
+      (select * from feed_like where mno = #{member.no} and fno = #{feed.no})
+
+  </insert>
+
+  <delete id="deleteLike">
+    delete from feed_like where mno=#{member.no} and fno=#{feed.no}
+  </delete>
+
+  <select id="updateLike" resultMap="feedLikeMap">
+    update feed
+    set
+    likecnt = (select count(*)
+    from feed_like
+    where fno = #{feed.no})
+    where fno = #{feed.no}
+  </select>
+
+  <select id="getLike" resultType="int">
+    select
+    count(flno)
+    from feed_like
+    where
+    fno=#{feed.no}
+  </select>
+
+  <select id="isLike" resultType="int">
+    select count(*)
+    from feed_like
+    where fno=#{feed.no}
+    and mno=#{member.no}
+  </select>
+
+
+</mapper>
+
+
+

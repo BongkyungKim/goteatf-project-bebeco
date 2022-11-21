@@ -22,4 +22,10 @@ public interface VolunteerDao {
 
    // 파티 참여자 카운트
   int partyJoinCount(Volunteer volunteer);
+
+  // 파티나가기
+  int partyOut(Volunteer volunteer);
+
+  // 파티나가기 카운트
+  int partyOutCount(Volunteer volunteer);
 }

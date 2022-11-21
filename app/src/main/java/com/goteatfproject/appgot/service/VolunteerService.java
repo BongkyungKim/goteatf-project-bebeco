@@ -21,6 +21,10 @@ public interface VolunteerService {
   // 파티 참여자 카운트
   boolean partyJoinCount(Volunteer volunteer) throws Exception;
 
+  // 파티 나가기
+  void partyOut(Volunteer volunteer) throws Exception;
 
+  // 파티나가기 카운트
+  boolean partyOutCount(Volunteer volunteer) throws Exception;
 
 }

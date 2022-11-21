@@ -19,100 +19,21 @@
 <!-------------------------------구분선-------------------------->
 <div class="b-example-divider"></div>
 <!------------------------------header------------------------------>
-<header class="p-3 mb-3 bg-white border-bottom fixed-top">
-  <div class="container">
-    <div
-        class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-      <a class="navbar-brand" th:href="@{/}">
-        <img src="/images/logo.png" alt="Bootstrap" width="100" height="88">
-      </a>
-      <!-------------------------------구분선-------------------------->
-      <div class="col-2"></div>
+<div th:replace="/common/header.html :: fragment-header"></div>
+<!------------------------------header 마지막------------------------------>
 
-      <form class="col-12 col-lg-4 mb-3 mb-lg-0 me-lg-4" role="search">
-        <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-      </form>
-      <!-------------------------------구분선-------------------------->
-      <div class="col-2"></div>
-
-      <div th:if="${session.loginMember == null}" class="d-grid me-lg-4 gap-2">
-        <button type="button" onclick="location.href='/auth/login'" class="btn btn-secondary"
-                data-bs-toggle="button">로그인
-        </button>
-      </div>
-
-      <div th:if="${session.loginMember != null}" class="d-grid me-lg-4 gap-2">
-        <button type="button" onclick="location.href='/auth/logout'" class="btn btn-secondary"
-                data-bs-toggle="button">로그아웃
-        </button>
-      </div>
-
-      <div class="dropdown text-end me-lg-4">
-        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle"
-           data-bs-toggle="dropdown" aria-expanded="false">
-          <img src="/images/mypage.png" alt="mdo" width="32" height="32" class="rounded-circle">
-        </a>
-
-        <ul class="dropdown-menu text-small ">
-          <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">New
-            project...</a></li>
-          <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">Settings</a>
-          </li>
-          <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">Profile</a>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-
-          <li th:if="${session.loginMember == null}"><a class="dropdown-item"
-                                                        th:href="@{/auth/login}">Sign in</a></li>
-          <li th:if="${session.loginMember != null}"><a class="dropdown-item"
-                                                        th:href="@{/auth/logout}">Sign out</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</header>
 <!-------------------------------구분선-------------------------->
 <div class="line-3"></div>
 <div class="line-3"></div>
 <!------------------------------nav------------------------------>
-<nav class="navbar navbar-expand-lg border-bottom bg-light" aria-label="Tenth navbar example">
-  <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarsExample08" aria-controls="navbarsExample08"
-            aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse justify-content-md-center " id="navbarsExample08">
-      <ul class="navbar-nav fw-bold text-dark ">
-        <li class="nav-item p-1">
-          <a class="nav-link" aria-current="page" href="#">파티게시판</a>
-        </li>
-        <li class="nav-item p-1">
-          <a class="nav-link" href="#">피드게시판</a>
-        </li>
-        <li class="nav-item p-1">
-          <a class="nav-link" href="#">이벤트게시판</a>
-        </li>
-        <li class="nav-item dropdown p-1">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
-             aria-expanded="false">고객센터</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">공지사항</a></li>
-            <li><a class="dropdown-item" href="#">1:1 문의</a></li>
-            <li><a class="dropdown-item" href="#">자주 묻는 질문</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<div th:replace="/common/nav.html :: fragment-nav"></div>
+<!------------------------------nav 마지막------------------------------>
 
 <!-------------------------------구분선-------------------------->
+<div class="a-example-divider"></div>
+<!-------------------------------구분선-------------------------->
 <div class="line-3"></div>
-<!---------------------------- 헤더마지막 ---------------------------->
+
 <!--<ul data-th-each="vol : ${volList}">-->
 <!--<data-th-block data-th-each="vol : ${volunteer}">-->
 <!--    <span data-th-text="${vol.date}"></span>-->
@@ -201,7 +122,7 @@
     <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
     <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
   </ul>
-  <p class="text-center text-muted">© 2022 Chunderella Corp & TwoAppleteam. All Rights Reserved.</p>
+  <p class="text-center text-muted">© 2022 Chunderella Corp & ThreeAppleteam. All Rights Reserved.</p>
 </footer>
 
 <!-- 부트스트랩  -->

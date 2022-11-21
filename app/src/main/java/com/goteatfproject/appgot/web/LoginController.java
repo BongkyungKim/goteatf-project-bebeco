@@ -25,8 +25,6 @@ public class LoginController {
   @GetMapping("/login")
   public String login(@CookieValue(name="id", defaultValue = "") String id, Model model, HttpSession session) throws Exception {
 
-//    session.setAttribute("loginMember", 1);
-
     model.addAttribute("id", id);
     return "auth/login"; // TODO login 다시 복구
   }
@@ -58,6 +56,10 @@ public class LoginController {
     }
 
     response.addCookie(cookie);
+
+    if (id.equals("admin@test.com")){
+      return "redirect:/admin/main";
+    }
 
     return "redirect:/";
   }

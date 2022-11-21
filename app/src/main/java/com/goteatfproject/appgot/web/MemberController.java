@@ -35,14 +35,4 @@ public class MemberController {
     model.addAttribute("members", memberService.list());
     return "member/memberList";
   }
-
-//  @GetMapping("/list")
-//  public ModelAndView memberList() {
-//    ModelAndView mv = new ModelAndView("/member/list");
-//
-//    List<Map<String, Object>> members = memberService.list();
-//    mv.addObject("members", members);
-//
-//    return mv;
-//  }
 }

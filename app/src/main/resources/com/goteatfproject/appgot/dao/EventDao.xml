@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goteatfproject.appgot.dao.EventDao">
+
+  <resultMap type="event" id="eventMap">
+  <id column="eno" property="no"/>
+  <result column="title" property="title"/>
+  <result column="cont" property="content"/>
+  <result column="date" property="date"/>
+  <result column="loc" property="location"/>
+  <result column="post" property="post"/>
+  <result column="addr" property="address"/>
+  <result column="viewcnt" property="viewCnt"/>
+  <result column="pub" property="pub"/>
+  <result column="createdate" property="createDate"/>
+  <result column="thumbnail"  property="thumbnail"/>
+
+  <association property="writer" javaType="member">
+    <id column="mno" property="no"/>
+    <result column="nick" property="nick"/>
+  </association>
+
+  <collection property="attachedFiles" ofType="attachedFile">
+    <id column="efileno" property="no"/>
+    <result column="path" property="filepath"/>
+    <result column="filename" property="fileName"/>
+    <result column="savename" property="saveName"/>
+  </collection>
+
+  </resultMap>
+
+  <resultMap type="attachedFile" id="attachedFileMap">
+    <id column="efileno" property="no"/>
+    <result column="path" property="filepath"/>
+    <result column="filename" property="fileName"/>
+    <result column="savename" property="saveName"/>
+    <result column="eno" property="eventNo"/>
+
+  </resultMap>
+
+
+  <insert id="insert" parameterType="event"
+          useGeneratedKeys="true" keyColumn="eno" keyProperty="no">
+    insert into event(mno, title, cont, date, loc, addr, createdate, thumbnail)
+    VALUES
+    (#{writer.no}, #{title}, #{content},  #{date},  #{location},    #{address},  now(), #{thumbnail} )
+  </insert>
+
+    <!--페이징 목록 -->
+  <select id="selectEventList" resultMap="eventMap" parameterType="hashmap">
+    <![CDATA[
+  select
+  e.eno,
+  m.mno,
+  m.nick,
+  e.title,
+  e.cont,
+  e.date,
+  e.loc,
+  e.addr,
+  e.viewcnt,
+  e.pub,
+  e.createdate,
+  e.thumbnail
+
+  from event e
+  
+  join member m on e.mno = m.mno
+   order by
+      eno desc
+      LIMIT #{pageStart}, #{perPageNum}
+      ]]>
+  </select>
+
+  <!--페이징 목록: 마이페이지 본인 작성 글 리스트 출력 사용-->
+  <select id="selectEventList2" resultMap="eventMap" parameterType="hashmap">
+    <![CDATA[
+  select
+  e.eno,
+  m.mno,
+  e.title,
+  e.cont,
+  e.date,
+  e.loc,
+  e.addr,
+  e.viewcnt,
+  e.pub,
+  e.createdate,
+  e.thumbnail
+
+  from event e
+  
+  join member m on e.mno = m.mno
+  where m.mno =#{memberNo}
+   order by
+      eno desc
+      LIMIT #{cri.pageStart}, #{cri.perPageNum}
+      ]]>
+  </select>
+  
+  <!--페이징 목록: 관리자페이지 리스트 출력 사용-->
+  <select id="selectEventList3" resultMap="eventMap" parameterType="hashmap">
+    <![CDATA[
+  select
+  e.eno,
+  m.mno,
+  m.nick,
+  e.title,
+  e.cont,
+  e.date,
+  e.loc,
+  e.addr,
+  e.viewcnt,
+  e.pub,
+  e.createdate,
+  e.thumbnail
+
+  from event e
+  
+  join member m on e.mno = m.mno
+  where e.pub = false
+   order by
+      eno desc
+      LIMIT #{pageStart}, #{perPageNum}
+      ]]>
+  </select>
+  
+
+  <select id="findByNo" resultMap="eventMap">
+    select
+    e.eno,
+    e.title,
+    e.viewcnt,
+    e.createdate,
+    m.nick,
+    m.mno,
+    ef.efileno,
+    ef.path
+    from
+    event e
+    join member m on m.mno = e.mno
+    left outer join event_file ef on e.eno = ef.eno
+    where
+    e.eno = #{value}
+  </select>
+
+  <update id="update" parameterType="event">
+    update event set
+    title = #{title},
+    cont = #{content}
+    where
+    eno = #{no}
+  </update>
+
+  <delete id="delete">
+    delete from event
+    where eno = #{value}
+  </delete>
+
+  <insert id="insertFiles" parameterType="event">
+    insert into event_file(path, eno, filename, savename)
+    values
+    <!--  여러 파일 들어가면 첨부파일 , 사용해서 구분-->
+    <foreach collection="attachedFiles" item="file" separator=",">
+      (#{file.filepath}, #{no}, #{file.fileName}, #{file.saveName})
+    </foreach>
+  </insert>
+
+  <select id="findFileByNo" resultMap="attachedFileMap">
+    select
+    efileno,
+    path,
+   eno
+    from
+    event_file
+    where
+    efileno = #{value}
+  </select>
+
+  <select id="findFilesByEvent" resultMap="attachedFileMap">
+    select
+    efileno,
+    path,
+    eno
+    from
+    event_file
+    where
+    eno = #{value}
+  </select>
+
+  <delete id="deleteFile">
+    delete from event_file
+    where efileno = #{value}
+  </delete>
+
+  <delete id="deleteFiles">
+    delete from event_file
+    where eno = #{value}
+  </delete>
+
+  <delete id="deleteFilesByMemberEvents">
+    delete from event_file
+    where eno in (select eno from event where mno = #{value})
+  </delete>
+  
+   <!--관리자페이지 이벤트게시글 비활성화 (1: 비활성화)-->
+  <update id="eventBlock" parameterType="event">
+    update event set pub = true
+    where eno = #{no}
+  </update>
+
+<!-- 간치 -->
+  <!--이벤트 리스트에 뽑는 쿼리문-->
+  <select id="findAll" resultMap="eventMap" >
+    select
+    e.eno,
+    m.mno,
+    e.title,
+    e.cont,
+    e.date,
+    e.loc,
+    e.addr,
+    e.viewcnt,
+    e.pub,
+    e.createdate,
+    e.thumbnail
+
+    from event e
+
+    join member m on e.mno = m.mno
+    order by
+    eno desc
+  </select>
+
+  <!--메인에뽑는 리스트-->
+  <select id="findAllMain" resultMap="eventMap" >
+    select
+    e.eno,
+    m.mno,
+    m.nick,
+    e.title,
+    e.cont,
+    e.date,
+    e.loc,
+    e.addr,
+    e.viewcnt,
+    e.pub,
+    e.createdate,
+    e.thumbnail
+
+    from event e
+
+    join member m on e.mno = m.mno
+    order by
+    eno desc
+    limit 6
+  </select>
+
+</mapper>
+
+
+

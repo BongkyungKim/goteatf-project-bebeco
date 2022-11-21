@@ -1,0 +1,108 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EAT-F by Chunderella</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+        crossorigin="anonymous">
+
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+  <link href="/css/feed.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+</head>
+<body>
+<!-------------------------------구분선-------------------------->
+<div class="b-example-divider"></div>
+<!------------------------------header------------------------------>
+<div th:replace="/common/header.html :: fragment-header"></div>
+<!-------------------------------구분선-------------------------->
+<div class="line-3"></div>
+<div class="line-3"></div>
+<!------------------------------nav------------------------------>
+<div th:replace="/common/nav.html :: fragment-nav"></div>
+<!-------------------------------구분선-------------------------->
+<div class="a-example-divider"></div>
+<!-- 부트스트랩 -->
+
+<!-- 부트스트랩 왼쪽 사이드바 -->
+<div class="d-flex" id="wrapper">
+  <!-- Sidebar-->
+  <div class="border-end bg-white" id="sidebar-wrapper">
+    <div class="sidebar-heading border-bottom bg-light">
+      <a th:href="@{/admin/main}" style="text-decoration-line: none; color: inherit;">관리자페이지</a>
+    </div>
+    <div class="list-group list-group-flush">
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/}">사이트 바로가기</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/admin/adminPartyList}">파티게시물 관리</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/admin/adminFeedList}">피드게시물 관리</a>
+       <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/admin/adminEventList}">이벤트게시물 관리</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/admin/adminMemberList}">회원 관리</a>
+    </div>
+  </div>
+  <!-- Page content wrapper-->
+  <!-- 상세보기 -->
+  <!-- <form th:action="@{/feed/update}" method="post"> -->
+
+   <!--  <div class="post-footer-content">
+      <p class="name" th:text="${feed.title}"></p>
+      <p class="cont" th:text="${feed.content}"></p>
+      <p class="posting-time" th:text="${feed.date}"></p>
+    </div> -->
+    <!-- <div class="container border rounded">
+      
+      <th:block>
+        <div class="posts" th:each="feed : ${feeds}">
+          <div class="post-title">
+            <div class="post-left">
+              <div class="image">
+                <img src="/images/1.jpg" alt="춘데렐라" width="32" height="32">
+              </div>
+              <div class="details">
+                <p class="name" th:text="${feed.writer.nick}"></p>
+                <p class="location"th:text="${feed.writer.address}"></p>
+              </div>
+            </div>
+            <div class="post-right">
+              <i class="fas fa-ellipsis-h"></i>
+            </div>
+          </div>
+
+          <div class="post-content">
+            <img th:src="@{'/feed/files/'}" alt="또 할 거 없음" height="600" width="600">
+          </div>
+
+          <div class="post-footer-content">
+            <p class="name" th:text="${feed.title}"></p>
+            <p class="cont" th:text="${feed.content}"></p>
+            <p class="posting-time" th:text="${feed.date}"></p>
+          </div>
+
+        </div>
+      </th:block>
+    </div> -->
+  <!-- </form>  -->
+  <!---------------------------- 상세보기 end ------------------------------>
+
+
+ <!-------------------------------구분선-------------------------->
+ <div class="c-example-divider"></div>
+
+<!-------------------------------구분선-------------------------->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous">
+</script>
+
+<!-- Core theme JS--> <!-- noticeList 왼쪽 사이드바 --> <!-- TODO 추가 - 6-->
+<script src="/js/notice/notice.js"></script>
+
+</body>
+</html>

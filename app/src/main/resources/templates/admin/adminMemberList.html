@@ -1,0 +1,152 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EAT-F by Chunderella</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+        crossorigin="anonymous">
+
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+  <link href="/css/notice/style.css" rel="stylesheet"> <!-- TODO 추가 - 2 같지만 수정 -->
+
+  <!-- Core theme CSS (includes Bootstrap)--> <!-- TODO 추가 - 1 -->
+  <link href="/css/notice/noticeStyles.css" rel="stylesheet"/>
+
+</head>
+<body>
+<!-------------------------------구분선-------------------------->
+<div class="b-example-divider"></div>
+<!------------------------------header------------------------------>
+<div th:replace="/common/header.html :: fragment-header"></div>
+<!-------------------------------구분선-------------------------->
+<div class="line-3"></div>
+<div class="line-3"></div>
+<!------------------------------nav------------------------------>
+<div th:replace="/common/nav.html :: fragment-nav"></div>
+<!-------------------------------구분선-------------------------->
+<div class="a-example-divider"></div>
+<!-- 부트스트랩 -->
+
+<!-- 부트스트랩 왼쪽 사이드바 -->
+<div class="d-flex" id="wrapper">
+  <!-- Sidebar-->
+  <div class="border-end bg-white" id="sidebar-wrapper">
+    <div class="sidebar-heading border-bottom bg-light">
+      <a th:href="@{/admin/main}" style="text-decoration-line: none; color: inherit;">관리자페이지</a>
+    </div>
+    <div class="list-group list-group-flush">
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/}">사이트 바로가기</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/admin/adminPartyList}">파티게시물 관리</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/admin/adminFeedList}">피드게시물 관리</a>
+       <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/admin/adminEventList}">이벤트게시물 관리</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/admin/adminMemberList}">회원 관리</a>
+    </div>
+  </div>
+  <!-- Page content wrapper-->
+  <div id="page-content-wrapper">
+    <div class="container-fluid">
+      <h2 class="mt-4">회원 관리</h2>
+      검색 : <input type="text" name="keyword" value="검색어" data-th-value="${keyword}">
+      <button id='searchBtn'>검색</button><br>
+      <!--  테이블 부트스트랩   -->
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th scope="col">번호</th>
+          <th scope="col">아이디(이메일)</th>
+          <th scope="col">이름</th>
+          <th scope="col">가입일</th>
+          <th scope="col">활성화 상태</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        <tr th:each="member : ${members}">
+          <th scope="row" th:text="${member.no}"></th>
+          <td><a href="" th:href="@{/admin/adminMemberDetail(no=${member.no})}" th:text="${member.id}"></a></td>
+          <td th:text="${member.name}"></td>
+          <td th:text="${member.createdDate}"></td>
+          <td th:if="${member.outState == false}" th:value="${member.outState}">활성화</td>
+          <td th:if="${member.outState == true}" th:value="${member.outState}">비활성화</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <!--  테이블 부트스트랩 end   -->
+    </div>
+  </div>
+</div>
+
+<!-- 페이징 -->
+
+<!--<nav aria-label="Page navigation example">-->
+<!--  <ul class="pagination justify-content-center">-->
+<!--    <li class="page-item disabled" th:if="${pageMaker.prev}">-->
+<!--      <a class="page-link"-->
+<!--         th:href="@{list(pageMaker.startPage-1)}" aria-label="Previous">-->
+<!--        <span aria-hidden="true">이전페이지</span>-->
+<!--      </a>-->
+<!--    </li>-->
+<!--    <th:block th:each="pageNum: ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">-->
+<!--      <li class="page-item">-->
+<!--        <a class="page-link" th:href="@{adminPartyList(page=${pageNum})}"><i th:text="${pageNum}"></i></a>-->
+<!--      </li>-->
+<!--    </th:block>-->
+<!--    <li class="page-item" th:if="${pageMaker.next && pageMaker.endPage >0}">-->
+<!--      <a class="page-link" th:href="@{list(page=${pageMaker.endPage+1})}" aria-label="Next">-->
+<!--        <span aria-hidden="true">다음페이지</span>-->
+<!--      </a>-->
+<!--    </li>-->
+<!--  </ul>-->
+<!--</nav>-->
+
+<!-- 페이징 end-->
+
+
+<!-------------------------------구분선-------------------------->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous">
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.1.js"
+        integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+        crossorigin="anonymous"></script>
+
+<!-- Core theme JS--> <!-- noticeList 왼쪽 사이드바 -->
+<script src="/js/notice/notice.js"></script>
+
+<script>
+  // 회원 검색 keyword 조건
+  document.querySelector("#searchBtn").onclick = () => {
+    search();
+  };
+
+  function search() {
+    let keyword = document.querySelector("input[name=keyword]").value;
+    if (keyword != "") {
+      keyword = window.encodeURIComponent(keyword);
+    }
+    console.log(keyword);
+    window.location.href = "/admin/adminMemberList?keyword=" + keyword;
+  }
+  // 회원 검색 keyword 조건 end
+  
+  // 비활성화 회원의 행을 회색으로 변경
+  let tdLength = $(".table-group-divider").find("td").length;
+  
+  for(let i = 0; i < tdLength; i++){
+	   if($(".table-group-divider").find("td").eq(i).attr("value") == "true"){
+		   $(".table-group-divider").find("td").eq(i).parent().css({"background": "lightgray"});
+	   }
+  }
+  
+</script>
+
+</body>
+</html>

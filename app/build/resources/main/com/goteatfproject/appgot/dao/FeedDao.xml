@@ -10,15 +10,32 @@
     <result column="title" property="title"/>
     <result column="cont" property="content"/>
     <result column="date" property="date"/>
+    <result column="thumbnail" property="thumbnail"/>
+    <result column="pub" property="pub"/>
 
     <association property="writer" javaType="member">
       <id column="mno" property="no"/>
-      <result column="nick" property="nick"/>
+      <result column="id" property="id"/>
       <result column="addr" property="address"/>
+      <result column="nick" property="nick"/>
+      <result column="intro" property="intro"/>
     </association>
 
+    <collection property="feedAttachedFiles" ofType="feedAttachedFile">
+      <id column="feedfileno" property="no"/>
+      <result column="path" property="filepath"/>
+      <result column="filename" property="fileName"/>
+      <result column="savename" property="saveName"/>
+    </collection>
   </resultMap>
 
+  <resultMap type="feedAttachedFile" id="feedAttachedFileMap">
+    <id column="feedfileno" property="no"/>
+    <result column="path" property="filepath"/>
+    <result column="filename" property="fileName"/>
+    <result column="savename" property="saveName"/>
+    <result column="fno" property="feedNo"/>
+  </resultMap>
 
   <select id="findAll" resultMap="feedMap">
     select
@@ -29,14 +46,14 @@
     f.title,
     f.cont,
     f.date,
-    f.img
+    f.thumbnail
     from
     feed f
     join member m on m.mno = f.mno
 
   </select>
 
-<!--   페이징 리스트-->
+  <!--   페이징 리스트: 관리자페이지 리스트 출력 사용(f.pub = false 활성화) -->
   <select id="selectFeedList" resultMap="feedMap" parameterType="hashmap">
     <![CDATA[
       select
@@ -47,73 +64,223 @@
     f.title,
     f.cont,
     f.date,
-    f.img
+    f.thumbnail,
+    f.pub
     from
     feed f
     join member m on m.mno = f.mno
+    where f.pub = false
       order by
       fno desc
       LIMIT #{pageStart}, #{perPageNum}
       ]]>
   </select>
 
-
   <insert id="insert" parameterType="feed"
       useGeneratedKeys="true" keyColumn="fno" keyProperty="no">
-    insert into party(title,cont,mno)
-    values(#{title},#{content},#{writer.no})
+    insert into feed(title, cont, mno, date, thumbnail)
+    values(#{title}, #{content}, #{writer.no}, now(), #{thumbnail})
   </insert>
 
-  <!--  <update id="update" parameterType="party">-->
-  <!--    update party set-->
-  <!--    title=#{title},-->
-  <!--    cont=#{content}-->
-  <!--    where pno=#{no}-->
-  <!--  </update>-->
+  <select id="randomfindAll" resultMap="feedMap">
+    select
+    f.fno,
+    m.mno,
+    m.nick,
+    m.addr,
+    f.title,
+    f.cont,
+    f.date,
+    f.thumbnail
+    from
+    feed f
+    join member m on m.mno = f.mno
+    order by rand()
+    Limit 15
+  </select>
 
-  <!--  <delete id="delete">-->
-  <!--    delete from party-->
-  <!--    where pno=#{value}-->
-  <!--  </delete>-->
+  <select id="simpleProfile" resultMap="feedMap">
+    select
+    mno,
+    nick,
+    addr,
+    intro
+    from
+    member
+    where mno=#{writer.no}
+  </select>
 
-  <!--  <delete id="deleteByMember">-->
-  <!--    delete from party-->
-  <!--    where pno=#{value}-->
-  <!--  </delete>-->
+  <!--   내가 팔로우한 유저의 게시물 조회 쿼리문   -->
+  <select id="followFindAll" resultMap="feedMap">
+    select
+    f.fno,
+    m.mno,
+    m.nick,
+    m.addr,
+    f.title,
+    f.cont,
+    f.date,
+    f.thumbnail
+    from feed f
+    join member m on m.mno = f.mno
+    where f.mno in
+    (select following from follower
+    where follow=#{writer.no})
+  </select>
 
-  <!--  <insert id="insertFiles" parameterType="board">-->
-  <!--    insert into app_board_file(filepath,bno)-->
-  <!--    values-->
-  <!--    <foreach collection="attachedFiles" item="file" separator=",">-->
-  <!--      (#{file.filepath},#{no})-->
-  <!--    </foreach>-->
-  <!--  </insert>-->
+  <!--  아이디로 유저 번호를 조회해서 그번호로 게시물 모두 조회 쿼리문  -->
+  <select id="selectListByNick" resultMap="feedMap">
+    select *
+    from feed f
+    join member m on m.mno=f.mno
+    where m.nick=#{nick}
+    order by f.fno desc
+  </select>
 
-  <!--  <delete id="deleteFiles">-->
-  <!--    delete from app_board_file-->
-  <!--    where bno=#{value}-->
-  <!--  </delete>-->
+  <select id="findByNo" resultMap="feedMap">
+    select
+    f.fno,
+    m.mno,
+    m.nick,
+    m.addr,
+    f.title,
+    f.cont,
+    f.date,
+    f.thumbnail,
+    ff.feedfileno,
+    ff.path
+    from
+    feed f
+    join member m on m.mno = f.mno
+    left outer join feed_file ff on f.fno = ff.fno
+    where
+    f.fno = #{value}
+  </select>
 
-  <!--  <delete id="deleteFilesByMemberBoards">-->
-  <!--    delete from app_board_file-->
-  <!--    where bno in (select bno from app_board where mno = #{value})-->
-  <!--  </delete>-->
+  <update id="update" parameterType="feed">
+    update feed set
+    title = #{title},
+    cont = #{content}
+    where
+    fno = #{no}
+  </update>
 
-  <!--  <delete id="deleteFile">-->
-  <!--    delete from app_board_file-->
-  <!--    where bfno=#{value}-->
-  <!--  </delete>-->
+  <delete id="delete">
+    delete from feed
+    where fno = #{value}
+  </delete>
 
-  <!--  <select id="findFileByNo" resultMap="attachedFileMap">-->
-  <!--    select-->
-  <!--    bfno,-->
-  <!--    filepath,-->
-  <!--    bno-->
-  <!--    from-->
-  <!--    app_board_file-->
-  <!--    where-->
-  <!--    bfno = #{value}-->
-  <!--  </select>-->
+  <!-- 첨부파일 관련 -->
+
+  <insert id="insertFiles" parameterType="feed">
+    insert into feed_file(path, fno, filename, savename)
+    values
+    <!--  여러 파일 들어가면 첨부파일 , 사용해서 구분-->
+    <foreach collection="feedAttachedFiles" item="file" separator=",">
+      (#{file.filepath}, #{no}, #{file.fileName}, #{file.saveName})
+    </foreach>
+  </insert>
+
+  <select id="findFileByNo" resultMap="feedAttachedFileMap">
+    select
+    feedfileno,
+    path,
+    fno
+    from
+    feed_file
+    where
+    feedfileno = #{value}
+  </select>
+
+  <select id="findFilesByParty" resultMap="feedAttachedFileMap">
+    select
+    feedfileno,
+    path,
+    fno
+    from
+    feed_file
+    where
+    fno = #{value}
+  </select>
+
+  <delete id="deleteFile">
+    delete from feed_file
+    where feedfileno = #{value}
+  </delete>
+
+  <delete id="deleteFiles">
+    delete from feed_file
+    where fno = #{value}
+  </delete>
+
+  <delete id="deleteFilesByMemberBoards">
+    delete from feed_file
+    where fno in (select fno from feed where mno = #{value})
+  </delete>
+
+  <!-- 마이페이지 피드게시글 본인 작성 글 리스트 -->
+  <select id="selectFeedListByNo" resultMap="feedMap" parameterType="hashmap">
+    <![CDATA[
+    select
+    f.fno,
+    m.mno,
+    m.nick,
+    m.addr,
+    f.title,
+    f.cont,
+    f.date,
+    f.thumbnail
+    from
+      feed f
+    join member m on m.mno = f.mno
+    where f.mno=#{memberNo}
+    order by
+      fno desc
+    LIMIT #{cri.pageStart}, #{cri.perPageNum}
+    ]]>
+  </select>
+
+  <!-- 마이페이지 피드게시글 본인 작성 글 상세보기 -->
+  <!-- 관리자페이지 피드게시글 회원 작성 글 상세보기 -->
+  <select id="findByMyFeedListDetail" resultMap="feedMap">
+    select
+    f.fno,
+    m.mno,
+    m.nick,
+    m.addr,
+    f.title,
+    f.cont,
+    f.date,
+    f.thumbnail
+    from
+    feed f
+    join member m on m.mno = f.mno
+    where
+    f.fno = #{value}
+  </select>
+
+  <!--관리자페이지 피드게시글 비활성화 (1: 비활성화)-->
+  <update id="feedBlock" parameterType="feed">
+    update feed set pub = true
+    where fno = #{no}
+  </update>
+
+<!-- 간치 -->
+  <select id="findAllMain" resultMap="feedMap">
+    select
+    f.fno,
+    m.mno,
+    m.nick,
+    m.addr,
+    f.title,
+    f.cont,
+    f.date,
+    f.thumbnail
+    from
+    feed f
+    join member m on m.mno = f.mno
+    limit 8
+  </select>
 
 </mapper>
 

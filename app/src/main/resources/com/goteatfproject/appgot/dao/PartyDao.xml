@@ -31,6 +31,7 @@
     <result column="cont" property="content"/>
     <result column="lit" property="limit"/>
     <result column="max" property="max"/>
+    <result column="time" property="time"/>
     <result column="loc" property="location"/>
     <result column="addr" property="address"/>
     <result column="viewcnt" property="viewCnt"/>
@@ -94,7 +95,8 @@
       insert into party(mno, meal, food, title, cont, gender, max, time, age,
       lit, loc, post, addr, viewcnt, createdate, thumbnail)
       values(#{writer.no}, #{meal}, #{food}, #{title}, #{content}, #{gender}, #{max},
-      #{time}, #{age}, #{limit}, #{location}, '', #{address}, 0, now(), #{thumbnail})
+      #{time}, #{age}, #{limit}, #{location}, '', #{address}, 0, now(), 'defaultimage.jpg')
+<!--      #{time}, #{age}, #{limit}, #{location}, '', #{address}, 0, now(), #{thumbnail}) TODO 변경1-->
     </insert>
 
   <!-- resultMap : 컬럼과 프로퍼티의 연결을 정의한 resultMap="id" -->
@@ -143,8 +145,9 @@
     join member m on m.mno = p.mno
     left outer join party_file pf on p.pno = pf.pno
     <!--meal = all일 경우 if문 실행안되면서 전체 컬럼 값 출력 -->
+    where p.pub = false
     <if test="meal != 'all'">
-      where p.meal = #{meal}
+      and p.meal = #{meal}
     </if>
     <if test="food != null">
       and p.food = #{food}
@@ -174,10 +177,12 @@
       from
       party p
       join member m on m.mno = p.mno
+      where p.pub = false
       order by
       pno desc
       LIMIT #{pageStart}, #{perPageNum}
       ]]>
+<!--  TODO 변경2 where p.pub = false    -->
     </select>
 
     <select id="findByNo" resultMap="partyMap">
@@ -185,9 +190,17 @@
       p.pno,
       p.title,
       p.viewcnt,
+      p.time,
+      p.meal,
+      p.food,
+      p.cont,
       p.createdate,
       p.lit,
       p.max,
+      p.age,
+      p.gender,
+      p.addr,
+      p.loc,
       m.nick,
       m.mno,
       pf.pfileno,
@@ -198,12 +211,22 @@
       left outer join party_file pf on p.pno = pf.pno
       where
       p.pno = #{value}
+<!-- TODO 변경3     -->
     </select>
 
     <update id="update" parameterType="party">
       update party set
       title = #{title},
-      cont = #{content}
+      meal = #{meal},
+      food = #{food},
+      lit = #{limit},
+      cont = #{content},
+      gender = #{gender},
+      age = #{age},
+      food = #{food},
+      time = #{time},
+      loc = #{location},
+      addr = #{address}
       where
       pno = #{no}
     </update>
@@ -217,12 +240,10 @@
 
   <insert id="insertFiles" parameterType="party">
     insert into party_file(path, pno, filename, savename)
-    <!--      insert into party_file(path, pno)-->
     values
     <!--  여러 파일 들어가면 첨부파일 , 사용해서 구분-->
     <foreach collection="attachedFiles" item="file" separator=",">
       (#{file.filepath}, #{no}, #{file.fileName}, #{file.saveName})
-      <!--        (#{file.filepath}, #{no})-->
     </foreach>
   </insert>
 
@@ -268,6 +289,66 @@
   <!--    where pno=#{value}-->
   <!--  </delete>-->
 
+  <!-- 마이페이지 파티 게시물 본인 글 조회 -->
+  <select id="selectPartyListByNo" resultMap="partyMap" parameterType="hashmap">
+    <![CDATA[
+      select
+      p.pno,
+      p.title,
+      p.meal,
+      p.lit,
+      p.age,
+      p.gender,
+      p.max,
+      p.viewcnt,
+      p.thumbnail,
+      p.createdate,
+      m.mno,
+      m.nick
+      from
+      party p
+      join member m on m.mno = p.mno
+      where p.mno=#{memberNo}
+        and p.pub = false
+      order by
+      pno desc
+      LIMIT #{cri.pageStart}, #{cri.perPageNum}
+      ]]>
+  </select>
+
+  <!-- 마이페이지 파티게시글 본인 작성 글 상세보기 -->
+  <!-- 관리자페이지 파티게시글 회원 작성 글 상세보기 -->
+  <select id="findByMyPartyListDetail" resultMap="partyMap">
+    select
+    p.pno,
+    p.title,
+    p.meal,
+    p.food,
+    p.cont,
+    p.viewcnt,
+    p.createdate,
+    p.age,
+    p.gender,
+    p.addr,
+    p.loc,
+    m.nick,
+    m.mno,
+    pf.pfileno,
+    pf.path
+    from
+    party p
+    join member m on m.mno = p.mno
+    left outer join party_file pf on p.pno = pf.pno
+    where
+    p.pno = #{value}
+  </select>
+
+  <!--관리자페이지 파티게시글 비활성화 (1: 비활성화)-->
+  <update id="partyBlock" parameterType="party">
+    update party set pub = true
+    where pno = #{no}
+  </update>
+
   <!-- 댓글 작성 -->
   <insert id="insertComment" parameterType="comment">
     insert into party_reply (mno, pno, cont, date)
@@ -310,6 +391,45 @@
     prno = #{partyReplyNo}
   </delete>
 
+<!--  간치 -->
+  <!--메인뽑기-->
+  <select id="findAllMain" resultMap="partyMap">
+    select
+    p.pno,
+    p.title,
+    p.meal,
+    p.food,
+    P.time,
+    p.lit,
+    p.time,
+    p.age,
+    p.gender,
+    p.max,
+    p.viewcnt,
+    p.thumbnail,
+    p.createdate,
+    m.mno,
+    m.nick
+    from
+    party p
+    join member m on m.mno = p.mno
+    <if test="meal != 'all'">
+      where p.meal = #{meal}
+    </if>
+    order by
+    pno desc
+    limit 8
+  </select>
+
+
+  <!--  마이페이지 파티게시글 연쇄삭제 -->
+  <delete id="allDelete">
+    delete from party_reply where pno=#{no};
+    delete from party_file where pno=#{no};
+    delete from volunteer where vno=#{no};
+    delete from partytag where pno=#{no};
+    delete from party where pno=#{no};
+  </delete>
 
 </mapper>
 

@@ -26,10 +26,12 @@
   <resultMap type="party" id="partyMap">
     <id column="pno" property="no"/>
     <result column="meal" property="meal"/>
+    <result column="food" property="food"/>
     <result column="title" property="title"/>
-<!--    <result column="nick" property="nick"/>-->
     <result column="cont" property="content"/>
     <result column="lit" property="limit"/>
+    <result column="max" property="max"/>
+    <result column="time" property="time"/>
     <result column="loc" property="location"/>
     <result column="addr" property="address"/>
     <result column="viewcnt" property="viewCnt"/>
@@ -46,7 +48,11 @@
           <result column="nick" property="nick"/>
         </association>
 
-    <!--    &lt;!&ndash; 조인 결과에서 같은 게시글에 대해 여러 개의 첨부 파일 데이터를 담을 경우 &ndash;&gt;-->
+    <association property="commentList" javaType="comment"> <!-- comment객체는 party객체의 setter commentList에 담아 -->
+      <id column="prno" property="partyReplyNo"/>
+    </association>
+
+        <!-- 조인 결과에서 같은 게시글에 대해 여러 개의 첨부 파일 데이터를 담을 경우 -->
     <!-- AttachedFile객체는 Party객체의 attachedFiles 필드에 담아-->
   <collection property="attachedFiles" ofType="attachedFile">
     <id column="pfileno" property="no"/>
@@ -66,6 +72,17 @@
 
     </resultMap>
 
+  <resultMap type="comment" id="commentMap">
+    <id column="prno" property="partyReplyNo"/>
+    <result column="pno" property="partyNo"/>
+    <result column="cont" property="commentCont"/>
+    <result column="date" property="date"/>
+
+    <association property="writer" javaType="member"> <!-- member객체는 party객체의 setter writer에 담아 -->
+      <id column="mno" property="no"/>
+      <result column="nick" property="nick"/>
+    </association>
+  </resultMap>
 
 <!--  Member writer = new Member();-->
 <!--  writer.setNo(rs.getInt("mno"));-->
@@ -75,29 +92,22 @@
 
     <insert id="insert" parameterType="party"
         useGeneratedKeys="true" keyColumn="pno" keyProperty="no">
-<!--      insert into party(title,cont,mno)-->
-<!--      values(#{title},#{content},#{writer.no})-->
       insert into party(mno, meal, food, title, cont, gender, max, time, age,
-      lit, loc, post, addr, viewcnt, createdate)
+      lit, loc, post, addr, viewcnt, createdate, thumbnail)
       values(#{writer.no}, #{meal}, #{food}, #{title}, #{content}, #{gender}, #{max},
-      #{time}, #{age}, #{limit}, #{location}, '', #{address}, 0, now())
+      #{time}, #{age}, #{limit}, #{location}, '', #{address}, 0, now(), 'defaultimage.jpg')
+<!--      #{time}, #{age}, #{limit}, #{location}, '', #{address}, 0, now(), #{thumbnail}) TODO 변경1-->
     </insert>
-
-
-
-
-
 
   <!-- resultMap : 컬럼과 프로퍼티의 연결을 정의한 resultMap="id" -->
   <!-- resultType : 오리지널 클래스 이름-->
-<!--  기존findAll 리스트-->
+<!--  기존 리스트-->
     <select id="findAll" resultMap="partyMap">
     select
     p.pno,
     p.title,
     p.meal,
     p.lit,
-<!--    p.nick,-->
     p.age,
     p.gender,
     p.max,
@@ -112,7 +122,43 @@
     order by
     pno desc
   </select>
-  <!-- 페이징 리스트 -->
+
+<!-- 파티게시물 출력 : 카테고리 추가 -->
+  <select id="findAll2" resultMap="partyMap">
+    select
+    p.pno,
+    p.title,
+    p.meal,
+    p.lit,
+    p.age,
+    p.gender,
+    p.max,
+    p.viewcnt,
+    p.createdate,
+    p.thumbnail,
+    p.food,
+    m.mno,
+    m.nick,
+    pf.path
+    from
+    party p
+    join member m on m.mno = p.mno
+    left outer join party_file pf on p.pno = pf.pno
+    <!--meal = all일 경우 if문 실행안되면서 전체 컬럼 값 출력 -->
+    where p.pub = false
+    <if test="meal != 'all'">
+      and p.meal = #{meal}
+    </if>
+    <if test="food != null">
+      and p.food = #{food}
+    </if>
+    <!-- 회원번호를 기준으로 그룹으로 묶어서 첨부파일을 한개만 나오게 하기 위함-->
+    group by pno
+    order by
+    pno desc
+  </select>
+
+  <!-- 페이징 -->
     <select id="selectPartyList" resultMap="partyMap" parameterType="hashmap">
       <![CDATA[
       select
@@ -131,10 +177,12 @@
       from
       party p
       join member m on m.mno = p.mno
+      where p.pub = false
       order by
       pno desc
       LIMIT #{pageStart}, #{perPageNum}
       ]]>
+<!--  TODO 변경2 where p.pub = false    -->
     </select>
 
     <select id="findByNo" resultMap="partyMap">
@@ -142,7 +190,17 @@
       p.pno,
       p.title,
       p.viewcnt,
+      p.time,
+      p.meal,
+      p.food,
+      p.cont,
       p.createdate,
+      p.lit,
+      p.max,
+      p.age,
+      p.gender,
+      p.addr,
+      p.loc,
       m.nick,
       m.mno,
       pf.pfileno,
@@ -153,12 +211,22 @@
       left outer join party_file pf on p.pno = pf.pno
       where
       p.pno = #{value}
+<!-- TODO 변경3     -->
     </select>
 
     <update id="update" parameterType="party">
       update party set
       title = #{title},
-      cont = #{content}
+      meal = #{meal},
+      food = #{food},
+      lit = #{limit},
+      cont = #{content},
+      gender = #{gender},
+      age = #{age},
+      food = #{food},
+      time = #{time},
+      loc = #{location},
+      addr = #{address}
       where
       pno = #{no}
     </update>
@@ -172,12 +240,10 @@
 
   <insert id="insertFiles" parameterType="party">
     insert into party_file(path, pno, filename, savename)
-    <!--      insert into party_file(path, pno)-->
     values
     <!--  여러 파일 들어가면 첨부파일 , 사용해서 구분-->
     <foreach collection="attachedFiles" item="file" separator=",">
       (#{file.filepath}, #{no}, #{file.fileName}, #{file.saveName})
-      <!--        (#{file.filepath}, #{no})-->
     </foreach>
   </insert>
 
@@ -218,28 +284,138 @@
       where pno in (select pno from party where mno = #{value})
     </delete>
 
-
-
-
-
-
   <!--  <delete id="deleteByMember">-->
   <!--    delete from party-->
   <!--    where pno=#{value}-->
   <!--  </delete>-->
 
-<!-- 테스트 -->
-<!--  <insert id="insertComment" parameterType="comment">-->
-<!--    insert into party_reply (mno, pno, cont, pub)-->
-<!--    vaules (#{}, #{}, #{content}, 0)-->
-<!--  </insert>-->
+  <!-- 마이페이지 파티 게시물 본인 글 조회 -->
+  <select id="selectPartyListByNo" resultMap="partyMap" parameterType="hashmap">
+    <![CDATA[
+      select
+      p.pno,
+      p.title,
+      p.meal,
+      p.lit,
+      p.age,
+      p.gender,
+      p.max,
+      p.viewcnt,
+      p.thumbnail,
+      p.createdate,
+      m.mno,
+      m.nick
+      from
+      party p
+      join member m on m.mno = p.mno
+      where p.mno=#{memberNo}
+      order by
+      pno desc
+      LIMIT #{cri.pageStart}, #{cri.perPageNum}
+      ]]>
+  </select>
 
+  <!-- 마이페이지 파티게시글 본인 작성 글 상세보기 -->
+  <!-- 관리자페이지 파티게시글 회원 작성 글 상세보기 -->
+  <select id="findByMyPartyListDetail" resultMap="partyMap">
+    select
+    p.pno,
+    p.title,
+    p.meal,
+    p.food,
+    p.cont,
+    p.viewcnt,
+    p.createdate,
+    p.age,
+    p.gender,
+    p.addr,
+    p.loc,
+    m.nick,
+    m.mno,
+    pf.pfileno,
+    pf.path
+    from
+    party p
+    join member m on m.mno = p.mno
+    left outer join party_file pf on p.pno = pf.pno
+    where
+    p.pno = #{value}
+  </select>
 
+  <!--관리자페이지 파티게시글 비활성화 (1: 비활성화)-->
+  <update id="partyBlock" parameterType="party">
+    update party set pub = true
+    where pno = #{no}
+  </update>
 
+  <!-- 댓글 작성 -->
+  <insert id="insertComment" parameterType="comment">
+    insert into party_reply (mno, pno, cont, date)
+    values (#{writer.no}, #{partyNo}, #{commentCont}, now())
+  </insert>
 
+  <!-- 댓글 출력 -->
+  <select id="selectCommentList" resultMap="commentMap">
+    select
+    pr.prno,
+    pr.pno,
+    pr.cont,
+    pr.date,
+    pr.pub,
+    m.nick,
+    m.mno
+    from
+    party_reply pr
+    join member m on pr.mno = m.mno
+    where pno = #{partyNo}
+  </select>
 
+<!-- 댓글 수정 -->
+  <update id="updateComment" parameterType="comment">
+    update
+    party_reply
+    set
+    cont = #{commentCont}
+    where
+    prno = #{partyReplyNo}
+    and
+    mno = #{writer.no}
+  </update>
 
+<!-- 댓글 삭제 -->
+  <delete id="deleteComment">
+    delete from
+    party_reply
+    where
+    prno = #{partyReplyNo}
+  </delete>
 
+<!--  간치 -->
+  <!--메인뽑기-->
+  <select id="findAllMain" resultMap="partyMap">
+    select
+    p.pno,
+    p.title,
+    p.meal,
+    p.food,
+    P.time,
+    p.lit,
+    p.time,
+    p.age,
+    p.gender,
+    p.max,
+    p.viewcnt,
+    p.thumbnail,
+    p.createdate,
+    m.mno,
+    m.nick
+    from
+    party p
+    join member m on m.mno = p.mno
+    order by
+    pno desc
+    limit 8
+  </select>
 
 </mapper>
 

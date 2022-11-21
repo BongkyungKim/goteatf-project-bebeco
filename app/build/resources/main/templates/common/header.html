@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<header class="p-3 mb-3 bg-white border-bottom fixed-top" th:fragment="fragment-header">
+  <div class="container">
+    <div
+        class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+      <a class="navbar-brand" th:href="@{/}">
+        <img src="/images/logo.png" alt="Bootstrap" width="100" height="88">
+      </a>
+      <!-------------------------------구분선-------------------------->
+      <div class="col-2"></div>
+
+      <form class="col-12 col-lg-4 mb-3 mb-lg-0 me-lg-4" role="search">
+        <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+      </form>
+      <!-------------------------------구분선-------------------------->
+      <div class="col-2"></div>
+
+      <div th:if="${session.loginMember == null}" class="d-grid me-lg-4 gap-2">
+        <button type="button" onclick="location.href='/auth/login'" class="btn btn-secondary" data-bs-toggle="button">로그인</button>
+      </div>
+
+      <div th:if="${session.loginMember != null}" class="d-grid me-lg-4 gap-2">
+        <button type="button" onclick="location.href='/auth/logout'" class="btn btn-secondary" data-bs-toggle="button">로그아웃</button>
+      </div>
+
+      <div class="dropdown text-end me-lg-4">
+        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle"
+           data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="/images/mypage.png" alt="mdo" width="32" height="32" class="rounded-circle">
+        </a>
+
+        <ul class="dropdown-menu text-small ">
+          <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">New project...</a></li>
+          <li th:if="${session.loginMember != null}"><a class="dropdown-item" th:href="@{/my/main}">마이페이지</a></li>
+          <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">설정</a></li>
+          <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">프로필</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li th:if="${session.loginMember == null}"><a class="dropdown-item" th:href="@{/auth/login}">로그인</a></li>
+          <li th:if="${session.loginMember == null}"><a class="dropdown-item" th:href="@{/member/add}">회원가입</a></li>
+          <!--          </li>-->
+          <li th:if="${session.loginMember != null}"><a class="dropdown-item" th:href="@{/auth/logout}">로그아웃</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
+</html>

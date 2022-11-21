@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bootstrap demo</title>
+  <title>BEBECO</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
         rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
@@ -12,160 +12,149 @@
   <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
   <link href="/css/board/boardstyle.css" rel="stylesheet">
+  <!-- jquery -->
+  <script src="https://code.jquery.com/jquery-3.6.1.js"
+          integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+          crossorigin="anonymous"></script>
+  <!-- jquery end-->
 </head>
-
 <body>
-
 <!-------------------------------구분선-------------------------->
 <div class="b-example-divider"></div>
 <!------------------------------header------------------------------>
-<header class="p-3 mb-3 bg-white border-bottom fixed-top">
-  <div class="container">
-    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-      <a class="navbar-brand" th:href="@{/}">
-        <img src="/images/logo.png" alt="Bootstrap" width="100" height="88">
-      </a>
-      <!-------------------------------구분선-------------------------->
-      <div class="col-2"></div>
+<div th:replace="/common/header.html :: fragment-header"></div>
+<!------------------------------header 마지막------------------------------>
 
-      <form class="col-12 col-lg-4 mb-3 mb-lg-0 me-lg-4" role="search">
-        <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-      </form>
-
-      <!-------------------------------구분선-------------------------->
-      <div class="col-2"></div>
-
-      <div th:if="${session.loginMember == null}" class="d-grid me-lg-4 gap-2">
-        <button type="button" onclick="location.href='/auth/login'" class="btn btn-secondary"
-                data-bs-toggle="button">로그인
-        </button>
-      </div>
-
-      <div th:if="${session.loginMember != null}" class="d-grid me-lg-4 gap-2">
-        <button type="button" onclick="location.href='/auth/logout'" class="btn btn-secondary"
-                data-bs-toggle="button">로그아웃
-        </button>
-      </div>
-
-      <div class="dropdown text-end me-lg-4">
-        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle"
-           data-bs-toggle="dropdown" aria-expanded="false">
-          <img src="/images/mypage.png" alt="mdo" width="32" height="32" class="rounded-circle">
-        </a>
-
-        <ul class="dropdown-menu text-small ">
-          <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">New project...</a></li>
-          <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">설정</a></li>
-          <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">프로필</a></li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-          <li th:if="${session.loginMember == null}"><a class="dropdown-item" th:href="@{/register/add}">회원가입</a></li>
-          <li th:if="${session.loginMember == null}"><a class="dropdown-item" th:href="@{/auth/login}">로그인</a></li>
-          <!--          </li>-->
-          <li th:if="${session.loginMember != null}"><a class="dropdown-item" th:href="@{/auth/logout}">로그아웃</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</header>
 <!-------------------------------구분선-------------------------->
 <div class="line-3"></div>
 <div class="line-3"></div>
 <!------------------------------nav------------------------------>
-<nav class="navbar navbar-expand-lg border-bottom bg-light" aria-label="Tenth navbar example">
-  <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarsExample08" aria-controls="navbarsExample08"
-            aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+<div th:replace="/common/nav.html :: fragment-nav"></div>
+<!------------------------------nav 마지막------------------------------>
 
-    <div class="collapse navbar-collapse justify-content-md-center " id="navbarsExample08">
-      <ul class="navbar-nav fw-bold text-dark ">
-        <li class="nav-item p-1">
-          <a class="nav-link" aria-current="page" th:href="@{/party/partyList}">파티게시판</a>
-        </li>
-        <li class="nav-item p-1">
-          <a class="nav-link" th:href="@{/feed/list}">피드게시판</a>
-        </li>
-        <li class="nav-item p-1">
-          <a class="nav-link" href="#">이벤트게시판</a>
-        </li>
-        <li class="nav-item dropdown p-1">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
-             aria-expanded="false">고객센터</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" th:href="@{/notice/list}">공지사항</a></li>
-            <li th:if="${session.loginMember != null}"><a class="dropdown-item"
-                                                          th:href="@{/my/main}">마이페이지</a></li>
-            <li><a class="dropdown-item" th:href="@{/notice/noticeOne}">1:1 문의</a></li>
-            <li><a class="dropdown-item" href="#">자주 묻는 질문</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<!-------------------------------구분선-------------------------->
+<div class="a-example-divider"></div>
 
 <!-------------------------------구분선-------------------------->
 <div class="line-3"></div>
+
 <!-------------------------------hashtag-title-------------------------->
 <div id="hashtag">
   <div class="container">
+    <!-------------------------------hashtag-title 마지막-------------------------->
 
+    <!------------------------------- 카테고리 -------------------------->
 
-    <select onchange="categoryChange(this)">
-      <option>원하는 파티를 선택해주세요</option>
-      <option value="a">점심파티</option>
-      <option value="b">저녁파티</option>
-      <option value="c">야식파티</option>
-      <option value="d">디저트파티</option>
-      <option value="e">대환장파티</option>
-
+    <select id="mealSelect" onchange="categoryChange()">
+      <option value="all">원하는 파티를 선택해주세요</option>
+      <option value="점심">점심파티</option>
+      <option value="저녁">저녁파티</option>
+      <option value="야식">야식파티</option>
+      <option value="술">술파티</option>
+      <option value="디저트">디저트파티</option>
     </select>
 
-    <select id="good">
-      <option>원하는 메뉴를 골라주세요</option>
+    <select id="foodSelect" onchange="categoryChange2()">
+      <option value="all">원하는 종류를 선택해주세요</option>
+      <option value="한식">한식</option>
+      <option value="분식">분식</option>
+      <option value="중식">중식</option>
+      <option value="일식">일식</option>
+      <option value="양식">양식</option>
+      <option value="디저트">디저트</option>
+      <option value="패스트푸드">패스트푸드</option>
+      <option value="아시안">아시안</option>
+      <option value="동남아식">동남아식</option>
     </select>
-    <script>
-      function categoryChange(e) {
-        var good_a = ["한식", "분식", "동남아식", "중식", "일식", "양식"];
-        var good_b = ["한식", "분식", "동남아식", "중식", "일식", "양식"];
-        var good_c = ["한식", "분식", "동남아식", "중식", "일식", "양식"];
-        var good_f = ["한식", "분식", "동남아식", "중식", "일식", "양식"];
-        var good_e = ["한식", "분식", "동남아식", "중식", "일식", "양식"];
-        var target = document.getElementById("good");
 
-        if(e.value == "a") var d = good_a;
-        else if(e.value == "b") var d = good_b;
-        else if(e.value == "c") var d = good_c;
-        else if(e.value == "d") var d = good_e;
-        else if(e.value == "e") var d = good_f;
+    <!------------------------------- 카테고리 메뉴 선택 스크립트 -------------------------->
+    <script th:inline="javascript">
+      let mealValue = [[${meal}]];
+      console.log(mealValue);
 
-        target.options.length = 0;
+      let mealOptionLength = $("#mealSelect").find("option").length;
+      for(let i = 0; i < mealOptionLength; i++) {
+        if($("#mealSelect").find("option").eq(i).val() == mealValue) {
+          $("#mealSelect").find("option").eq(i).attr("selected", true);
+        }
+      }
 
-        for (x in d) {
-          var opt = document.createElement("option");
-          opt.value = d[x];
-          opt.innerHTML = d[x];
-          target.appendChild(opt);
+      let foodValue = [[${food}]]
+      console.log(foodValue);
+
+      let foodOptionLength = $("#foodSelect").find("option").length;
+      for(let i = 0; i < foodOptionLength; i++) {
+        if($("#foodSelect").find("option").eq(i).val() == foodValue) {
+          $("#foodSelect").find("option").eq(i).attr("selected", true);
         }
       }
     </script>
 
-    <!-------------------------------브래드-------------------------->
-    <div id="breadcrumb">
-      <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">#</a></li>
-          <li class="breadcrumb-item active" aria-current="page">#</li>
-          <li class="breadcrumb-item active" aria-current="page">#</li>
-        </ol>
-      </nav>
-    </div>
+    <!------------------------------- 카테고리 필터 스크립트 -------------------------->
+    <script th:inline="javascript">
+      function categoryChange() {
+        let mealSelect = document.getElementById("mealSelect"); // 원하는 meal data를 가져온다
+        let mealValue = mealSelect.options[document.getElementById(
+            "mealSelect").selectedIndex].value; // 셀렉트된 선택된 값을 가져온다
 
-    <!-------------------------------버튼-------------------------->
+        console.log(foodValue == null);
+        if(foodValue != null) {
+          window.location.href = "/party/list?meal=" + mealValue + "&food=" + foodValue;
+        } else {
+          window.location.href = "/party/list?meal=" + mealValue;
+        }
+      }
+
+      function categoryChange2() {
+        // 2차 카테고리 아이디 값을 가져온다
+        let foodSelect = document.getElementById("foodSelect");
+        // 그 아이디 값을 가져와서 셀렉트박스(<select id="foodSelect" onchange="categoryChange2()">) 안에서 선택한 option value 값을 가져온다 (예: 중식 선택  -> 중식)
+        let foodValue = foodSelect.options[document.getElementById("foodSelect").selectedIndex].value;
+        if(foodValue == 'all') {
+          window.location.href = "/party/list?meal=" + mealValue;
+        } else {
+          window.location.href = "/party/list?meal=" + mealValue + "&food=" + foodValue;
+        }
+      }
+      /*       function categoryChange() {
+              let mealSelect = document.getElementById("mealSelect"); // 원하는 meal data를 가져온다
+              let mealValue = mealSelect.options[document.getElementById(
+                  "mealSelect").selectedIndex].value; // 셀렉트된 선택된 값을 가져온다
+              window.location.href = "/party/list" + "?meal=" + mealValue; // 그 값을 서버에 넘겨준다 -> 파티컨트롤러로 이동
+            }
+
+            function categoryChange2() {
+              let url = location.href; // 내 현재 창의 url을 전부 가져온다
+              // let urlParam = location.search; // 현재 창의 url 뒤에 붙어있는 파라미터 값을 전부 가져온다
+
+              // 2차 카테고리 아이디 값을 가져온다
+              let foodSelect = document.getElementById("foodSelect");
+
+              // 그 아이디 값을 가져와서 셀렉트박스(<select id="foodSelect" onchange="categoryChange2()">) 안에서 선택한 option value 값을 가져온다 (예: 중식 선택  -> 중식)
+              let foodValue = foodSelect.options[document.getElementById(
+                  "foodSelect").selectedIndex].value;
+
+              // 2차 분류부터 검사 시작
+              if (url.includes("food")) { // food 값이 들어있으면
+
+                // 예: url.substring(url.lastIndexOf("&"), length) => 중식 값을 날린 url + 새로 선택한 food 값을 연결
+                // lastIndexOf("&"), length) : &부터 url length끝까지
+                window.location.href = url.substring(url.lastIndexOf("&"), length) + "&food=" + foodValue;
+              } else if (url.includes("meal")) { // food가 선택이 안되어있는 상태 일 때 1차 카테고리 선택 후
+
+                // "/party/list" =>  1차 카테고리 선택 된 상태인  현재의 url 값을 가져온다 + 새로 선택한 food 값을 연결 => 다시 2차 카테고리를 선택하게 되면 if문 2차 분류 검사로 다시 돌아간다
+                //window.location.href = "/party/list" + urlParam + "&food=" + foodValue;
+
+                window.location.href = url + "&food=" + foodValue;
+              }
+            } */
+    </script>
+    <!------------------------------- 카테고리 스크립트 end -------------------------->
+
+    <!------------------------------- 카테고리 end -------------------------->
+
+    <!-------------------------------브래드-------------------------->
+    <!-------------------------------브래드 end-------------------------->
 
     <!---------------- 버튼 ---------------->
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -177,101 +166,259 @@
 
     <!-------------------------------구분선-------------------------->
     <div class="line-3"></div>
+
     <!-------------------------------Party_content-------------------------->
-    <div id="party-board">
-      <div class="container text-center">
-        <div class="row">
-          <div class="col-12">
-            <div class="row row-cols-1 row-cols-md-4 g-4">
-
-              <!--1번 카드-->
-              <th:block th:each="party : ${list}">
-                <div class="card">
-                  <div class="card-header bg-transparent border-secondary" th:text="'[' + ${party.meal} + '파티]'"><span class="badge bg-warning" th:text="${party.no}">New</span></div>
-                  <a th:href="@{detail(no=${party.no})}"><img src="/images/1.jpg " class="card-img-top"></a>
-                  <div class="card-body text-small">
-                    <a th:href="@{detail(no=${party.no})}"><h5 class="card-title" th:text="${party.title}"></h5></a>
-                    <p class="card-text"></p>
-                    <div class="card-footer bg-transparent border-secondary" th:text="${party.writer.nick}">#</div>
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary" th:text="'[' + ${party.age} + '대]'">20대</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary"th:text="'[' + ${party.gender} + ']'">남자만</button>
-
-                      <!--버튼 모달-->
-                      <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-                        <div class="modal-dialog modal-dialog-centered">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h1 class="modal-title fs-5" id="exampleModalToggleLabel"><div id="party-title"></div></h1>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              [점심파티] ~ 에 참석하시겠습니까?
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                              <button class="btn btn-primary xx-join2" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-th-value="true">참석하기</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-                        <div class="modal-dialog modal-dialog-centered">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">파티 참석 시</h1>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              이 파티에 참석하셨습니다.
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">확인</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                        <a class="btn btn-primary xx-join1" data-bs-toggle="modal" href="#exampleModalToggle" role="button" data-th-id="${party.no}">참여</a>
-                        <!-- 참여완료 => 라이터.아이디 == 쿠키.아이디 같으면 참여완료 버튼으로 -->
-                      <!--버튼 모달 end-->
+    <div id="partycontent">
+      <div class="container">
+        <div class="row row-cols-1 row-cols-md-4 g-4 text-small">
+          <th:block th:each="party : ${parties}">
+            <div class="card" style="width: 20rem;" th:fragment="fragment-card">
+              <div class="cd-header">
+                <div class="line-2"></div>
+                <div class="card-head-container">
+                  <div class="row">
+                    <!--                        <div class="col-5"> 점심파티-->
+                    <div class="col-4" th:text="'[' + ${party.meal} + '파티]'">
                     </div>
-<!--                    <a th:href="@{detail(no=${party.no})}"><button type="button" class="btn btn-outline-success" >Success</button></a>-->
-                    <a th:href="@{../volunteer/detail(no=${party.no})}"><button type="button" class="btn btn-outline-success" >Success</button></a>
+                    <!--                          <div class="col-4"> 한식-->
+                    <div class="col-4" th:text="'[' + ${party.food} + ']'">
+                    </div>
+                    <!--                      <div class="col-3"> [4/8]-->
+                    <div class="col-4" th:text="'[' + ${party.max} + '/' + ${party.limit} + ']'">
+                    </div>
+                  </div>
+                  <div class="line-2"></div>
+                </div>
+              </div>
+
+              <div class="tumbnail">
+                <!--   th:src="${party.thumbnail} : 썸네일 주소가 담긴다
+                       th:src="@{/party/files/{path}(path=${party.thumnail})}"
+                              : /party/files/ -> 이미지가 담긴 경로
+                              : {path} 변수에 (path=${party.thumnail}) DB에 저장된 첨부파일 uuid로 변환된 이름을 가져온다 -->
+                <a th:href="@{detail(no=${party.no})}"><img id="thumbNail"
+                                                            th:src="@{/party/files/{path}(path=${party.thumbnail})}"
+                                                            class="img-thumbnail" alt="이미지가 없습니다."></a>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title" th:text="${party.title}"></h5>
+                <p class="card-text" th:text="${party.writer.nick}">작성자</p>
+              </div><!--card-body end-->
+
+              <div class="cd-index bg-light">
+                <div class="container">
+                  <div class="row justify-content-center">
+                    <div class="btn-group" role="group">
+                      <button type="button" class="btn btn-outline-primary"
+                              th:text="'[' + ${party.age} + '대]'"></button>
+                      <button type="button" class="btn btn-outline-primary"
+                              th:text="'[' + ${party.gender} + ']'"></button>
+                      <button type="button" class="btn btn-outline-primary"
+                              th:text="'[' + ${party.time} + '시]'"></button>
+                    </div>
                   </div>
                 </div>
-              </th:block>
-              <!--1번 카드 end -->
+              </div>
 
-            </div>
-          </div>
+              <div class="line-2"></div>
+
+              <!--        버튼모달        -->
+              <div class="cd-footer bg-light">
+                <div class="container">
+                  <div class="row justify-content-center">
+                    <!--                    <a class="btn btn-primary xx-join1" data-bs-toggle="modal" href="#exampleModalToggle" role="button" data-th-id="${party.no}">참여하기</a>-->
+                    <!-- 세션이 널이 아니면 참여버튼 활성화 // 참여자 멤버 번호가 세션 번호랑 같으면 활성화                   -->
+                    <a data-th-if="${session.loginMember != null}" class="btn btn-primary xx-join1" data-bs-toggle="modal" href="#exampleModalToggle" role="button" data-th-id="${party.no}">참여하기</a>
+                    <div class="line-2"></div>
+                    <button data-th-if="${session.loginMember != null}" type="button" class="btn btn-outline-success"><a th:href="@{../volunteer/detail(no=${party.no})}">참여자정보</a></button>
+                  </div>
+                </div>
+                <div class="line-2"></div>
+              </div>
+
+              <div class="modal fade" id="exampleModalToggle" aria-hidden="true"
+                   aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalToggleLabel">
+                        <div id="party-title"></div>
+                      </h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"
+                              aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      [점심파티] ~ 에 참석하시겠습니까?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                      <button class="btn btn-primary xx-join2" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-th-value="true">참석하기
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">파티 참석 시</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      이 파티에 참석하셨습니다.
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">확인</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 구버전 버튼 확인용 -->
+
+              <!--버튼 모달-->
+              <!--              <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">-->
+              <!--                <div class="modal-dialog modal-dialog-centered">-->
+              <!--                  <div class="modal-content">-->
+              <!--                    <div class="modal-header">-->
+              <!--                      <h1 class="modal-title fs-5" id="exampleModalToggleLabel"><div id="party-title"></div></h1>-->
+              <!--                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+              <!--                    </div>-->
+              <!--                    <div class="modal-body">-->
+              <!--                      [점심파티] ~ 에 참석하시겠습니까?-->
+              <!--                    </div>-->
+              <!--                    <div class="modal-footer">-->
+              <!--                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>-->
+              <!--                      <button class="btn btn-primary xx-join2" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-th-value="true">참석하기</button>-->
+              <!--                    </div>-->
+              <!--                  </div>-->
+              <!--                </div>-->
+              <!--              </div>-->
+
+              <!--              <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">-->
+              <!--                <div class="modal-dialog modal-dialog-centered">-->
+              <!--                  <div class="modal-content">-->
+              <!--                    <div class="modal-header">-->
+              <!--                      <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">파티 참석 시</h1>-->
+              <!--                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+              <!--                    </div>-->
+              <!--                    <div class="modal-body">-->
+              <!--                      이 파티에 참석하셨습니다.-->
+              <!--                    </div>-->
+              <!--                    <div class="modal-footer">-->
+              <!--                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">확인</button>-->
+              <!--                    </div>-->
+              <!--                  </div>-->
+              <!--                </div>-->
+              <!--              </div>-->
+              <!--              <a class="btn btn-primary xx-join1" data-bs-toggle="modal" href="#exampleModalToggle" role="button" data-th-id="${party.no}">참여</a>-->
+              <!-- 참여완료 => 라이터.아이디 == 쿠키.아이디 같으면 참여완료 버튼으로 -->
+              <!--버튼 모달 end-->
+
+            </div><!--card end-->
+          </th:block>
         </div>
       </div>
     </div>
+    <!--        <div th:replace="modal/buttonmodal :: #addbutton"></div>-->
+
+    <!--        <div id="party-board">-->
+    <!--      <div class="container text-center">-->
+    <!--        <div class="row">-->
+    <!--          <div class="col-12">-->
+    <!--            <div class="row row-cols-1 row-cols-md-4 g-4">-->
+
+    <!--              &lt;!&ndash;1번 카드&ndash;&gt;-->
+    <!--              <th:block th:each="party : ${list}">-->
+    <!--                <div class="card">-->
+    <!--                  <div class="card-header bg-transparent border-secondary" th:text="'[' + ${party.meal} + '파티]'"><span class="badge bg-warning" th:text="${party.no}">New</span></div>-->
+    <!--                  <a th:href="@{detail(no=${party.no})}"><img src="/images/1.jpg " class="card-img-top"></a>-->
+    <!--                  <div class="card-body text-small">-->
+    <!--                    <a th:href="@{detail(no=${party.no})}"><h5 class="card-title" th:text="${party.title}"></h5></a>-->
+    <!--                    <p class="card-text"></p>-->
+    <!--                    <div class="card-footer bg-transparent border-secondary" th:text="${party.writer.nick}">#</div>-->
+    <!--                    <div class="btn-group">-->
+    <!--                      <button type="button" class="btn btn-sm btn-outline-secondary" th:text="'[' + ${party.age} + '대]'">20대</button>-->
+    <!--                      <button type="button" class="btn btn-sm btn-outline-secondary"th:text="'[' + ${party.gender} + ']'">남자만</button>-->
+
+    <!--버튼 모달-->
+    <!--                      <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">-->
+    <!--                        <div class="modal-dialog modal-dialog-centered">-->
+    <!--                          <div class="modal-content">-->
+    <!--                            <div class="modal-header">-->
+    <!--                              <h1 class="modal-title fs-5" id="exampleModalToggleLabel"><div id="party-title"></div></h1>-->
+    <!--                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+    <!--                            </div>-->
+    <!--                            <div class="modal-body">-->
+    <!--                              [점심파티] ~ 에 참석하시겠습니까?-->
+    <!--                            </div>-->
+    <!--                            <div class="modal-footer">-->
+    <!--                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>-->
+    <!--                              <button class="btn btn-primary xx-join2" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-th-value="true">참석하기</button>-->
+    <!--                            </div>-->
+    <!--                          </div>-->
+    <!--                        </div>-->
+    <!--                      </div>-->
+
+    <!--                      <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">-->
+    <!--                        <div class="modal-dialog modal-dialog-centered">-->
+    <!--                          <div class="modal-content">-->
+    <!--                            <div class="modal-header">-->
+    <!--                              <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">파티 참석 시</h1>-->
+    <!--                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+    <!--                            </div>-->
+    <!--                            <div class="modal-body">-->
+    <!--                              이 파티에 참석하셨습니다.-->
+    <!--                            </div>-->
+    <!--                            <div class="modal-footer">-->
+    <!--                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">확인</button>-->
+    <!--                            </div>-->
+    <!--                          </div>-->
+    <!--                        </div>-->
+    <!--                      </div>-->
+    <!--                        <a class="btn btn-primary xx-join1" data-bs-toggle="modal" href="#exampleModalToggle" role="button" data-th-id="${party.no}">참여</a>-->
+    <!-- 참여완료 => 라이터.아이디 == 쿠키.아이디 같으면 참여완료 버튼으로 -->
+    <!--버튼 모달 end-->
+    <!--                    </div>-->
+    <!--&lt;!&ndash;                    <a th:href="@{detail(no=${party.no})}"><button type="button" class="btn btn-outline-success" >Success</button></a>&ndash;&gt;-->
+    <!--                    <a th:href="@{../volunteer/detail(no=${party.no})}"><button type="button" class="btn btn-outline-success" >Success</button></a>-->
+    <!--                  </div>-->
+    <!--                </div>-->
+    <!--              </th:block>-->
+    <!--              &lt;!&ndash;1번 카드 end &ndash;&gt;-->
+
+    <!--            </div>-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
 
     <!-------------------------------구분선-------------------------->
     <div class="line-3"></div>
     <!-------------------------------페이지-------------------------->
-    <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-center">
-        <li class="page-item disabled" th:if="${pageMaker.prev}">
-          <a class="page-link"
-             th:href="@{list(pageMaker.startPage-1)}" aria-label="Previous">
-            <span aria-hidden="true">이전페이지</span>
-          </a>
-        </li>
-        <th:block th:each="pageNum: ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
-          <li class="page-item">
-            <a class="page-link" th:href="@{list(page=${pageNum})}"><i th:text="${pageNum}"></i></a>
-          </li>
-        </th:block>
-        <li class="page-item" th:if="${pageMaker.next && pageMaker.endPage >0}">
-          <a class="page-link" th:href="@{list(page=${pageMaker.endPage+1})}" aria-label="Next">
-            <span aria-hidden="true">다음페이지</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <!--    <nav aria-label="Page navigation example">-->
+    <!--      <ul class="pagination justify-content-center">-->
+    <!--        <li class="page-item disabled" th:if="${pageMaker.prev}">-->
+    <!--          <a class="page-link"-->
+    <!--             th:href="@{list(pageMaker.startPage-1)}" aria-label="Previous">-->
+    <!--            <span aria-hidden="true">이전페이지</span>-->
+    <!--          </a>-->
+    <!--        </li>-->
+    <!--        <th:block th:each="pageNum: ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">-->
+    <!--          <li class="page-item">-->
+    <!--            <a class="page-link" th:href="@{list(page=${pageNum})}"><i th:text="${pageNum}"></i></a>-->
+    <!--          </li>-->
+    <!--        </th:block>-->
+    <!--        <li class="page-item" th:if="${pageMaker.next && pageMaker.endPage >0}">-->
+    <!--          <a class="page-link" th:href="@{list(page=${pageMaker.endPage+1})}" aria-label="Next">-->
+    <!--            <span aria-hidden="true">다음페이지</span>-->
+    <!--          </a>-->
+    <!--        </li>-->
+    <!--      </ul>-->
+    <!--    </nav>-->
     <!-------------------------------페이지 end-------------------------->
     <!-------------------------------구분선-------------------------->
     <div class="line-3"></div>
@@ -286,20 +433,13 @@
         <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
         <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
       </ul>
-      <p class="text-center text-muted">© 2022 Chunderella Corp & TwoAppleteam. All Rights
-        Reserved.</p>
+      <p class="text-center text-muted">© 2022 Chunderella Corp & ThreeAppleteam. All Rights Reserved.</p>
     </footer>
 
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
-
-    <!-- jquery -->
-    <script src="https://code.jquery.com/jquery-3.6.1.js"
-            integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
-            crossorigin="anonymous"></script>
-    <!-- jquery end-->
 
     <script>
 
@@ -331,10 +471,11 @@
           contentType: "application/json",
           data: JSON.stringify(data),
           success: function (result) {
-            if (result == "0") {
-              alert("다시 확인 후 시도해 주세요.");
+            if (result == "3") {
+              alert("인원 초과!!");
             } else {
               alert("성공");
+              location.href = "/party/list?meal=all";
               // window.location.href = "/auth/loginSave"; // TODO 1. cookie 1번
               // window.location.href = "/auth/loginSave"; // TODO 2. cookie 2번
               // modal.style.display = "none";
@@ -345,17 +486,12 @@
           }
         });
       })
-
-
     </script>
-
-    <!-- 버튼 디테일 링크 jquery -->
-
 </body>
 </html>
 
 
-<!-- e.preventDefault() 행위를 막는 -->
-<!-- <tbody data-page-no="1" data-page-size="3" data-max-page-no="5"> -->
-<!-- encodeURIComponent(keyword) -->
-<!-- 이전 또는 다음 최대에 도착하면 버튼 비활성화 태그가 있음 -->
+<!--<!— e.preventDefault() 행위를 막는 —>-->
+<!--<!— <tbody data-page-no="1" data-page-size="3" data-max-page-no="5"> —>-->
+<!--<!— encodeURIComponent(keyword) —>-->
+<!--<!— 이전 또는 다음 최대에 도착하면 버튼 비활성화 태그가 있음 —>-->

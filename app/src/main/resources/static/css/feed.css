@@ -35,7 +35,7 @@ header .search-box{ /* 검색바 겉테두리 (백 부분) */
   display: flex;
   align-items: center;
   border-radius: 8px;
-} 
+}
 
 header .search-box input{ /* 검색바 텍스트 박스 */
   height: 30px;
@@ -45,7 +45,7 @@ header .search-box input{ /* 검색바 텍스트 박스 */
   padding-left: 10px;
   font-size: 15px;
   color: #8e8e8e;
-} 
+}
 
 header ul{ /* 피드 세부 아이콘 */
   list-style: none;
@@ -72,7 +72,7 @@ header ul li a i{
   color: rgba(38,38,38,1);
 }
 
-/* Body section */ 
+/* Body section */
 
 section{
   padding: 30px 18%;
@@ -211,7 +211,7 @@ section{
 .posts .add-comment .left-side i{
   font-size: 22px;
   margin-right: 15px;
-} 
+}
 
 .posts .add-comment .left-side input{
   width: 100%;

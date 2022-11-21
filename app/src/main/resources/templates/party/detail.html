@@ -27,7 +27,6 @@
   <link rel="stylesheet" href="sweetalert2.min.css">
 
   <style>
-
     body {
       font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
@@ -38,144 +37,155 @@
 <!-------------------------------구분선-------------------------->
 <div class="b-example-divider"></div>
 <!------------------------------header------------------------------>
-<header class="p-3 mb-3 bg-white border-bottom fixed-top">
-  <div class="container">
-    <div
-        class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-      <a class="navbar-brand" th:href="@{/}">
-        <img src="/images/logo.png" alt="Bootstrap" width="100" height="88">
-      </a>
-      <!-------------------------------구분선-------------------------->
-      <div class="col-2"></div>
+<div th:replace="/common/header.html :: fragment-header"></div>
+<!------------------------------header 마지막------------------------------>
 
-      <form class="col-12 col-lg-4 mb-3 mb-lg-0 me-lg-4" role="search">
-        <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-      </form>
-      <!-------------------------------구분선-------------------------->
-      <div class="col-2"></div>
-
-      <div th:if="${session.loginMember == null}" class="d-grid me-lg-4 gap-2">
-        <button type="button" onclick="location.href='/auth/login'" class="btn btn-secondary" data-bs-toggle="button">로그인</button>
-      </div>
-
-      <div th:if="${session.loginMember != null}" class="d-grid me-lg-4 gap-2">
-        <button type="button" onclick="location.href='/auth/logout'" class="btn btn-secondary" data-bs-toggle="button">로그아웃</button>
-      </div>
-
-      <div class="dropdown text-end me-lg-4">
-        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle"
-           data-bs-toggle="dropdown" aria-expanded="false">
-          <img src="/images/mypage.png" alt="mdo" width="32" height="32" class="rounded-circle">
-        </a>
-
-        <ul class="dropdown-menu text-small ">
-          <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">New project...</a></li>
-          <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">설정</a></li>
-          <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">프로필</a></li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-          <li th:if="${session.loginMember == null}"><a class="dropdown-item" th:href="@{/auth/login}">로그인</a></li>
-          <li th:if="${session.loginMember == null}"><a class="dropdown-item" th:href="@{/register/add}">회원가입</a></li>
-          <!--          </li>-->
-          <li th:if="${session.loginMember != null}"><a class="dropdown-item" th:href="@{/auth/logout}">로그아웃</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</header>
 <!-------------------------------구분선-------------------------->
 <div class="line-3"></div>
 <div class="line-3"></div>
 <!------------------------------nav------------------------------>
-<nav class="navbar navbar-expand-lg border-bottom bg-light" aria-label="Tenth navbar example">
-  <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarsExample08" aria-controls="navbarsExample08"
-            aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+<div th:replace="/common/nav.html :: fragment-nav"></div>
+<!------------------------------nav 마지막------------------------------>
 
-    <div class="collapse navbar-collapse justify-content-md-center " id="navbarsExample08">
-      <ul class="navbar-nav fw-bold text-dark ">
-        <li class="nav-item p-1">
-          <a class="nav-link" aria-current="page" th:href="@{/party/list}">파티게시판</a>
-        </li>
-        <li class="nav-item p-1">
-          <a class="nav-link" th:href="@{/feed/list}">피드게시판</a>
-        </li>
-        <li class="nav-item p-1">
-          <a class="nav-link" href="#">이벤트게시판</a>
-        </li>
-        <li class="nav-item dropdown p-1">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
-             aria-expanded="false">고객센터</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" th:href="@{/notice/list}">공지사항</a></li>
-            <li><a class="dropdown-item" th:href="@{/my/main}">마이페이지</a></li>
-            <li><a class="dropdown-item" th:href="@{/notice/noticeOne}">1:1 문의</a></li>
-            <li><a class="dropdown-item" href="#">자주 묻는 질문</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
 <!-------------------------------구분선-------------------------->
 <div class="a-example-divider"></div>
-<!-- header end -->
 
 <!---------------------------- 상세보기 ------------------------------>
-<form th:action="@{/party/update}" method="post" enctype="multipart/form-data">
-<table border='1'>
-  <input name="no" type="number" value="1" th:value="${party.no}" readonly hidden/>
-  <tr>
-    <th>제목</th><td><input name='title' type='text'
-                          value='제목'
-                          th:value="${party.title}"
-                          size='60'></td>
-  </tr>
-  <tr>
-    <th>내용</th><td><textarea name='content' data-th-id="content"></textarea></td>
-  </tr>
-  <tr>
-    <th>조회수</th><td th:text="${party.viewCnt}"></td>
-  </tr>
-  <tr>
-    <th>작성자</th><td th:text="${party.writer.nick}"></td>
-  </tr>
-  <tr>
-    <th>등록일</th><td th:date="${party.createDate}"></td>
-  </tr>
-<!------------ 파일첨부 ------------>
-  <tr>
-    <th>첨부파일</th>
-    <td>
-      <ul>
-        <li data-th-each="file : ${party.attachedFiles}">
-            <!-- {path} = path=${file.filepath} -->
-          <a href=""
-             data-th-href="@{files/{path}(path=${file.filepath})}"
-             data-th-text="${file.filepath}">test.gif</a>
-          [<a href="fileDelete?no=1"
-              data-th-href="@{fileDelete(no=${file.no})}">파일삭제</a>]
-        </li>
-      </ul>
-      파일 추가: <input name='files' type="file" multiple>
-    </td>
-  </tr>
-  <!------------ 파일첨부 end------------>
-</table>
-</form>
+<!--<form th:action="@{/party/update}" method="post" enctype="multipart/form-data">-->
+  <div class="container border rounded">
 
-  <button type="submit" class="btn btn-outline-secondary">변경</button>
-  <button type="button" class="btn btn-outline-secondary"><a th:href="@{delete(no=${party.no})}">삭제</a></button>
+    <!--1줄-->
+    <div class="row p-3">
+      <div class="col-2"  th:text="'[' + ${party.meal} + '파티]'">
+      </div>
+      <div class="col-2" th:text="'[' + ${party.food} + ']'">
+      </div>
+      <div class="col-2">
+      </div>
+<!--      <div class="col-2" th:text="'(3' + '/' + ${party.lit} + ')'">-->
+      <div class="col-2" th:text="'(' + ${party.max} + '/' + ${party.limit} + ')'">
+      </div>
+
+      <div class="col-2">
+        파티참여
+      </div>
+      <div class="col-2">
+        <input name="no" type="number" value="1" th:value="${party.no}" readonly hidden/>
+      </div>
+    </div>
+
+    <!--2줄-->
+    <div class="row p-3">
+      <div class="col"  th:text="${party.title}">
+      </div>
+    </div>
+
+    <!--3줄-->
+    <div class="row p-3 border-bottom">
+      <div class="col-2" th:text="${party.writer.nick}">
+      </div>
+      <div class="col-2" th:text=" '조회수 :' + ${party.viewCnt}">
+      </div>
+      <div class="col-2" th:text=" '작성일 :' + ${#dates.format(party.createDate, 'yyyy/MMM/dd HH:mm')}"></div>
+<!--      <div class="col-2" th:text=" '작성일:' + ${party.createDate}"></div>-->
+
+    </div>
+
+    <!--4줄-->
+    <div class="row p-3 border-bottom">
+      <div class="col">
+        <textarea id='content' name='content' th:text="${party.content}"></textarea>
+      </div>
+    </div>
+
+    <!--5줄-->
+    <div class="row p-3">
+      <div class="col">
+        참여조건
+      </div>
+    </div>
+
+    <!--6줄-->
+    <div class="row p-3">
+      <div class="col-3" th:text="'성별 : ' + '[' + ${party.gender} + ']'">
+      </div>
+      <div class="col-3" th:text="'연령대 : ' + '[' + ${party.age} + '대]'">
+      </div>
+    </div>
+
+    <!--7줄-->
+    <div class="row p-3">
+      <div class="col" th:text="'[' + ${#dates.format(party.time, 'yyyy/MMM/dd HH:mm')} + ']'"></div>
+<!--      <div class="col" th:text="'[' + ${#dates.createNowForTimeZone(party.time)} + '시]'"></div>-->
+    </div>
+
+    <!--8줄-->
+    <div class="row p-3">
+      <div class="col-2"><p th:text="'장소명 : ' +'[' + ${party.location} + ']'"></p>
+      </div>
+      <div class="col-2" th:text="'주소 : ' +'[' + ${party.address} + ']'">
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="formFileSm" class="form-label">파일</label>
+<!--      <input class="form-control form-control-sm" id="formFileSm" type="file" name="files" multiple>-->
+      <ul class="list-group" data-th-each="file : ${party.attachedFiles}">
+        <li class="list-group-item"><a data-th-href="@{files/{path}(path=${file.filepath})}" data-th-text="${file.filepath}"></a></li>
+      </ul>
+    </div>
+
+    <button data-th-if="${session.loginMember != null}" type="button" class="btn btn-outline-secondary"><a th:href="@{modify(no=${party.no})}">변경</a></button>
+    <button data-th-if="${session.loginMember != null}" type="button" class="btn btn-outline-secondary"><a th:href="@{delete(no=${party.no})}">삭제</a></button>
+
+    </div>
+<!--<table border='1'>-->
+<!--  <input name="no" type="number" value="1" th:value="${party.no}" readonly hidden/>-->
+<!--  <tr>-->
+<!--    <th>제목</th><td><input name='title' type='text'-->
+<!--                          value='제목'-->
+<!--                          th:value="${party.title}"-->
+<!--                          size='60'></td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <th>내용</th><td><textarea name='content' data-th-id="content"></textarea></td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <th>조회수</th><td th:text="${party.viewCnt}"></td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <th>작성자</th><td th:text="${party.writer.nick}"></td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <th>등록일</th><td th:date="${party.createDate}"></td>-->
+<!--  </tr>-->
+<!------------ 파일첨부 ------------>
+<!--  <tr>-->
+<!--    <th>첨부파일</th>-->
+<!--    <td>-->
+<!--      <ul>-->
+<!--        <li data-th-each="file : ${party.attachedFiles}">-->
+<!--            &lt;!&ndash; {path} = path=${file.filepath} &ndash;&gt;-->
+<!--          <a href=""-->
+<!--             data-th-href="@{files/{path}(path=${file.filepath})}"-->
+<!--             data-th-text="${file.filepath}">test.gif</a>-->
+<!--          [<a href="fileDelete?no=1"-->
+<!--              data-th-href="@{fileDelete(no=${file.no})}">파일삭제</a>]-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--      파일 추가: <input name='files' type="file" multiple>-->
+<!--    </td>-->
+<!--  </tr>-->
+  <!------------ 파일첨부 end------------>
+<!--</table>-->
+<!--  <button type="button" class="btn btn-outline-secondary"><a th:href="@{modify(no=${party.no})}">변경</a></button>-->
+<!--  <button type="button" class="btn btn-outline-secondary"><a th:href="@{delete(no=${party.no})}">삭제</a></button>-->
+<!--</form>-->
 
 <!--                                onclick="location.href='/auth/logout'"-->
   <h5>Comment : </h5>
   <div class="xx-comment-parent">
   <div class="xx-comment">
-
   </div>
   </div>
 
@@ -198,7 +208,7 @@
 <!---------------------------- 상세보기 end ------------------------------>
 
 <!-------------------------------구분선-------------------------->
-<div class="c-example-divider"></div>
+<div class="line-3"></div>
 <!------------------------------footer------------------------------>
 <footer class="py-3 my-4">
   <ul class="nav justify-content-center border-bottom pb-3 mb-3">
@@ -208,7 +218,7 @@
     <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
     <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
   </ul>
-  <p class="text-center text-muted">© 2022 Chunderella Corp & TwoAppleteam. All Rights Reserved.</p>
+  <p class="text-center text-muted">© 2022 Chunderella Corp & ThreeAppleteam. All Rights Reserved.</p>
 </footer>
 
 <!--  commentTemplate -->
@@ -271,11 +281,31 @@
 
 
 <!-- 서머노트 -->
+<!--<script>-->
+<!--  $(document).ready(function () {-->
+<!--    $('textarea#content').summernote({-->
+<!--      height: 400, width: 800,-->
+<!--    });-->
+<!--  });-->
+<!--</script>-->
+<!-- 서머노트 end-->
+
+<!-- 서머노트 -->
 <script>
-  $(document).ready(function () {
-    $('textarea#content').summernote({
-      height: 400, width: 800,
+  $(document).ready(function() {
+    $('textarea[name=content]').html('[[${party.content}]]')
+
+    $('textarea[name=content]').summernote({
+      toolbar:false,
+      height: 600,
+      width: 600,
+      minHeight : null,
+      maxHeight : null,
+      disableDragAndDrop: true,
+      lang: "ko-KR",
     });
+
+    $('textarea[name=content]').summernote('disable');
   });
 </script>
 <!-- 서머노트 end-->
