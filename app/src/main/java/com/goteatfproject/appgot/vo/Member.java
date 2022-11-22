@@ -24,6 +24,7 @@ public class Member {
   private String post;
   private String address;
   private String subAddr;
+//  private String[] interest;
   private String interest;
   private boolean outState;
   private Date outDate;

@@ -4,121 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d154f46c-127c-46e6-b4ce-6b007c2904ab" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4.2/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/dao/FeedDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/dao/FeedDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/dao/MemberDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/dao/MemberDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/dao/PartyDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/dao/PartyDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/dao/VolunteerDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/dao/VolunteerDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/service/DefaultFeedService.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/service/DefaultFeedService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/service/DefaultMemberService.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/service/DefaultMemberService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/service/DefaultPartyService.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/service/DefaultPartyService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/service/DefaultVolunteerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/service/DefaultVolunteerService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/service/FeedService.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/service/FeedService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/service/MemberService.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/service/MemberService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/service/PartyService.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/service/PartyService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/service/VolunteerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/service/VolunteerService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/vo/AttachedFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/vo/AttachedFile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/vo/Feed.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/vo/Feed.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/vo/Member.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/vo/Member.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/vo/Party.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/vo/Party.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/vo/Volunteer.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/vo/Volunteer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/web/FeedController.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/web/FeedController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/web/HomeController.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/web/HomeController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/web/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/web/LoginController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/web/MemberController.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/web/MemberController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/web/MyController.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/web/MyController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/web/NoticeController.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/web/NoticeController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/web/PartyController.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/web/PartyController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/web/VolunteerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/classes/java/main/com/goteatfproject/appgot/web/VolunteerController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/com/goteatfproject/appgot/dao/FeedDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/resources/main/com/goteatfproject/appgot/dao/FeedDao.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/com/goteatfproject/appgot/dao/FollowerDao.tld" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/com/goteatfproject/appgot/dao/MemberDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/resources/main/com/goteatfproject/appgot/dao/MemberDao.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/com/goteatfproject/appgot/dao/PartyDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/resources/main/com/goteatfproject/appgot/dao/PartyDao.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/com/goteatfproject/appgot/dao/VolunteerDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/resources/main/com/goteatfproject/appgot/dao/VolunteerDao.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/static/css/board/boardstyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/resources/main/static/css/board/boardstyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/resources/main/static/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/templates/auth/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/resources/main/templates/auth/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/templates/feed/Feed.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/templates/feed/form.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/resources/main/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/templates/index1.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/templates/index2.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/templates/member/form.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/templates/member/list.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/templates/mypage/myFeedList.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/resources/main/templates/mypage/myFeedList.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/templates/mypage/myPartyList.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/resources/main/templates/mypage/myPartyList.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/templates/mypage/myProfile.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/resources/main/templates/mypage/myProfile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/templates/notice/noticeGitTest.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/templates/notice/noticeList.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/resources/main/templates/notice/noticeList.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/templates/notice/noticeOne.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/resources/main/templates/notice/noticeOne.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/templates/notice/noticeOneAdd.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/resources/main/templates/notice/noticeOneAdd.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/templates/party/boardTest.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/templates/party/detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/resources/main/templates/party/detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/templates/party/partyAdd.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/resources/main/templates/party/partyAdd.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/templates/party/partyList.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/resources/main/templates/party/partyList.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/templates/party/partyListBcakUp.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/resources/main/templates/party/partyListBcakUp.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/templates/party/partyListTT.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/resources/main/templates/party/partyListTT.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/templates/volunteer/detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/resources/main/templates/volunteer/detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/resources/main/templates/volunteer/volunteerList.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/resources/main/templates/volunteer/volunteerList.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/dao/FeedDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/dao/FeedDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/dao/MemberDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/dao/MemberDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/dao/PartyDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/dao/PartyDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/service/DefaultFeedService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/service/DefaultFeedService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/service/DefaultMemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/service/DefaultMemberService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/service/DefaultPartyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/service/DefaultPartyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/service/FeedService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/service/FeedService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/service/MemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/service/MemberService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/service/PartyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/service/PartyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/service/VolunteerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/service/VolunteerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/vo/AttachedFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/vo/AttachedFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/vo/Feed.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/vo/Feed.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/vo/Party.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/vo/Party.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/web/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/web/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/web/FeedController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/web/FeedController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/web/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/web/HomeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/web/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/web/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/web/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/web/MemberController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/web/MyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/web/MyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/web/NoticeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/web/NoticeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/web/PartyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/goteatfproject/appgot/web/PartyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/com/goteatfproject/appgot/dao/FeedDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/com/goteatfproject/appgot/dao/FeedDao.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/com/goteatfproject/appgot/dao/FollowerDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/com/goteatfproject/appgot/dao/FollowerDao.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/com/goteatfproject/appgot/dao/MemberDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/com/goteatfproject/appgot/dao/MemberDao.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/com/goteatfproject/appgot/dao/PartyDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/com/goteatfproject/appgot/dao/PartyDao.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/static/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/templates/admin/adminFeedList.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/templates/admin/adminFeedList.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/templates/admin/adminMain.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/templates/admin/adminMain.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/templates/admin/adminPartyList.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/templates/admin/adminPartyList.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/templates/auth/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/templates/auth/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/templates/feed/feedForm.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/templates/feed/feedForm.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/templates/feed/feedList.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/templates/feed/feedList.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/templates/feed/feedPersonal.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/templates/feed/feedPersonal.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/templates/member/memberForm.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/templates/member/memberForm.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/templates/member/memberList.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/templates/member/memberList.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/templates/mypage/myFeedList.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/templates/mypage/myFeedList.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/templates/mypage/myPartyList.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/templates/mypage/myPartyList.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/templates/mypage/myProfile.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/templates/mypage/myProfile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/templates/notice/noticeList.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/templates/notice/noticeList.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/templates/notice/noticeOne.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/templates/notice/noticeOne.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/templates/notice/noticeOneAdd.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/templates/notice/noticeOneAdd.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/templates/party/detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/templates/party/detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/templates/party/partyAdd.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/templates/party/partyAdd.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/templates/party/partyList.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/templates/party/partyList.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/templates/party/partyListBcakUp.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/templates/party/partyListBcakUp.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/templates/party/partyListTT.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/templates/party/partyListTT.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/templates/volunteer/detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/templates/volunteer/detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/resources/templates/volunteer/volunteerList.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/templates/volunteer/volunteerList.html" afterDir="false" />
-    </list>
+    <list default="true" id="d154f46c-127c-46e6-b4ce-6b007c2904ab" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -201,6 +87,7 @@
       <workItem from="1668265353262" duration="2562000" />
       <workItem from="1668926922771" duration="55000" />
       <workItem from="1668950682881" duration="3000" />
+      <workItem from="1669095215477" duration="8000" />
     </task>
     <servers />
   </component>

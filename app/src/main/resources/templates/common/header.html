@@ -26,13 +26,13 @@
       </div>
 
       <div class="dropdown text-end me-lg-4">
-        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle"
-           data-bs-toggle="dropdown" aria-expanded="false">
+        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
           <img data-th-if="${session.loginMember == null}" src="/images/mypage.png" alt="mdo" width="32" height="32" class="rounded-circle">
           <img data-th-if="${session.loginMember != null}" th:src="@{'/member/files/' + ${session.loginMember.thumbnail}}" alt="mdo" width="32" height="32" class="rounded-circle">
         </a>
 
-        <ul class="dropdown-menu text-small " th:if="${session.loginMember != null and session.loginMember.id != 'admin@test.com'}">
+<!--        <ul class="dropdown-menu text-small " th:if="${session.loginMember != null and session.loginMember.id != 'admin@test.com'}">-->
+        <ul class="dropdown-menu text-small">
           <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">New project...</a></li>
           <li th:if="${session.loginMember != null}"><a class="dropdown-item" th:href="@{/my/main}">마이페이지</a></li>
           <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">설정</a></li>

@@ -62,4 +62,6 @@ public interface MemberDao {
 
   // 관리자페이지 활성화
   int memberActive(int no);
+
+  public int idCheck(String id);
 }

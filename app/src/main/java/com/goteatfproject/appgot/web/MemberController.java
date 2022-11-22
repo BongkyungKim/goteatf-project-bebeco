@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/member")
@@ -19,13 +21,14 @@ public class MemberController {
     this.memberService = memberService;
   }
 
-  @GetMapping ("/add")
+  @GetMapping("/add")
   public String add() throws Exception {
     return "member/memberForm";
   }
 
   @PostMapping("/add")
   public String add(Member member) throws Exception {
+    System.out.println("member = " + member);
     memberService.add(member);
     return "redirect:list";
   }
@@ -35,4 +38,13 @@ public class MemberController {
     model.addAttribute("members", memberService.list());
     return "member/memberList";
   }
+
+  // 아이디 중복체크
+  @PostMapping("/idCheck")
+  @ResponseBody
+  public int idCheck(@RequestParam("id") String id) {
+    int cnt = memberService.idCheck(id);
+    return cnt;
+  }
+
 }

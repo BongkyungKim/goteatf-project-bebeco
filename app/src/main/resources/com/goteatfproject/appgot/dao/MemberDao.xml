@@ -25,6 +25,16 @@
     #{post}, #{address}, #{subAddr}, #{interest}, #{intro}, 'jj.png')
   </insert>
 
+<!--  <insert id="insert" useGeneratedKeys="true" parameterType="member">-->
+<!--    insert into member (id, pwd, name, nick, birth, tel, gender, createddate, post,-->
+<!--    addr, subaddr, interest, intro, thumbnail)-->
+<!--    values(#{id}, sha2(#{password},256), #{name}, #{nick}, #{birth}, #{tel}, #{gender}, now(),-->
+<!--    #{post}, #{address}, #{subAddr},-->
+<!--    <foreach collection="interest" item="item" separator=",">-->
+<!--      #{item}-->
+<!--    </foreach>,  #{intro}, 'jj.png')-->
+<!--  </insert>-->
+
   <!-- 회원상세정보 -->
   <select id="findByNo" resultMap="memberMap">
     select
@@ -253,5 +263,10 @@
     where
     mno = #{no}
   </update>
+
+<!-- 아이디 중복체크 -->
+  <select id="idCheck" parameterType="String" resultType="int">
+    SELECT COUNT(id) FROM member WHERE id= #{id}
+  </select>
 
 </mapper>

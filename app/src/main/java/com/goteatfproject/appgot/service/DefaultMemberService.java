@@ -118,4 +118,12 @@ public class DefaultMemberService implements MemberService {
     return memberDao.memberActive(no) > 0;
   }
 
+  //아이디 중복체크 mapper 접근
+  @Override
+  public int idCheck(String id) {
+    int cnt = memberDao.idCheck(id);
+    System.out.println("cnt: " + cnt);
+    return cnt;
+  }
+
 }
