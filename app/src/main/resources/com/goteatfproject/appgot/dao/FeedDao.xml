@@ -313,6 +313,13 @@
     limit 8
   </select>
 
+<!--  마이페이지 피드게시글 강제삭제-->
+  <delete id="allDelete2">
+    delete from feed_like where fno=#{no};
+    delete from feed_file where fno=#{no};
+    delete from feed where fno=#{no};
+  </delete>
+
 </mapper>
 
 

@@ -31,6 +31,16 @@ public interface EventService {
   //메인페이지 이벤트게시글 조회
   List<Event> mainList() throws Exception;
 
+  //결제 수량
+  int getPayCnt();
 
+  //결제 했는지 안했는지
+  boolean ticketing(Map<String,Object> ticket);
+
+
+  // 관리자페이지 이벤트게시글 상세보기
+  // 사용안함
+  Event getAdminEventListDetail(int no);
 
 }
+

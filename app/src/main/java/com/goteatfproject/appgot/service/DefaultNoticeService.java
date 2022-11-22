@@ -4,6 +4,7 @@ import com.goteatfproject.appgot.dao.NoticeDao;
 import com.goteatfproject.appgot.vo.Notice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,16 +13,43 @@ public class DefaultNoticeService implements NoticeService {
 
   @Autowired
   NoticeDao noticeDao;
-
+  @Transactional
   @Override
-  public List<Notice> list() throws Exception {
-    return noticeDao.findAll();
+  public void add(Notice notice) throws Exception {
+    // 1) 게시글 등록
+    if (noticeDao.insert(notice) == 0) {
+      throw new Exception("게시글 등록 실패!");
+    }
   }
 
+  @Transactional
+  @Override
+  public boolean update(Notice notice) throws Exception {
+    // 1) 게시글 변경
+    if (noticeDao.update(notice) == 0) {
+    }
+    return false;
+  }
   @Override
   public Notice get(int no) throws Exception {
-    return noticeDao.findByNo(no);
+    return noticeDao.findByNo(no); // 첨부파일 데이터까지 조인하여 select를 한 번만 실행한다.
   }
 
+  @Transactional
+  @Override
+  public boolean delete(int no) throws Exception {
 
+    return noticeDao.delete(no) > 0;
+  }
+
+  @Override
+  public List<Notice> list(String keyword, String titleSort, int pageNo, int pageSize) throws Exception {
+    int startIndex = (pageNo - 1) * pageSize; // 이전 페이지까지 레코드 개수
+    return noticeDao.findAll(keyword, titleSort, startIndex, pageSize);
+  }
+
+  @Override
+  public int size(String keyword, String titleSort) throws Exception {
+    return noticeDao.count(keyword, titleSort);
+  }
 }

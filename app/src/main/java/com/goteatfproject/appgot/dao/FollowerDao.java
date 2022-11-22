@@ -20,5 +20,8 @@ public interface FollowerDao {
 
   List<Follower> selectFollowingList(int following);
 
+  // 마이페이지 팔로워 강제 삭제
+  int allDelete3(int no);
+
 
 }

@@ -1,10 +1,10 @@
 package com.goteatfproject.appgot.vo;
 
+import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.sql.Date;
 
 
 @Getter @Setter @ToString
@@ -14,4 +14,5 @@ public class Notice {
   private String title;
   private String content;
   private Date createDate;
+  private Member writer;
 }

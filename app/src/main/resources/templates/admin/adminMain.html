@@ -37,28 +37,28 @@
 <div class="d-flex" id="wrapper">
   <!-- Sidebar-->
   <div class="border-end bg-white" id="sidebar-wrapper">
-    <div class="sidebar-heading border-bottom bg-light">
-      <a th:href="@{/admin/main}" style="text-decoration-line: none; color: inherit;">관리자페이지</a>
+    <div class="sidebar-heading border-bottom">
+      <a th:href="@{/admin/main}" style="text-decoration-line: none">관리자페이지</a>
     </div>
     <div class="list-group list-group-flush">
-      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/}">사이트 바로가기</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/admin/adminPartyList}">파티게시물 관리</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/admin/adminFeedList}">피드게시물 관리</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/admin/adminEventList}">이벤트게시물 관리</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/admin/adminMemberList}">회원 관리</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3 text-primary" th:href="@{/}">사이트 바로가기</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3 text-primary" th:href="@{/admin/adminPartyList}">파티게시물 관리</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3 text-primary" th:href="@{/admin/adminFeedList}">피드게시물 관리</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3 text-primary" th:href="@{/admin/adminEventList}">이벤트게시물 관리</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3 text-primary" th:href="@{/admin/adminMemberList}">회원 관리</a>
     </div>
   </div>
   <!-- Page content wrapper-->
   <div id="page-content-wrapper">
     <div class="container-fluid">
-      <h2 class="mt-4">관리자페이지 메인</h2>
+      <h2 class="mt-4"> 관리자페이지 메인</h2>
 
       <!--  테이블 부트스트랩   -->
 
       <!-- 전체회원 -->
-      <div class="container">
+      <div class="container" style="margin-left: -10px;">
         <div class="row">
-          <div class="col-5">
+          <div class="col-7">
             <table class="table">
               <button type="button" class="btn btn-primary position-relative" id="memberBtn">
                 전체회원
@@ -70,10 +70,10 @@
               </button>
               <thead>
               <tr>
-                <th scope="col">no</th>
-                <th scope="col">id</th>
-                <th scope="col">name</th>
-                <th scope="col">location</th>
+                <th scope="col">NO</th>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Location</th>
               </tr>
               </thead>
               <tbody>
@@ -100,10 +100,10 @@
               </button>
               <thead>
               <tr>
-                <th scope="col">no</th>
-                <th scope="col">id</th>
-                <th scope="col">name</th>
-                <th scope="col">location</th>
+                <th scope="col">NO</th>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Location</th>
               </tr>
               </thead>
               <tbody>
@@ -120,23 +120,23 @@
       </div>
 
       <!-- 파티 +  피드 + 이벤트 신규 게시글 limit:15 -->
-      <div class="container">
+      <div class="container" style="margin-left: -10px;">
         <div class="row">
-          <div class="col-5">
+          <div class="col-7">
             <table class="table">
               <button type="button" class="btn btn-primary position-relative">
                 전체 게시글
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                      th:each="boardCount : ${newBoardCount}"
+                      th:each="boardCount : ${boardCount}"
                       th:text="${boardCountStat.count}">
             <span class="visually-hidden">unread messages</span>
                 </span>
               </button>
               <thead>
               <tr>
-                <th scope="col">tname</th>
-                <th scope="col">title</th>
-                <th scope="col">date</th>
+                <th scope="col">게시판</th>
+                <th scope="col">제목</th>
+                <th scope="col">작성일</th>
               </tr>
               </thead>
               <tbody>
@@ -164,9 +164,9 @@
               </button>
               <thead>
               <tr>
-                <th scope="col" style="">tname</th>
-                <th scope="col">title</th>
-                <th scope="col">date</th>
+                <th scope="col" style="">게시판</th>
+                <th scope="col">제목</th>
+                <th scope="col">작성일</th>
               </tr>
               </thead>
               <tbody>
@@ -197,12 +197,11 @@
 </script>
 
 <!-- Core theme JS--> <!-- noticeList 왼쪽 사이드바 --> <!-- TODO 추가 - 6-->
+<script src="/js/notice/notice.js"></script>
+
 <script src="https://code.jquery.com/jquery-3.6.1.js"
         integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
         crossorigin="anonymous"></script>
-
-<script src="/js/notice/notice.js"></script>
-
 <script>
   $("#memberBtn").click(function()  {
     window.location.href = "/admin/adminMemberList";

@@ -126,4 +126,12 @@ public class DefaultMemberService implements MemberService {
     return cnt;
   }
 
+  // 닉네임 중복체크 mapper 접근
+  @Override
+  public int nickCheck(String nick) {
+    int cntNick = memberDao.nickCheck(nick);
+    System.out.println("cntNick: " + cntNick);
+    return cntNick;
+  }
+
 }

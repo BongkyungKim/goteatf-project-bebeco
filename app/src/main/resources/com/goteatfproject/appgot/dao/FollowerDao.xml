@@ -65,6 +65,11 @@
     delete from follower where follow=#{follow}
   </delete>
 
+<!--  마이페이지 팔로우 취소 기능-->
+  <delete id="allDelete3">
+    delete from follower where following=#{following}
+  </delete>
+
 </mapper>
 
 

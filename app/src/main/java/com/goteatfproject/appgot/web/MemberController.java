@@ -47,4 +47,12 @@ public class MemberController {
     return cnt;
   }
 
+  // 닉네임 중복체크
+  @PostMapping("/nickCheck")
+  @ResponseBody
+  public int nickCheck(@RequestParam("nick") String nick) {
+    int cntNick = memberService.nickCheck(nick);
+    return cntNick;
+  }
+
 }

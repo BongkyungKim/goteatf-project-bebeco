@@ -15,4 +15,9 @@ public interface FollowerService {
 
   List<Follower> selectFollowingList(int following) throws Exception;
 
+  //마이페이지 팔로워 강제 삭제
+  boolean allDelete3(int no);
+
+
+
 }

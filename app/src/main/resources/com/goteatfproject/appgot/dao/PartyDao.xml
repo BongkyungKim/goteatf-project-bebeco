@@ -93,9 +93,9 @@
     <insert id="insert" parameterType="party"
         useGeneratedKeys="true" keyColumn="pno" keyProperty="no">
       insert into party(mno, meal, food, title, cont, gender, max, time, age,
-      lit, loc, post, addr, viewcnt, createdate, thumbnail)
+      lit, loc, post, addr, viewcnt, createdate, thumbnail, date)
       values(#{writer.no}, #{meal}, #{food}, #{title}, #{content}, #{gender}, #{max},
-      #{time}, #{age}, #{limit}, #{location}, '', #{address}, 0, now(), 'defaultimage.jpg')
+      #{time}, #{age}, #{limit}, #{location}, '', #{address}, 0, now(), 'defaultimage.jpg', now())
 <!--      #{time}, #{age}, #{limit}, #{location}, '', #{address}, 0, now(), #{thumbnail}) TODO 변경1-->
     </insert>
 
@@ -421,13 +421,11 @@
     limit 8
   </select>
 
-
   <!--  마이페이지 파티게시글 연쇄삭제 -->
   <delete id="allDelete">
     delete from party_reply where pno=#{no};
     delete from party_file where pno=#{no};
     delete from volunteer where vno=#{no};
-    delete from partytag where pno=#{no};
     delete from party where pno=#{no};
   </delete>
 

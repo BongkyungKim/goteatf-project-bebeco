@@ -201,4 +201,32 @@ public class EventController {
     return "redirect:detail?no=" + event.getNo();
   }
 
+
+  //결제정보를 받아오는 컨트롤러
+  @ResponseBody
+  @GetMapping("ticketing")
+  public String ticketing(@RequestParam HashMap<String, Object> map, HttpSession session) {
+
+    Member member = (Member) session.getAttribute("loginMember");
+
+    map.put("mno",member.getNo());
+    System.out.println(map);
+//    System.out.println(map.get("eno"));
+//    System.out.println(map.get("paycnt"));
+    boolean result = false;
+
+    result = eventService.ticketing(map);
+
+    if(result == true){
+      return "1";
+    }else {
+      return "0";
+    }
+  }
+
+  @GetMapping("test")
+  public String test() {
+    return "event/test";
+  }
 }
+

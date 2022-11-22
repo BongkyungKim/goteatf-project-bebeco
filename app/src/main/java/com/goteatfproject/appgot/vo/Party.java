@@ -11,7 +11,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Getter @Setter @ToString
 public class Party {
 
-  private int no; 
+
+  private int no;
   private String meal; // 모임시간
   private String food; // 음식종류
   private String title;
@@ -42,5 +43,9 @@ public class Party {
   private List<AttachedFile> attachedFiles;
 
   private Comment commentList;
+
+  Party() {
+    this.meal=null;
+  }
 
 }

@@ -14,15 +14,16 @@
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 
   <link href="/css/notice/style.css" rel="stylesheet"> <!-- TODO 추가 - 2 같지만 수정 -->
-
-  <!-- Core theme CSS (includes Bootstrap)--> <!-- TODO 추가 - 1 -->
-  <link href="/css/notice/noticeStyles.css" rel="stylesheet"/>
+  
+   <!-- Core theme CSS (includes Bootstrap)--> <!-- TODO 추가 - 1 -->
+   <link href="/css/notice/noticeStyles.css" rel="stylesheet"/>
 
 
   <!-- include summernote css/js -->
   <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css"
         rel="stylesheet">
   <!-- 서머노트css end-->
+
 
 </head>
 <body>
@@ -50,15 +51,9 @@
       <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myAuthForm}">개인 정보 수정</a>
       <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myPartyList}">파티게시물 관리</a>
       <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myFeedList}">피드게시물 관리</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myEventList}">이벤트게시물 관리</a>
       <a class="list-group-item list-group-item-action list-group-item-light p-3"
          href="">예약 내역</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3"
-         href="">팔로우 관리</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3"
-         href="">1:1 문의 내역</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3"
-         href="">주소지 관리</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myFollowList}">팔로우 관리</a>
     </div>
   </div>
   <!-- Page content wrapper-->
@@ -66,7 +61,7 @@
   <form th:action="@{/party/update}" method="post" enctype="multipart/form-data" style="margin: 15px">
     <h2 class="mt-4">파티게시물 상세정보</h2>
     <div class="container border rounded">
-
+  
       <!--1줄-->
       <div class="row p-3">
         <div class="col-2"  th:text="'[' + ${party.meal} + '파티]'">
@@ -77,21 +72,21 @@
         </div>
         <div class="col-2" th:text="'(3' + '/' + ${party.max} + ')'">
         </div>
-
+  
         <div class="col-2">
           파티참여
         </div>
         <div class="col-2">
-          <input name="no" type="number" value="1" th:value="${party.no}" readonly hidden/>
-        </div>
+        <input name="no" type="number" value="1" th:value="${party.no}" readonly hidden/>
       </div>
-
+    </div>
+  
       <!--2줄-->
       <div class="row p-3">
         <div class="col" ><input name='title' type='text'value='제목'th:value="${party.title}" size='93'>
         </div>
       </div>
-
+  
       <!--3줄-->
       <div class="row p-3 border-bottom">
         <div class="col-2" th:text="${party.writer.nick}">
@@ -100,9 +95,9 @@
         </div>
         <div class="col-6" th:text=" '작성일:' + ${party.createDate}">
         </div>
-
+      
       </div>
-
+      
       <!--4줄-->
       <div class="row p-3 border-bottom" style="height: 300px;">
         <div class="col">
@@ -127,7 +122,7 @@
         <div class="col" th:text="'[' + ${#dates.createNowForTimeZone(party.time)} + '시]'">
         </div>
       </div>
-
+  
       <!--8줄-->
       <div class="row p-3">
         <div class="col-2"><p th:text="'장소명 : ' +'[' + ${party.location} + ']'"></p>
@@ -136,17 +131,17 @@
         </div>
       </div>
     </div>
-    <button type="submit" class="btn btn-outline-secondary">변경</button>
-    <button type="button" class="btn btn-outline-secondary"><a th:href="@{myPartyDelete(no=${party.no})}">삭제</a></button>
-
-  </form>
+    <button type="submit" class="btn btn-outline-secondary">수정</button>
+    <button type="button" class="btn btn-outline-secondary" style="border:none;"><a th:href="@{myPartyDelete(no=${party.no})}" class="btn btn-outline-secondary">삭제</a></button>
+    
+  </form> 
   <!---------------------------- 상세보기 end ------------------------------>
 </div>
 
 
-<!-------------------------------구분선-------------------------->
-<div class="c-example-divider"></div>
-<!-------------------------------구분선-------------------------->
+ <!-------------------------------구분선-------------------------->
+ <div class="c-example-divider"></div>
+ <!-------------------------------구분선-------------------------->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous">
@@ -157,10 +152,9 @@
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.6.1.js"
-        integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
-        crossorigin="anonymous"></script>
+integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+crossorigin="anonymous"></script>
 <!-- jquery end-->
-
 <!-- 서머노트 -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -180,8 +174,10 @@
       maxHeight : null,
       disableDragAndDrop: true,
       lang: "ko-KR",
-
+      
     });
+
+ 
   });
 </script>
 <!-- 서머노트 end-->

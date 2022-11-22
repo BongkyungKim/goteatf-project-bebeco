@@ -101,4 +101,20 @@ public class DefaultEventService implements EventService {
     return eventDao.findAllMain();
   }
 
+  // 관리자페이지 이벤트게시글 상세보기
+  // 사용안함
+  @Override
+  public Event getAdminEventListDetail(int no) {
+    return eventDao.findByAdminEventListDetail(no);
+  }
+
+  //결제 수량
+  public int getPayCnt(){
+    return eventDao.payCnt();
+  }
+  //결제 여부
+  public boolean ticketing(Map<String, Object> ticket){
+    return eventDao.ticketing(ticket);
+  }
 }
+

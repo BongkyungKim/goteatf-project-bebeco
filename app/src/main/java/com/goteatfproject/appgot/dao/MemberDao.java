@@ -63,5 +63,11 @@ public interface MemberDao {
   // 관리자페이지 활성화
   int memberActive(int no);
 
+  // 회원가입 아이디 중복체크
   public int idCheck(String id);
+
+  // 회원가입 닉네임 중복체크
+  public int nickCheck(String nick);
+
+
 }

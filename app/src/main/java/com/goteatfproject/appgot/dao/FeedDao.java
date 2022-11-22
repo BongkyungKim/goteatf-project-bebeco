@@ -55,4 +55,7 @@ public interface FeedDao {
 
   //메인페이지 파티게시물 조회
   List<Feed> findAllMain();
+
+  // 마이페이지 피드게시글 강제삭제 — 1120 추가
+  int allDelete2(int no);
 }

@@ -15,7 +15,9 @@
   <result column="viewcnt" property="viewCnt"/>
   <result column="pub" property="pub"/>
   <result column="createdate" property="createDate"/>
-  <result column="thumbnail"  property="thumbnail"/>
+  <result column="thumbnail" property="thumbnail"/>
+
+  <result column="cost" property="cost"/>
 
   <association property="writer" javaType="member">
     <id column="mno" property="no"/>
@@ -40,7 +42,7 @@
 
   </resultMap>
 
-
+<!-- COST 추가 예정 -->
   <insert id="insert" parameterType="event"
           useGeneratedKeys="true" keyColumn="eno" keyProperty="no">
     insert into event(mno, title, cont, date, loc, addr, createdate, thumbnail)
@@ -134,6 +136,11 @@
     e.title,
     e.viewcnt,
     e.createdate,
+    e.cont,
+    e.cost,
+    e.loc,
+    e.addr,
+    e.date,
     m.nick,
     m.mno,
     ef.efileno,
@@ -204,14 +211,39 @@
     delete from event_file
     where eno in (select eno from event where mno = #{value})
   </delete>
-  
-   <!--관리자페이지 이벤트게시글 비활성화 (1: 비활성화)-->
+
+<!--  관리자페이지 이벤트게시글 비활성화 (1: 비활성화)-->
   <update id="eventBlock" parameterType="event">
     update event set pub = true
     where eno = #{no}
   </update>
 
-<!-- 간치 -->
+<!--  관리자페이지 이벤트게시글 상세보기-->
+  <select id="findByAdminEventListDetail" resultMap="eventMap">
+    select
+    e.eno,
+    m.mno,
+    m.name,
+    e.title,
+    e.cont,
+    e.date,
+    e.loc,
+    e.addr,
+    e.viewcnt,
+    e.pub,
+    e.createdate,
+    e.thumbnail,
+    ef.efileno,
+    ef.path
+    from
+    event e
+    join member m on e.mno = m.mno
+    left outer join event_file ef on e.eno = ef.eno
+    where
+    e.eno =#{no}
+  </select>
+
+  <!-- 간치 -->
   <!--이벤트 리스트에 뽑는 쿼리문-->
   <select id="findAll" resultMap="eventMap" >
     select
@@ -257,6 +289,13 @@
     eno desc
     limit 6
   </select>
+
+  <insert id="ticketing" parameterType="Hashmap">
+    insert into ticket
+    (eno, totalcost, mno, paycnt)
+    values
+    (#{eno}, #{totalcost}, #{mno}, #{paycnt})
+  </insert>
 
 </mapper>
 

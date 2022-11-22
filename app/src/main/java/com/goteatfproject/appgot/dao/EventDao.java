@@ -14,6 +14,7 @@ public interface EventDao {
 
   List<Event> findAll();
 
+  // 페이징 처리하는 리스트
   List<Map<String, Object>> selectEventList(Criteria cri);
 
   Event findByNo(int no);
@@ -43,4 +44,13 @@ public interface EventDao {
 
   //메인페이지 파티게시물 조회
   List<Event> findAllMain();
+
+// 결제 수량
+  int payCnt();
+
+  boolean ticketing(Map<String, Object> ticket);
+
+  // 마이페이지 이벤트 게시글 본인 글 상세보기
+  // 사용안함
+  Event findByAdminEventListDetail(int no);
 }

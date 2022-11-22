@@ -125,11 +125,18 @@
 
   <div style="height: 1.5rem"></div>
 
+<!-- 닉네임 -->
   <div class="hstack gap-3">
     <div class="col-1"><span style="color: lightpink">*</span> 닉네임</div>
-    <input class="form-control me-auto" type="text" name="nick" placeholder="Add your item here..." aria-label="Add your item here...">
-    <button type="button" class="btn btn-secondary col-1">중복확인</button>
+    <input class="form-control me-auto" type="text" id="nick" name="nick" placeholder="Add your item here..." aria-label="Add your item here..." oninput="nickCheck()">
+    <button type="button" class="btn btn-secondary col-1 xx-nick-check">중복확인</button>
   </div>
+    <!-- nick ajax 중복체크 -->
+    <div class="hstack gap-3">
+      <div class="col-1"></div>
+      <span class="nick_ok" style="display: none">사용 가능한 닉네임입니다.</span>
+      <span class="nick_already" style="display: none">누군가 이 닉네임을 사용하고 있어요.</span>
+    </div>
 
   <div style="height: 1.5rem"></div>
 
@@ -394,6 +401,33 @@
   }
 </script>
 <!-- 아이디 중복체크 마지막 -->
+
+<!-- 닉네임 중복체크 -->
+<script>
+  function nickCheck() {
+    var nick = $('#nick').val(); //nick값이 "nick"인 입력란의 값을 저장
+    $.ajax({
+      url: '/member/nickCheck', //Controller에서 요청 받을 주소
+      type: 'post', //POST 방식으로 전달
+      data: {nick: nick},
+      success: function (cntNick) { //컨트롤러에서 넘어온 cntNick값을 받는다
+        if (cntNick == 0) { //cntNick가 1이 아니면(=0일 경우) -> 사용 가능한 닉네임
+          $('.nick_ok').css("display", "inline-block");
+          $('.nick_already').css("display", "none");
+        } else { // cntNick가 1일 경우 -> 이미 존재하는 닉네임
+          $('.nick_already').css("display", "inline-block");
+          $('.nick_ok').css("display", "none");
+          alert("이미 사용중임");
+          $('#nick').val('');
+        }
+      },
+      error: function () {
+        alert("에러입니다");
+      }
+    });
+  }
+</script>
+<!-- 닉네임 중복체크 마지막 -->
 
 <!-- 비밀번호 안전등급 -->
 <script>

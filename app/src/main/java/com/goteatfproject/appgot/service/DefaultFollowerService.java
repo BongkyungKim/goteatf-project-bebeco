@@ -41,4 +41,11 @@ public class DefaultFollowerService implements FollowerService {
     return selectfollowingList;
   }
 
+  //마이페이지 팔로워 강제 삭제
+  @Override
+  public boolean allDelete3(int no) {
+    return followerDao.allDelete3(no) > 0;
+  }
+
+
 }

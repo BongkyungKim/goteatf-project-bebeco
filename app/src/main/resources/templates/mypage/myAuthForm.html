@@ -35,17 +35,14 @@
           <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myAuthForm}">개인 정보 수정</a>
           <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myPartyList}">파티게시물 관리</a>
           <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myFeedList}">피드게시물 관리</a>
-          <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myEventList}">이벤트게시물 관리</a>
           <a class="list-group-item list-group-item-action list-group-item-light p-3" href="">예약 내역</a>
-          <a class="list-group-item list-group-item-action list-group-item-light p-3" href="">팔로우 관리</a>
-          <a class="list-group-item list-group-item-action list-group-item-light p-3" href="">1:1 문의 내역</a>
-          <a class="list-group-item list-group-item-action list-group-item-light p-3" href="">주소지 관리</a>
+          <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myFollowList}">팔로우 관리</a>
         </div>
       </div>
       <!-- Page content wrapper-->
       <div id="page-content-wrapper">
         <div class="container-fluid">
-          <h2 class="mt-4">개인 정보 수정</h2>
+          <h2 class="mt-4 text-secondary">개인 정보 수정</h2>
           <div class="row">
             <div class="col-12 border">
               <!-- 개인 상세 정보 -->
@@ -54,8 +51,9 @@
               <table>
                 <input type="password" id="password" name="password"/>
               </table>
-                <button type="button" id="passwordCheckBtn">확인하기</button>
+                <br><button type="button" class="btn btn-outline-secondary" id="passwordCheckBtn">확인하기</button>
               </form>
+              <div class="line-2"></div>
             </div>
           </div>
           <!-- 테이블 부트스트랩 end -->

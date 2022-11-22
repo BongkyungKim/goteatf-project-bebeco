@@ -105,8 +105,8 @@
           <td th:text="${member.outDate}"></td>
         </tr>
       </table>
-         <button type="button" class="btn btn-outline-secondary" th:if="${member.outState == false}"><a th:href="@{memberBlock(no=${member.no})}">비활성화</a></button>
-         <button type="button" class="btn btn-outline-secondary" th:if="${member.outState == true}"><a th:href="@{memberActive(no=${member.no})}">활성화</a></button>
+         <button type="button" class="btn btn-outline-secondary" style="border:none;" th:if="${member.outState == false}"><a th:href="@{memberBlock(no=${member.no})}" class="btn btn-outline-secondary">비활성화</a></button>
+         <button type="button" class="btn btn-outline-secondary" style="border:none;" th:if="${member.outState == true}"><a th:href="@{memberActive(no=${member.no})}" class="btn btn-outline-secondary">활성화</a></button>
       <!--  테이블 부트스트랩 end   -->
     </div>
   </div>

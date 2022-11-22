@@ -117,4 +117,10 @@ public class DefaultFeedService implements FeedService {
   public List<Feed> mainList() throws Exception {
     return feedDao.findAllMain();
   }
+
+  // 마이페이지 피드게시글 강제삭제 — 1120 추가
+  @Override
+  public boolean allDelete2(int no) {
+    return feedDao.allDelete2(no) > 0;
+  }
 }

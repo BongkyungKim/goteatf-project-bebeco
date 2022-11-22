@@ -5,6 +5,24 @@
   font-family: sans-serif;
 }
 
+/* 링크 텍스트 색상, 밑줄 */
+a:link {
+  color : black;
+  text-decoration: none;
+}
+a:visited {
+  color : black;
+  text-decoration: none;
+}
+a:hover {
+  color : red;
+  text-decoration: none;
+}
+a:active {
+  color : red;
+  text-decoration: none;
+}
+
 /* Header */
 
 header{
@@ -80,8 +98,15 @@ section{
   display: flex;
 }
 
+.follow-title{
+  font-size: 20px;
+  font-weight: 500;
+  font-style: italic;
+  color: #5c636a;
+}
+
 .left-side{
-  width: 65%;
+  /*width: 65%;*/
 }
 
 .story{
@@ -90,7 +115,7 @@ section{
   background-color: white;
   border: 1px solid rgba(219,219,219,1);
   border-radius: 3px;
-  /*기로 스크롤*/
+  /*가로 스크롤*/
   overflow: auto;
   white-space: nowrap;
 }
@@ -101,10 +126,12 @@ section{
 
 .story .stories a img{
   border-radius: 50%;
-  border: 2px solid #c62d8f;
+  border: 2px solid #ce0c64;
   object-fit: cover;
   margin: 3px;
 }
+
+
 
 .story .stories p{
   width: 90%;
@@ -116,10 +143,11 @@ section{
 
 /* Posts */
 .posts{
-  margin:25px 0;
+  margin: 0px 0px 25px 0px;
   background-color: white;
   border: 1px solid rgba(219,219,219,1);
   border-radius: 3px;
+  /*wdith:58.33333333%;*/
 }
 
 .posts .post-title{
@@ -131,7 +159,7 @@ section{
 
 .posts .post-title .post-left{
   display: flex;
-  align-items: center;
+  align-items: baseline;
 }
 
 .posts .post-title .post-left .image{
@@ -140,28 +168,34 @@ section{
 
 .posts .post-title .post-left .image img{
   border-radius: 50%;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .posts .post-title .post-left .details .name{
   padding-bottom: 2px;
   font-weight: bold;
+  font-size: 18px;
 }
 
 .posts .post-content img{
-  width: 100%;
-  height: 100%;
+  width: 80%;
+  height: 80%;
   object-fit: cover;
 }
 
 .posts .post-footer{
   display: flex;
   justify-content: space-between;
-  padding: 16px;
+  padding: 16px 16px 0 16px;
 }
 
 .posts .post-footer .like-share-comment i{
   font-size: 22px;
+  margin-right: 10px;
+}
+
+.posts .post-footer .like-share-comment p{
+  font-size: 18px;
   margin-right: 10px;
 }
 
@@ -182,7 +216,13 @@ section{
 }
 
 .posts .post-footer-content .name{
+  font-size: 22px;
   font-weight: 600;
+}
+
+.posts .post-footer-content .comments{
+  font-size: 16px;
+  font-weight: 300;
 }
 
 .posts .post-footer-content span{

@@ -1,11 +1,5 @@
 package com.goteatfproject.appgot.web;
 
-import com.goteatfproject.appgot.service.EventService;
-import com.goteatfproject.appgot.service.FeedService;
-import com.goteatfproject.appgot.service.MemberService;
-import com.goteatfproject.appgot.service.PartyService;
-import com.goteatfproject.appgot.vo.Criteria;
-import com.goteatfproject.appgot.vo.PageMaker;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import com.goteatfproject.appgot.service.BoardService;
+import com.goteatfproject.appgot.service.EventService;
+import com.goteatfproject.appgot.service.FeedService;
+import com.goteatfproject.appgot.service.MemberService;
+import com.goteatfproject.appgot.service.PartyService;
+import com.goteatfproject.appgot.vo.Criteria;
+import com.goteatfproject.appgot.vo.PageMaker;
 
 @Controller
 @RequestMapping("/admin")
@@ -24,18 +25,18 @@ public class AdminController {
 
   @Autowired
   MemberService memberService;
+
   @Autowired
   PartyService partyService;
+
   @Autowired
   FeedService feedService;
+
   @Autowired
   EventService eventService;
 
-//  public AdminController(PartyService partyService, FeedService feedService, MemberService memberService) {
-//    this.partyService = partyService;
-//    this.feedService = feedService;
-//    this.memberService = memberService;
-//  }
+  @Autowired
+  BoardService boardService;
 
   // 관리자페이지 - 메인
   @GetMapping("/main")
@@ -45,10 +46,12 @@ public class AdminController {
     model.addAttribute("members", memberService.list());
     model.addAttribute("memberLists", memberService.MemberList());
     model.addAttribute("newMemberLists", memberService.NewMemberList());
-    model.addAttribute("boards", partyService.listAll());
-    model.addAttribute("newBoardCount", partyService.newBoardCount());
+    model.addAttribute("boards", boardService.listAll());
+    model.addAttribute("boardCount", boardService.boardCount());
+    model.addAttribute("newBoardCount", boardService.newBoardCount());
     return "admin/adminMain";
   }
+
 
   // 페이징 관리자페이지 파티게시글 관리
   @GetMapping("/adminPartyList")
@@ -94,7 +97,7 @@ public class AdminController {
   public String partyBlocks(@RequestParam("checkedValue[]") int[] checkedValue) throws Exception {
     int valueLength = checkedValue.length;
 
-    for (int i=0; i < valueLength; i++) {
+    for(int i=0; i < valueLength; i++) {
       System.out.println(checkedValue[i]);
       partyService.partyBlock(checkedValue[i]);
     }
@@ -139,13 +142,13 @@ public class AdminController {
     return "redirect:adminFeedList";
   }
 
-  // 관리자페이지 피드게시글 비활성화 선택
+  // 관리자페이지 피드게시글 비활성화 체크박스 선택
   @PostMapping("/feedBlocks")
   @ResponseBody
   public String feedBlocks(@RequestParam("checkedValue[]") int[] checkedValue) throws Exception {
     int valueLength = checkedValue.length;
 
-    for (int i=0; i < valueLength; i++) {
+    for(int i=0; i < valueLength; i++) {
       System.out.println(checkedValue[i]);
       feedService.feedBlock(checkedValue[i]);
     }
@@ -174,6 +177,16 @@ public class AdminController {
     return mv;
   }
 
+  // 관리자페이지 이벤트게시글 상세보기
+  @GetMapping("/adminEventListDetail")
+  public String adminEventListDetail(Model model, int no) throws Exception {
+
+    model.addAttribute("event", eventService.getAdminEventListDetail(no));
+    System.out.println("model.getAttribute(\"event\") = " + model.getAttribute("event"));
+
+    return "admin/adminEventListDetail";
+  }
+
   // 관리자페이지 이벤트게시글 비활성화 선택
   @GetMapping("/eventBlock")
   public String eventBlock(int no) throws Exception {
@@ -187,10 +200,11 @@ public class AdminController {
   public String eventBlocks(@RequestParam("checkedValue[]") int[] checkedValue) throws Exception {
     int valueLength = checkedValue.length;
 
-    for (int i=0; i < valueLength; i++) {
+    for(int i=0; i < valueLength; i++) {
       System.out.println(checkedValue[i]);
       eventService.eventBlock(checkedValue[i]);
     }
+
     return "비활성화 성공";
   }
 
