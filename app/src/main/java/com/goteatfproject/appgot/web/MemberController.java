@@ -30,7 +30,7 @@ public class MemberController {
   public String add(Member member) throws Exception {
     System.out.println("member = " + member);
     memberService.add(member);
-    return "redirect:list";
+    return "redirect:/";
   }
 
   @GetMapping("/list")
@@ -42,7 +42,7 @@ public class MemberController {
   // 아이디 중복체크
   @PostMapping("/idCheck")
   @ResponseBody
-  public int idCheck(@RequestParam("id") String id) {
+  public int idCheck(@RequestParam("id") String id) throws Exception {
     int cnt = memberService.idCheck(id);
     return cnt;
   }
@@ -50,7 +50,7 @@ public class MemberController {
   // 닉네임 중복체크
   @PostMapping("/nickCheck")
   @ResponseBody
-  public int nickCheck(@RequestParam("nick") String nick) {
+  public int nickCheck(@RequestParam("nick") String nick) throws Exception {
     int cntNick = memberService.nickCheck(nick);
     return cntNick;
   }

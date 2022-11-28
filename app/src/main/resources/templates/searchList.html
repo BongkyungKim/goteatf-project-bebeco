@@ -1,0 +1,287 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BEBECO</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+        crossorigin="anonymous">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+  <link href="/css/board/boardstyle.css" rel="stylesheet">
+  <!-- jquery -->
+  <script src="https://code.jquery.com/jquery-3.6.1.js"
+          integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+          crossorigin="anonymous"></script>
+  <!-- jquery end-->
+</head>
+<body>
+<!-------------------------------구분선-------------------------->
+<div class="b-example-divider"></div>
+<!------------------------------header------------------------------>
+<div th:replace="/common/header.html :: fragment-header"></div>
+<!------------------------------header 마지막------------------------------>
+
+<!-------------------------------구분선-------------------------->
+<div class="line-3"></div>
+<div class="line-3"></div>
+<!------------------------------nav------------------------------>
+<div th:replace="/common/nav.html :: fragment-nav"></div>
+<!------------------------------nav 마지막------------------------------>
+
+<!-------------------------------구분선-------------------------->
+<div class="a-example-divider"></div>
+
+<!-------------------------------구분선-------------------------->
+<div class="line-3"></div>
+
+<table class="table">
+  <thead class="table-light">
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">First</th>
+    <th scope="col">Last</th>
+    <th scope="col">Handle</th>
+  </tr>
+  </thead>
+  <tbody class="table-group-divider">
+  <tr data-th-each="event : ${events}">
+    <th scope="row" data-th-text="${event.no}">1</th>
+    <td data-th-text="${event.title}">Mark</td>
+    <td data-th-text="${event.content}">Otto</td>
+    <td th:data="${event.viewCnt}">@mdo</td>
+  </tr>
+  </tbody>
+</table>
+
+<div class="line-3"></div>
+
+<table class="table">
+  <thead class="table-light">
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">First</th>
+    <th scope="col">Last</th>
+    <th scope="col">Handle</th>
+  </tr>
+  </thead>
+  <tbody class="table-group-divider">
+  <tr data-th-each="party : ${parties}">
+    <th scope="row" data-th-text="${party.no}">1</th>
+    <td data-th-text="${party.title}">Mark</td>
+    <td data-th-text="${party.content}">Otto</td>
+    <td data-th-text="${party.writer.nick}">@mdo</td>
+  </tr>
+  </tbody>
+</table>
+
+<div class="line-3"></div>
+
+<table class="table">
+  <thead class="table-light">
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">First</th>
+    <th scope="col">Last</th>
+    <th scope="col">Handle</th>
+  </tr>
+  </thead>
+  <tbody class="table-group-divider">
+  <tr data-th-each="feed : ${feeds}">
+    <th scope="row" data-th-text="${feed.no}">1</th>
+    <td data-th-text="${feed.title}">Mark</td>
+    <td data-th-text="${feed.content}">Otto</td>
+    <td data-th-text="${feed.likeCnt}">@mdo</td>
+  </tr>
+  </tbody>
+</table>
+
+<div class="line-3"></div>
+<!--==================-->
+
+<div class="line-3"></div>
+
+    <!-------------------------------구분선-------------------------->
+    <div class="line-3"></div>
+    <!-------------------------------페이지-------------------------->
+<!--        <nav aria-label="Page navigation example">-->
+<!--          <ul class="pagination justify-content-center">-->
+<!--            <li class="page-item disabled" th:if="${pageMaker.prev}">-->
+<!--              <a class="page-link"-->
+<!--                 th:href="@{list(pageMaker.startPage-1)}" aria-label="Previous">-->
+<!--                <span aria-hidden="true">이전페이지</span>-->
+<!--              </a>-->
+<!--            </li>-->
+<!--            <th:block th:each="pageNum: ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">-->
+<!--              <li class="page-item">-->
+<!--                <a class="page-link" th:href="@{list(page=${pageNum})}"><i th:text="${pageNum}"></i></a>-->
+<!--              </li>-->
+<!--            </th:block>-->
+<!--            <li class="page-item" th:if="${pageMaker.next && pageMaker.endPage >0}">-->
+<!--              <a class="page-link" th:href="@{list(page=${pageMaker.endPage+1})}" aria-label="Next">-->
+<!--                <span aria-hidden="true">다음페이지</span>-->
+<!--              </a>-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--        </nav>-->
+    <!-------------------------------페이지 end-------------------------->
+    <!-------------------------------구분선-------------------------->
+    <div class="line-3"></div>
+    <!------------------------------footer------------------------------>
+    <footer class="py-3 my-4">
+      <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+        <li class="nav-item"><a th:href="@{/}" class="nav-link px-2 text-muted">Home</a>
+        </li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a>
+        </li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pricing</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+      </ul>
+      <p class="text-center text-muted">© 2022 Chunderella Corp & ThreeAppleteam. All Rights Reserved.</p>
+    </footer>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/locale/ko.min.js" integrity="sha512-3kMAxw/DoCOkS6yQGfQsRY1FWknTEzdiz8DOwWoqf+eGRN45AmjS2Lggql50nCe9Q6m5su5dDZylflBY2YjABQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+      var no = "";
+
+      $('.xx-join1').click(function () {
+        no = $(this).attr("id")
+        console.log(no);
+      })
+
+      // $('.xx-join2').click(function () {
+      //   $(this).attr("id", no);
+      //   console.log(no)
+      // })
+
+      // $('.xx-join2').click(function () {
+      //   console.log(no)
+      // })
+
+      $('.xx-join2').click(function () {
+        let urlNo = no; // jquery : detail?no=78
+        let join = $(this).attr('value');
+        let data = {"state": join, "urlNo": urlNo};
+
+        $.ajax({
+          url: "/volunteer/add",
+          type: "POST",
+          dataType: "json",
+          contentType: "application/json",
+          data: JSON.stringify(data),
+          success: function (result) {
+            if (result == "3") {
+              alert("인원 초과!!");
+            } else {
+              alert("성공");
+              location.href = "/party/list?meal=all";
+              // window.location.href = "/auth/loginSave"; // TODO 1. cookie 1번
+              // window.location.href = "/auth/loginSave"; // TODO 2. cookie 2번
+              // modal.style.display = "none";
+            }
+          },
+          error: function (jpXHR, status, error) {
+            alert("다시!!!! [ " + error + " ]");
+            // 로그인 안 했습니다 로그인창으로 이동!!
+          }
+        });
+      }); // xx-join2 마지막
+
+      var writerNo = '';
+        $('.xx-join3').click(function () {
+          let memberNo = $('#xx-party-out-check').attr('value');
+          // <input id="xx-party-out-check" type="text" data-th-value="${session.loginMember.no}" hidden>
+          writerNo = $(this).attr('value');
+          // <a data-th-if="${session.loginMember != null}" class="btn btn-outline-success xx-join3" data-bs-toggle="modal" href="#exampleModalToggle3" role="button" data-th-id="${party.no}" data-th-value="${party.writer.no}">참여자정보</a>
+
+          no = $(this).attr("id")
+          console.log(no)
+          let urlNo = no;
+          let data = {"urlNo": urlNo};
+
+          $.ajax({
+            url: "/volunteer/detail",
+            type: "POST",
+            dataType: "JSON",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (map) {
+
+              console.log(memberNo);
+              console.log(writerNo);
+
+              // memberNo(로그인 번호)와 writerNo(게시물 작성자) 번호가 같으면 파티나가기 숨기기, 이유 : 작성자는 신청이 불가능 하기 때문
+              if (memberNo == writerNo) {
+                $('.xx-join4').hide();
+              } else {
+                $('.xx-join4').show();
+              }
+
+              // console.log('map정보 : '+map);
+              var volDetailList = '';
+              console.log(map);
+              $.each(map, function (key, value) {
+                console.log(value)
+                for (var i = 0; i < value.length; i++) {
+                  console.log(value[i])
+                  let date = new Date(value[i].date).toLocaleDateString();
+                  // var date2 = moment(date).format('LL');
+                  // var dateFormat = moment(new Date(value[i].date)).format('YYYY-MM-DD');
+                  volDetailList += "<tr>"
+                  volDetailList += "<th scope='row'>" + value[i].fcfs + "</th>"
+                  volDetailList += "<td>" + value[i].writer.nick + "</td>"
+                  volDetailList += "<td>" + date + "</td>"
+                  volDetailList += "</tr>"
+                }
+              });
+              $('.volunteer-detail-list').html(volDetailList);
+            },
+            error: function (jpXHR, status, error) {
+              alert("다시!!!! [ " + error + " ]");
+            }
+          })
+        }); // xx-join3 마지막
+
+      $('.xx-join4').click(function () {
+        let urlNo = no;
+        let out = $(this).attr("value");
+        let memberNo = $('#xx-party-out-check').attr('value');
+        let data = {"state": out, "urlNo": urlNo, "memberNo": memberNo};
+        console.log(data);
+
+        $.ajax({
+          url: "/volunteer/partyOut",
+          type: "POST",
+          dataType: "json",
+          contentType: "application/json",
+          data: JSON.stringify(data),
+          success: function (partyOut) {
+            if (partyOut == "3") {
+              alert('파티참여자가 아닙니다');
+            } else {
+              alert('파티나가기 성공');
+              $('#exampleModalToggle3').modal('hide');
+              location.href = "/party/list?meal=all";
+            }
+          },
+        })
+      }); // xx-join4 마지막
+    </script>
+</body>
+</html>
+
+
+<!--<!— e.preventDefault() 행위를 막는 —>-->
+<!--<!— <tbody data-page-no="1" data-page-size="3" data-max-page-no="5"> —>-->
+<!--<!— encodeURIComponent(keyword) —>-->
+<!--<!— 이전 또는 다음 최대에 도착하면 버튼 비활성화 태그가 있음 —>-->

@@ -11,18 +11,20 @@
       <!-------------------------------구분선-------------------------->
       <div class="col-2"></div>
 
-      <form class="col-12 col-lg-4 mb-3 mb-lg-0 me-lg-4" role="search">
-        <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+      <form class="col-12 col-lg-4 mb-3 mb-lg-0 me-lg-4" data-th-action="@{search}" role="search">
+        <input type="search" class="form-control" name="keywordAll" placeholder="Search..." aria-label="Search">
       </form>
       <!-------------------------------구분선-------------------------->
       <div class="col-2"></div>
 
       <div th:if="${session.loginMember == null}" class="d-grid me-lg-4 gap-2">
-        <button type="button" onclick="location.href='/auth/login'" class="btn btn-secondary" data-bs-toggle="button">로그인</button>
+<!--        <button type="button" onclick="location.href='/auth/login'" class="btn btn-secondary" data-bs-toggle="button">로그인</button>-->
+        <button type="button" onclick="location.href='/auth/login'" class="btn btn-outline-dark" style="background-color: #ffc107; border-color: white" data-bs-toggle="button">로그인</button>
       </div>
 
       <div th:if="${session.loginMember != null}" class="d-grid me-lg-4 gap-2">
-        <button type="button" onclick="location.href='/auth/logout'" class="btn btn-secondary" data-bs-toggle="button">로그아웃</button>
+        <button type="button" onclick="location.href='/auth/logout'" class="btn btn-outline-dark" style="background-color: #ffc107; border-color: white" data-bs-toggle="button">로그아웃</button>
+<!--        <button type="button" onclick="location.href='/auth/logout'" class="btn btn-secondary" data-bs-toggle="button">로그아웃</button>-->
       </div>
 
       <div class="dropdown text-end me-lg-4">
@@ -33,10 +35,8 @@
 
 <!--        <ul class="dropdown-menu text-small " th:if="${session.loginMember != null and session.loginMember.id != 'admin@test.com'}">-->
         <ul class="dropdown-menu text-small">
-          <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">New project...</a></li>
           <li th:if="${session.loginMember != null}"><a class="dropdown-item" th:href="@{/my/main}">마이페이지</a></li>
-          <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">설정</a></li>
-          <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">프로필</a></li>
+<!--          <li data-th-if="${session.loginMember.id == 'admin@test.com'}"><a class="dropdown-item" th:href="@{/admin/main}">관리자페이지</a></li>-->
           <li>
             <hr class="dropdown-divider">
           </li>

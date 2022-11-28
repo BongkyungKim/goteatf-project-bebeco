@@ -28,14 +28,28 @@ public class HomeController {
   //메인페이지에서 버튼을 눌렀을때 게시물을 노출시키기 위해서
   //mainList(meal,food) 추가함
   @GetMapping("/")
-  public String List(Model model,String meal, String food) throws Exception {
+  public String List(Model model, String meal, String food) throws Exception {
 
-    model.addAttribute("feeds",feedService.mainList());
-    model.addAttribute("events",eventService.mainList());
-    model.addAttribute("parties",partyService.mainList(meal, food));
+    model.addAttribute("feeds", feedService.mainList());
+    model.addAttribute("events", eventService.mainList());
+    model.addAttribute("parties", partyService.mainList(meal, food));
     model.addAttribute("meal", meal);
     model.addAttribute("food", food);
 
     return "index";
+  }
+
+  @GetMapping("search")
+  public String searchList(Model model, String keywordAll) throws Exception {
+
+    if (keywordAll == null) {
+      keywordAll = null;
+    }
+    model.addAttribute("parties", partyService.searchList(keywordAll));
+    model.addAttribute("feeds", feedService.searchList(keywordAll));
+    model.addAttribute("events", eventService.searchList(keywordAll));
+    model.addAttribute("keywordAll", keywordAll);
+
+    return "searchList";
   }
 }

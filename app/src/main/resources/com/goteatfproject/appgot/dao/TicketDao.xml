@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goteatfproject.appgot.dao.TicketDao">
+
+  <resultMap type="ticket" id="ticketMap">
+    <id column="tno" property="ticketNo"/>
+    <result column="pay" property="pay"/>
+    <result column="paydate" property="paydate"/>
+    <result column="paycnt" property="paycnt"/>
+    <result column="cancel"  property="cancel"/>
+    <result column="totalcost"  property="totalcost"/>
+    <result column="mno"  property="mno"/>
+    <result column="eno"  property="eno"/>
+
+    <!--    <association property="member" javaType="Member">-->
+    <!--      <result column="mmno"  property="mno"/>-->
+    <!--    </association>-->
+
+    <association property="event" javaType="Event">
+      <result column="eeno"  property="eno"/>
+      <result column="title"  property="title"/>
+    </association>
+  </resultMap>
+
+  <select id="findByNo" resultMap="ticketMap">
+    select
+    tk.tno,
+    tk.mno,
+    tk.eno,
+    tk.pay,
+    tk.paydate,
+    tk.paycnt,
+    tk.totalcost,
+    e.title
+    from ticket tk
+    join event e on e.eno = tk.eno
+    where tk.mno= #{no}
+  </select>
+
+</mapper>

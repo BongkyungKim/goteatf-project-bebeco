@@ -15,8 +15,8 @@
 
   <!-- 서머노트css -->
   <!-- include libraries(jQuery, bootstrap) -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-        rel="stylesheet">
+<!--  <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"-->
+<!--        rel="stylesheet">-->
 
   <!-- include summernote css/js -->
   <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css"
@@ -54,66 +54,143 @@
 <form th:action="@{/party/update}" method="post" enctype="multipart/form-data">
   <div class="container border rounded">
 
-    <!--1줄-->
-    <div class="row p-3">
-      <div class="col-3"><span>모임시간대 : <input type="text" name="meal" data-th-placeholder="${party.meal}"></span></div>
-<!--      <div class="col-2"  th:text="'[' + ${party.meal} + '파티]'"></div> -->
-      <div class="col-3"><span>음식종류 : <input type="text" name="food" data-th-placeholder="${party.food}"></span></div>
-<!--      <div class="col-2" th:text="'[' + ${party.food} + ']'"></div>-->
-      <div class="col-2"></div>
-      <div class="col-3"><span>현재 인원 : [[${party.max}]] / <input type="text" name="limit" data-th-placeholder="${party.limit}"></span></div>
-<!--      <div class="col-2" th:text="'(' + ${party.max} + '/' + ${party.limit} + ')'"></div>-->
+    <div class="row p-3 justify-content-center" style="text-align: center; font-size: 26px">
+      <div class="col-8">파티참여</div>
+      <input name="no" type="number" value="1" th:value="${party.no}" readonly hidden/>
+    </div>
 
-      <div class="col-2">파티참여</div>
-      <div class="col-2"><input name="no" type="number" value="1" th:value="${party.no}" readonly hidden/></div>
+    <!--1줄-->
+    <div class="row p-3 justify-content-center">
+      <div class="col-2">
+        <span>모임시간 : </span>
+        <select class="form-select form-select-sm xx-select-meal" aria-label=".form-select-sm example" id="xx-select-meal">
+          <option selected="">모임시간</option>
+          <option value="점심">점심파티</option>
+          <option value="저녁">저녁파티</option>
+          <option value="야식">야식파티</option>
+          <option value="술">술파티</option>
+          <option value="디저트">디저트파티</option>
+        </select>
+        <input type="text" name="meal" hidden id="xx-input-meal">
+      </div>
+<!--      <div class="col-2"  th:text="'[' + ${party.meal} + '파티]'"></div> -->
+      <div class="col-2">
+        <span>음식종류 : </span>
+        <select class="form-select form-select-sm xx-select-food" aria-label=".form-select-sm example" id="xx-select-food">
+          <option selected="">음식종류</option>
+          <option value="한식">한식</option>
+          <option value="분식">분식</option>
+          <option value="중식">중식</option>
+          <option value="일식">일식</option>
+          <option value="양식">양식</option>
+          <option value="디저트">디저트</option>
+          <option value="패스트푸드">패스트푸드</option>
+          <option value="아시안">아시안</option>
+          <option value="동남아식">동남아식</option>
+        </select>
+        <input type="text" name="food" hidden id="xx-input-food">
+      </div>
+<!--      <div class="col-2" th:text="'[' + ${party.food} + ']'"></div>-->
+      <div class="col-4"><span>현재인원 : [[${party.max}]] / <span>인원제한 : </span>
+        <select class="form-select form-select-sm xx-select-limit" aria-label=".form-select-sm example" id="xx-select-limit">
+          <option selected="">인원제한 최대 15명</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="15">15</option>
+        </select>
+        <input type="text" name="limit" hidden id="xx-input-limit"></span>
+      </div>
+<!--      <div class="col-2" th:text="'(' + ${party.max} + '/' + ${party.limit} + ')'"></div>-->
     </div>
 
     <!--2줄-->
-    <div class="row p-3">
-      <div class="col"><span>제목 : <input type="text" name="title" data-th-placeholder="${party.title}"></span></div>
+    <div class="row p-3 justify-content-center">
+      <div class="col-8"><span>제목 : <input class="form-control form-control-sm" type="text" name="title" data-th-placeholder="${party.title}" aria-label=".form-control-sm example"></span></div>
 <!--      <div class="col"  th:text="${party.title}"></div>-->
     </div>
 
     <!--3줄-->
-    <div class="row p-3 border-bottom">
+    <div class="row p-3 border-bottom justify-content-center">
       <div class="col-2" th:text="'작성자 : ' +${party.writer.nick}"></div>
-      <div class="col-2" th:text="'조회수:' + ${party.viewCnt}"></div>
-      <div class="col-2" th:text=" '작성일 :' + ${#dates.format(party.createDate, 'yyyy/MMM/dd HH:mm')}"></div>
+      <div class="col-2" th:text="'조회수 : ' + ${party.viewCnt}"></div>
+      <div class="col-4" th:text="'작성일 : ' + ${#dates.format(party.createDate, 'yyyy/MMM/dd HH:mm')}"></div>
     </div>
 
     <!--4줄-->
-    <div class="row p-3 border-bottom">
-      <div class="col">
+    <div class="row p-3 border-bottom justify-content-center">
+      <div class="col-8">
         <textarea id='content' name='content' th:text="${party.content}">[[${party.content}]]</textarea>
       </div>
     </div>
 
     <!--5줄-->
-    <div class="row p-3">
-      <div class="col">
+    <div class="row p-3 justify-content-center" style="font-size: 26px">
+      <div class="col-8">
         참여조건
       </div>
     </div>
 
     <!--6줄-->
-    <div class="row p-3">
-      <div class="col-3"><span>성별 : <input type="text" name="gender" data-th-placeholder="${party.gender}"></span></div>
+    <div class="row p-3 justify-content-center">
+      <div class="col-4"><span>성별 : </span>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input xx-radio-m" type="radio" name="gender" id="flexRadioDefault1" value="남자">
+          <label class="form-check-label" for="flexRadioDefault1">
+            남자
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input xx-radio-g" type="radio" name="gender" id="flexRadioDefault2" value="여자">
+          <label class="form-check-label" for="flexRadioDefault2">
+            여자
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input xx-radio-a" type="radio" name="gender" id="flexRadioDefault3" checked="" value="아무나">
+          <label class="form-check-label" for="flexRadioDefault3">
+            아무나
+          </label>
+        </div>
+      </div>
 <!--      <div class="col-3" th:text="'성별 : ' + '[' + ${party.gender} + ']'"></div>-->
-      <div class="col-3"><span>연령대 : <input type="text" name="age" data-th-placeholder="${party.age}"></span></div>
+      <div class="col-4"><span>연령대 : </span>
+        <select class="form-select form-select-sm xx-select-age" aria-label=".form-select-sm example" id="xx-select-age">
+          <option selected="">연령대</option>
+          <option value=10>10대</option>
+          <option value=20>20대</option>
+          <option value=30>30대</option>
+          <option value=40>40대</option>
+          <option value=50>50대</option>
+          <option value=60>60대</option>
+        </select>
+        <input type="text" name="age" placeholder="연령대" hidden id="xx-input-age">
+      </div>
 <!--      <div class="col-3" th:text="'연령대 : ' + '[' + ${party.age} + '대]'"></div>-->
     </div>
 
     <!--7줄-->
-    <div class="row p-3">
-      <div class="col"><span> 모임시간 : <input type="datetime-local" name="time" data-th-placeholder="${#dates.createNowForTimeZone(party.time)} + '시'"></span></div>
+    <div class="row p-3 justify-content-center">
+      <div class="col-8"><span> 모임시간 : <input type="datetime-local" name="time" data-th-placeholder="${#dates.createNowForTimeZone(party.time)} + '시'"></span></div>
 <!--      <div class="col" th:text="'[' + ${#dates.createNowForTimeZone(party.time)} + '시]'"></div>-->
     </div>
 
     <!--8줄-->
-    <div class="row p-3">
-      <div class="col-3"><span>장소명 : <input type="text" name="location" data-th-placeholder="${party.location}"></span></div>
+    <div class="row p-3 justify-content-center">
+      <div class="col-4"><span>장소명 : <input type="text" name="location" data-th-placeholder="${party.location}"></span></div>
 <!--      <div class="col-2"><p th:text="'장소명 : ' +'[' + ${party.location} + ']'"></p></div>-->
-      <div class="col-3"><span>주소 : <input type="text" name="address" data-th-placeholder="${party.address}"></span></div>
+      <div class="col-4"><span>주소 : <input type="text" name="address" data-th-placeholder="${party.address}"></span></div>
 <!--      <div class="col-2" th:text="'주소 : ' +'[' + ${party.address} + ']'"></div>-->
     </div>
 
@@ -122,7 +199,8 @@
 <!--      [<a href="fileDelete?no=1" data-th-href="@{fileDelete(no=${file.no})}">파일삭제</a>]-->
 <!--      파일 추가: <input name='files' type="file" multiple>-->
 <!--    </div>-->
-      <div class="mb-3">
+    <div class="row p-3 justify-content-center">
+      <div class="col-8">
         <label for="formFileSm" class="form-label">파일 첨부</label>
         <input class="form-control form-control-sm" id="formFileSm" type="file" name="files" multiple>
         <ul class="list-group" data-th-each="file : ${party.attachedFiles}">
@@ -130,10 +208,13 @@
             <a href="fileDelete?no=1" data-th-href="@{fileDelete(no=${file.no})}">[파일삭제]</a></li>
         </ul>
       </div>
+      </div>
 
+    <div class="hstack gap-3 justify-content-center" style="margin-top: 2rem; margin-bottom: 3rem">
     <button type="submit" class="btn btn-outline-secondary">수정</button>
     <!--  <button type="submit" class="btn btn-outline-secondary"><a th:href="@{modify(no=${party.no})}">수정</a></button>-->
-    <button type="button" class="btn btn-outline-secondary"><a th:href="@{delete(no=${party.no})}">삭제</a></button>
+    <button type="button" class="btn btn-outline-secondary"><a th:href="@{delete(no=${party.no})}" style="text-decoration: none">삭제</a></button>
+    </div>
     </div>
 <!--<table border='1'>-->
 <!--  <input name="no" type="number" value="1" th:value="${party.no}" readonly hidden/>-->
@@ -177,26 +258,26 @@
 </form>
 
 <!--                                onclick="location.href='/auth/logout'"-->
-  <h5>Comment : </h5>
-  <div class="xx-comment-parent">
-  <div class="xx-comment">
-  </div>
-  </div>
+<!--  <h5>Comment : </h5>-->
+<!--  <div class="xx-comment-parent">-->
+<!--  <div class="xx-comment">-->
+<!--  </div>-->
+<!--  </div>-->
 
 <!-- 댓글 작성 -->
-  <div class="card my-4">
-    <h5 class="card-header">Leave a Comment:</h5>
-    <div class="card-body">
-      <form name="comment-form" data-th-action="@{/party/comment}" method="post" autocomplete="off">
-        <div class="form-group">
-          <input type="hidden" name="no" data-th-value="${party.no}"/>
-          <input data-th-if="${session.loginMember != null}" name="session" data-th-value="${session.loginMember.getNo()}" hidden/>
-          <textarea name="commentCont" class="form-control" rows="3"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">댓글등록</button>
-      </form>
-    </div>
-  </div>
+<!--  <div class="card my-4">-->
+<!--    <h5 class="card-header">Leave a Comment:</h5>-->
+<!--    <div class="card-body">-->
+<!--      <form name="comment-form" data-th-action="@{/party/comment}" method="post" autocomplete="off">-->
+<!--        <div class="form-group">-->
+<!--          <input type="hidden" name="no" data-th-value="${party.no}"/>-->
+<!--          <input data-th-if="${session.loginMember != null}" name="session" data-th-value="${session.loginMember.getNo()}" hidden/>-->
+<!--          <textarea name="commentCont" class="form-control" rows="3"></textarea>-->
+<!--        </div>-->
+<!--        <button type="submit" class="btn btn-primary">댓글등록</button>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--  </div>-->
 <!-- 댓글 작성 마지막-->
 
 <!---------------------------- 상세보기 end ------------------------------>
@@ -304,6 +385,58 @@
 </script>
 <!-- 서머노트 end-->
 
+<script>
+  $(document).ready(function () {
+    $('.xx-select-meal').change(function () {
+      console.log('모임시간 => ' + $(this).val());
+      $('#xx-input-meal').val($(this).val());
+    })
+  });
+
+  $(document).ready(function () {
+    $('.xx-select-food').change(function () {
+      console.log('음식종류 => ' + $(this).val());
+      $('#xx-input-food').val($(this).val());
+    })
+  });
+
+  $(document).ready(function () {
+    $('.xx-select-limit').change(function () {
+      console.log('인원제한 => ' + $(this).val());
+      $('#xx-input-limit').val($(this).val());
+    })
+  });
+
+  $(document).ready(function () {
+    $('.xx-radio-m').change(function () {
+      console.log('성별 => ' + $(this).val());
+      $('#xx-input-gender').val($(this).val());
+    })
+  });
+
+  $(document).ready(function () {
+    $('.xx-radio-g').change(function () {
+      console.log('성별 => ' + $(this).val());
+      $('#xx-input-gender').val($(this).val());
+    })
+  });
+
+  $(document).ready(function () {
+    $('.xx-radio-a').change(function () {
+      console.log('성별 => ' + $(this).val());
+      $('#xx-input-gender').val($(this).val());
+    })
+  });
+
+  $(document).ready(function () {
+    $('.xx-select-age').change(function () {
+      console.log('연령대 => ' + $(this).val());
+      $('#xx-input-age').val($(this).val());
+    })
+  });
+</script>
+
+
 <!-- 댓글 일반적인 부분 -->
 <script th:inline="javascript">
   /*<![CDATA[*/
@@ -312,41 +445,41 @@
 // })
 
 // 위 명령과 동일
-$(function () {
-  getCommentList(); // 실행할 기능을 정의
-});
-
-  function getCommentList() {
-    var pno = $('input[name = no]').val(); // 디테일 페이지 no
-    var sno = $('input[name = session]').val(); // 로그인 세션 no
-    // var userNo = $("#comment").attr("data-userid"); 강사님
-
-    $.ajax({
-      url: '/party/getCommentList',
-      type: 'GET',
-      data: {pno},
-      success: function (result) {
-
-        // each 댓글
-        var str='';
-        $.each(result, function (key,value) {
-          console.log('작성자no : ' + value.writer.no) // 작성자 no
-          console.log('로그인no :' + sno) // 로그인 세션 no
-          console.log(sno == value.writer.no)
-          // console.log(userNo == result[i].writer.no); // 강사님
-        str += "<div class='comment' style='border:3px solid black;'>";
-        str += "<span class='xx-nick'>" + '작성자 : ' + value.writer.nick + "</span><br>";
-        str += "<span class='xx-comment-cont' id='xx-cont" + value.partyReplyNo + "'>" + '내용 : ' + value.commentCont + "</span><br>";
-        // if (userNo == result[i].writer.no) { // 강사님
-        if (sno == value.writer.no) {
-           str += "<button type='button' class='xx-updateComment' id='xx-prno-update" + value.partyReplyNo + "' name='partyReplyNo' data-prno='" + value.partyReplyNo + "' data-mno='" + value.writer.no + "'>댓글 수정</button>";
-          str += "<button type='button' class='xx-deleteComment' id='xx-prno-delete"
-              + value.partyReplyNo + "' data-prno='" + value.partyReplyNo
-              + "' data-mno='" + value.writer.no + "'>댓글 삭제</button><br>";
-        }
-        str += "</div>";
-        });
-        $(".xx-comment").html(str);
+// $(function () {
+//   getCommentList(); // 실행할 기능을 정의
+// });
+//
+//   function getCommentList() {
+//     var pno = $('input[name = no]').val(); // 디테일 페이지 no
+//     var sno = $('input[name = session]').val(); // 로그인 세션 no
+//     // var userNo = $("#comment").attr("data-userid"); 강사님
+//
+//     $.ajax({
+//       url: '/party/getCommentList',
+//       type: 'GET',
+//       data: {pno},
+//       success: function (result) {
+//
+//         // each 댓글
+//         var str='';
+//         $.each(result, function (key,value) {
+//           console.log('작성자no : ' + value.writer.no) // 작성자 no
+//           console.log('로그인no :' + sno) // 로그인 세션 no
+//           console.log(sno == value.writer.no)
+//           // console.log(userNo == result[i].writer.no); // 강사님
+//         str += "<div class='comment' style='border:3px solid black;'>";
+//         str += "<span class='xx-nick'>" + '작성자 : ' + value.writer.nick + "</span><br>";
+//         str += "<span class='xx-comment-cont' id='xx-cont" + value.partyReplyNo + "'>" + '내용 : ' + value.commentCont + "</span><br>";
+//         // if (userNo == result[i].writer.no) { // 강사님
+//         if (sno == value.writer.no) {
+//            str += "<button type='button' class='xx-updateComment' id='xx-prno-update" + value.partyReplyNo + "' name='partyReplyNo' data-prno='" + value.partyReplyNo + "' data-mno='" + value.writer.no + "'>댓글 수정</button>";
+//           str += "<button type='button' class='xx-deleteComment' id='xx-prno-delete"
+//               + value.partyReplyNo + "' data-prno='" + value.partyReplyNo
+//               + "' data-mno='" + value.writer.no + "'>댓글 삭제</button><br>";
+//         }
+//         str += "</div>";
+//         });
+//         $(".xx-comment").html(str);
         //==== each 테스트 마지막
 
         // ======== For문 댓글 출력 임시1
@@ -426,114 +559,114 @@ $(function () {
         //
       // }
 
-      },
-      error: function (result) {
-      },
-    });
-  }
+  //     },
+  //     error: function (result) {
+  //     },
+  //   });
+  // }
 
   // ===============
-  $(document).on('click', '.xx-updateComment', function () {
-  var prno = $(this).attr("data-prno");
-  var mno = $(this).attr("data-mno");
-  // var cont = $('span[class=xx-comment-cont]').val();
-  //   var cont = $('.xx-comment-cont').attr("data-cont");
-    var cont = $('#xx-cont'+prno).text();
-    cont = cont.substring(5);
-  console.log('댓글번호 : ' + prno)
-  console.log('댓글번호 : ' + mno)
-  console.log('내용 : ' + cont)
-
-      var uc;
-    uc = "<div class='card my-4'>"
-      uc = uc + "<h5 class='card-header'>수정</h5>"
-      uc = uc + "<div class='card-body'>"
-        uc = uc + "<div class='form-group'>"
-          uc = uc + "<textarea name='commentCont' class='form-control' rows='3' id='xx-cont-edit"+prno+"'>" + cont + "</textarea>"
-        uc = uc + "</div>"
-        uc = uc + "<button type='button' class='btn btn-primary' id='xx-update-btn' data-prno='"+prno+"' data-mno='"+mno+"'>댓글수정</button>"
-      uc = uc + "</div>"
-        uc = uc + "</div>"
-    console.log(uc)
-
-    $('#xx-prno-update'+prno).replaceWith(uc);
-  }); // on click 끝
-
-// ======== ajax 부분 삭제 ㄴㄴ
-$(document).on('click', '#xx-update-btn', function () {
-  console.log('댓글 번호 : ' + $(this).attr("data-prno"));
-  // console.log(this.getAttribute("data-prno"));
-  console.log('댓글 작성자 번호 : ' + $(this).attr("data-mno"));
-
-  let prno = $(this).attr("data-prno");
-  let mno = $(this).attr("data-mno");
-  let cont = $('#xx-cont-edit' + prno).val();
-  let data = {"partyReplyNo":prno, "memberNo": mno, "commentCont":cont}
-  var pno = $('input[name = no]').val();
-
-  $.ajax({
-    url: "/party/updateComment",
-    type: "POST",
-    dataType: "json",
-    contentType: "application/json",
-    data: JSON.stringify(data),
-    success: function (updateComment) {
-      if (updateComment == "1") {
-        getCommentList();
-        // $('.comment').load(location.href+' .comment');
-        // alert("댓글 변경 성공!")
-        // location.href="/party/detail?no=" + pno
-        // $('#comment').html(str);
-      }
-    },
-    error: function (jpXHR, status, error) {
-      alert("댓글 수정 다시!!! [ " + error + " ]");
-    }
-  });
-});
-
-  $(document).on('click', '.xx-deleteComment', function () {
-    let deletePartyReplyNo = $(this).attr("data-prno");
-    console.log('댓글 삭제 번호 : ' + $(this).attr("data-prno"));
-
-    $.ajax({
-      url: "/party/deleteComment",
-      type: "GET",
-      data: {deletePartyReplyNo},
-      success: function (deleteComment) {
-        if (deleteComment == "1") {
-        // 스윗
-        Swal.fire({
-          title: '진짜 삭제 진짜루?',
-          text: "삭제하면 끝이야!!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: '삭제!',
-          cancelButtonText: '취소'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            Swal.fire(
-                '삭제 성공!',
-                '',
-                'success'
-            )
-          }
-        })
-        // 스윗 마지막
-
-          // $('.comment').load(location.href+' .comment');
-          getCommentList();
-          // alert("댓글 삭제 성공!")
-          // $('#comment').html(str);
-        }
-      },
-      error: function (jpXHR, status, error) {
-        alert("댓글 삭제 다시!!! [ " + error + " ]");
-      }
-    });
-  });
+//   $(document).on('click', '.xx-updateComment', function () {
+//   var prno = $(this).attr("data-prno");
+//   var mno = $(this).attr("data-mno");
+//   // var cont = $('span[class=xx-comment-cont]').val();
+//   //   var cont = $('.xx-comment-cont').attr("data-cont");
+//     var cont = $('#xx-cont'+prno).text();
+//     cont = cont.substring(5);
+//   console.log('댓글번호 : ' + prno)
+//   console.log('댓글번호 : ' + mno)
+//   console.log('내용 : ' + cont)
+//
+//       var uc;
+//     uc = "<div class='card my-4'>"
+//       uc = uc + "<h5 class='card-header'>수정</h5>"
+//       uc = uc + "<div class='card-body'>"
+//         uc = uc + "<div class='form-group'>"
+//           uc = uc + "<textarea name='commentCont' class='form-control' rows='3' id='xx-cont-edit"+prno+"'>" + cont + "</textarea>"
+//         uc = uc + "</div>"
+//         uc = uc + "<button type='button' class='btn btn-primary' id='xx-update-btn' data-prno='"+prno+"' data-mno='"+mno+"'>댓글수정</button>"
+//       uc = uc + "</div>"
+//         uc = uc + "</div>"
+//     console.log(uc)
+//
+//     $('#xx-prno-update'+prno).replaceWith(uc);
+//   }); // on click 끝
+//
+// // ======== ajax 부분 삭제 ㄴㄴ
+// $(document).on('click', '#xx-update-btn', function () {
+//   console.log('댓글 번호 : ' + $(this).attr("data-prno"));
+//   // console.log(this.getAttribute("data-prno"));
+//   console.log('댓글 작성자 번호 : ' + $(this).attr("data-mno"));
+//
+//   let prno = $(this).attr("data-prno");
+//   let mno = $(this).attr("data-mno");
+//   let cont = $('#xx-cont-edit' + prno).val();
+//   let data = {"partyReplyNo":prno, "memberNo": mno, "commentCont":cont}
+//   var pno = $('input[name = no]').val();
+//
+//   $.ajax({
+//     url: "/party/updateComment",
+//     type: "POST",
+//     dataType: "json",
+//     contentType: "application/json",
+//     data: JSON.stringify(data),
+//     success: function (updateComment) {
+//       if (updateComment == "1") {
+//         getCommentList();
+//         // $('.comment').load(location.href+' .comment');
+//         // alert("댓글 변경 성공!")
+//         // location.href="/party/detail?no=" + pno
+//         // $('#comment').html(str);
+//       }
+//     },
+//     error: function (jpXHR, status, error) {
+//       alert("댓글 수정 다시!!! [ " + error + " ]");
+//     }
+//   });
+// });
+//
+//   $(document).on('click', '.xx-deleteComment', function () {
+//     let deletePartyReplyNo = $(this).attr("data-prno");
+//     console.log('댓글 삭제 번호 : ' + $(this).attr("data-prno"));
+//
+//     $.ajax({
+//       url: "/party/deleteComment",
+//       type: "GET",
+//       data: {deletePartyReplyNo},
+//       success: function (deleteComment) {
+//         if (deleteComment == "1") {
+//         // 스윗
+//         Swal.fire({
+//           title: '진짜 삭제 진짜루?',
+//           text: "삭제하면 끝이야!!",
+//           icon: 'warning',
+//           showCancelButton: true,
+//           confirmButtonColor: '#3085d6',
+//           cancelButtonColor: '#d33',
+//           confirmButtonText: '삭제!',
+//           cancelButtonText: '취소'
+//         }).then((result) => {
+//           if (result.isConfirmed) {
+//             Swal.fire(
+//                 '삭제 성공!',
+//                 '',
+//                 'success'
+//             )
+//           }
+//         })
+//         // 스윗 마지막
+//
+//           // $('.comment').load(location.href+' .comment');
+//           getCommentList();
+//           // alert("댓글 삭제 성공!")
+//           // $('#comment').html(str);
+//         }
+//       },
+//       error: function (jpXHR, status, error) {
+//         alert("댓글 삭제 다시!!! [ " + error + " ]");
+//       }
+//     });
+//   });
 
   /*]]>*/
 </script>

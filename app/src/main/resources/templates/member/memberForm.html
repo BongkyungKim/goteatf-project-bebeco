@@ -57,27 +57,28 @@
 <div class="container-fluid">
 <div class="container">
   <form data-th-action="@{/member/add}" data-th-method="POST">
-
-  <figure class="text-center">
+    <div class="row p-3 justify-content-center">
+  <figure class="text-center col-8">
   <h1 class="display-6">회원가입</h1>
   </figure>
 
-  <figure style="font-size: 15px; padding-bottom: -20px">
+  <figure style="font-size: 15px; padding-bottom: -20px" class="col-8">
     <span style="color: lightpink">*</span> 필수입력
   </figure>
 
-  <hr class="border border-danger border-1 opacity-50" style="margin-top: -10px">
+  <hr class="border border-danger border-1 opacity-50 col-8" style="margin-top: -10px">
   <div class="line-3"></div>
 
 <!-- 아이디(이메일) -->
-  <div class="hstack gap-3">
-    <div class="col-1"><span style="color: lightpink">*</span> 아이디</div>
+  <div class="hstack gap-3 col-8">
+    <div class="col-1"><span style="color: lightpink">*</span> 아이디(이메일)</div>
 <!--    <input class="form-control me-auto" type="text" placeholder="Add your item here..." aria-label="Add your item here...">-->
-    <input class="form-control me-auto" type="text" id="id" name="id" placeholder="Add your item here..." aria-label="Add your item here..." oninput="idCheck()">
-    <button type="button" class="btn btn-secondary col-1 xx-id-check">중복확인</button>
+    <input class="form-control me-auto" type="email" id="id" name="id" placeholder="이메일을 입력해 주세요." aria-label="Add your item here..." oninput="idCheck()">
+    <div class="col-1"></div>
+<!--    <button type="button" class="btn btn-secondary col-1 xx-id-check">중복확인</button>-->
   </div>
     <!-- id ajax 중복체크 -->
-    <div class="hstack gap-3">
+    <div class="hstack gap-3 col-8">
       <div class="col-1"></div>
     <span class="id_ok" style="display: none">사용 가능한 아이디입니다.</span>
     <span class="id_already" style="display: none">누군가 이 아이디를 사용하고 있어요.</span>
@@ -86,16 +87,16 @@
   <div style="height: 1.5rem"></div>
 
 <!-- 비밀번호  -->
-  <div class="hstack gap-3">
+  <div class="hstack gap-3 col-8">
     <div class="col-1"><span style="color: lightpink">*</span> 비밀번호</div>
-    <input class="form-control me-auto xx-password1" type="password" id="password1" name="password" placeholder="Add your item here..." aria-label="Add your item here...">
+    <input class="form-control me-auto xx-password1" type="password" id="password1" name="password" placeholder="비밀번호를 입력해 주세요." aria-label="Add your item here...">
     <div class="col-1"></div>
   </div>
 
   <!-- 비밀번호 안전등급   -->
-    <div class="hstack gap-3">
+    <div class="hstack gap-3 col-8">
       <div class="col-1"></div>
-    <span class="me-auto" style="font-size: 15px">비밀번호 6~15 - 영어 소문자 대문자 특수문자 숫자가 포함되면 안전등급 올라감
+    <span class="me-auto" style="font-size: 15px">비밀번호 6~15 - 영어 소문자 대문자 특수문자 숫자가 포함되면 안전 등급이 올라갑니다
     <br>안전등급 <progress max="4" value="0" id="meter"></progress>
       <div class="xx-textbox"></div></span>
       <div class="col-1"></div>
@@ -103,36 +104,37 @@
 
   <div style="height: 1.5rem"></div>
 
-  <div class="hstack gap-3">
+  <div class="hstack gap-3 col-8">
     <div class="col-1"><span style="color: lightpink">*</span> 비밀번호 확인</div>
-    <input class="form-control me-auto xx-password2" type="password" id="password2" placeholder="Add your item here..." aria-label="Add your item here...">
+    <input class="form-control me-auto xx-password2" type="password" id="password2" placeholder="비밀번호를 입력해 주세요." aria-label="Add your item here...">
     <div class="col-1"></div>
   </div>
 
     <!-- 비밀번호 일치여부 -->
-    <div class="hstack gap-3">
+    <div class="hstack gap-3 col-8">
       <div class="col-1"></div>
     <span class="xx-pwd-check"></span>
     </div>
 
   <div style="height: 1.5rem"></div>
 
-  <div class="hstack gap-3">
+  <div class="hstack gap-3 col-8">
     <div class="col-1"><span style="color: lightpink">*</span> 이름</div>
-    <input class="form-control me-auto" type="text" name="name" placeholder="Add your item here..." aria-label="Add your item here...">
+    <input class="form-control me-auto" type="text" name="name" placeholder="이름을 입력해 주세요." aria-label="Add your item here...">
     <div class="col-1"></div>
   </div>
 
   <div style="height: 1.5rem"></div>
 
 <!-- 닉네임 -->
-  <div class="hstack gap-3">
+  <div class="hstack gap-3 col-8">
     <div class="col-1"><span style="color: lightpink">*</span> 닉네임</div>
-    <input class="form-control me-auto" type="text" id="nick" name="nick" placeholder="Add your item here..." aria-label="Add your item here..." oninput="nickCheck()">
-    <button type="button" class="btn btn-secondary col-1 xx-nick-check">중복확인</button>
+    <input class="form-control me-auto" type="text" id="nick" name="nick" placeholder="닉네임을 입력해 주세요." aria-label="Add your item here..." oninput="nickCheck()">
+    <div class="col-1"></div>
+<!--    <button type="button" class="btn btn-secondary col-1 xx-nick-check">중복확인</button>-->
   </div>
     <!-- nick ajax 중복체크 -->
-    <div class="hstack gap-3">
+    <div class="hstack gap-3 col-8">
       <div class="col-1"></div>
       <span class="nick_ok" style="display: none">사용 가능한 닉네임입니다.</span>
       <span class="nick_already" style="display: none">누군가 이 닉네임을 사용하고 있어요.</span>
@@ -156,7 +158,7 @@
 
 <!--    <div style="height: 1.5rem"></div>-->
 
-    <div class="hstack gap-3">
+    <div class="hstack gap-3 col-8">
       <div class="col-1"><span style="color: lightpink">*</span> 우편번호</div>
       <input class="form-control me-auto" type="text" id="sample4_postcode" name="post" placeholder="우편번호" aria-label="Add your item here...">
       <button type="button" class="btn btn-outline-info col-1" onclick="sample4_execDaumPostcode()" value="우편번호 찾기">우편번호</button>
@@ -165,7 +167,7 @@
 
     <div style="height: 1.5rem"></div>
 
-    <div class="hstack gap-3">
+    <div class="hstack gap-3 col-8">
       <div class="col-1"><span style="color: lightpink">*</span> 도로명주소</div>
       <input class="form-control me-auto" type="text" id="sample4_roadAddress" name="address" placeholder="도로명주소" aria-label="Add your item here...">
     <input type="text" id="sample4_jibunAddress" placeholder="지번주소" hidden>
@@ -175,7 +177,7 @@
 
     <div style="height: 1.5rem"></div>
 
-    <div class="hstack gap-3">
+    <div class="hstack gap-3 col-8">
       <div class="col-1">상세주소</div>
       <input class="form-control me-auto" type="text" id="sample4_detailAddress" name="subAddr" placeholder="상세주소" aria-label="Add your item here...">
     <input type="text" id="sample4_extraAddress" placeholder="참고항목" hidden>
@@ -185,23 +187,24 @@
 
   <div style="height: 1.5rem"></div>
 
-  <div class="hstack gap-3">
+  <div class="hstack gap-3 col-8">
     <div class="col-1"><span style="color: lightpink">*</span> 휴대폰</div>
-    <input class="form-control me-auto" type="text" name="tel" placeholder="Add your item here..." aria-label="Add your item here...">
-    <button type="button" class="btn btn-secondary col-1">인증확인</button>
+    <input class="form-control me-auto" type="text" name="tel" placeholder="010-0000-0000" aria-label="Add your item here...">
+    <div class="col-1"></div>
+<!--    <button type="button" class="btn btn-secondary col-1">인증확인</button>-->
   </div>
 
   <div style="height: 1.5rem"></div>
 
-  <div class="hstack gap-3">
+  <div class="hstack gap-3 col-8">
     <div class="col-1"><span style="color: lightpink">*</span> 생년월일</div>
-    <input class="form-control me-auto" type="text" name="birth" placeholder="Add your item here..." aria-label="Add your item here...">
+    <input class="form-control me-auto" type="date" name="birth" placeholder="0000-00-00" aria-label="Add your item here...">
     <div class="col-1"></div>
   </div>
 
   <div style="height: 1.5rem"></div>
 
-    <div class="hstack gap-3">
+    <div class="hstack gap-3 col-8">
           <div class="col-1"><span style="color: lightpink">*</span> 성별</div>
       <div class="form-check">
         <input class="form-check-input xx-radio-m" type="radio" name="gender" id="flexRadioDefault1" checked="checked" value="남자">
@@ -227,10 +230,10 @@
 <!--    <div class="col-1"></div>-->
 <!--  </div>-->
 
-    <div class="hstack gap-3">
+    <div class="hstack gap-3 col-8">
               <div class="col-1"><span style="color: lightpink">*</span> 관심사</div>
 <!--          <select class="form-select form-select-sm xx-select-interest" name="interest" id="xx-select-interest" aria-label=".form-select-sm example">-->
-            <select class="form-select xx-select-interest" name="interest" id="xx-select-interest" aria-label="Default select example">
+            <select class="form-select xx-select-interest" id="xx-select-interest" aria-label="Default select example">
             <option selected="">관심사 선택</option>
             <option value="코딩">코딩</option>
             <option value="여행">여행</option>
@@ -265,8 +268,8 @@
 <!--    </select>-->
 
     <div class="line-3"></div>
-    <hr class="border border-danger border-1 opacity-50" style="margin-top: 10px">
-
+    <hr class="border border-danger border-1 opacity-50 col-8" style="margin-top: 10px">
+    </div>
 <!--    <div class="hstack gap-2 col-md-5 justify-content-center">-->
     <div class="hstack gap-3 justify-content-center">
       <button type="button" class="btn btn-outline-secondary">메인으로</button>

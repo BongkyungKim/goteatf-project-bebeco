@@ -14,8 +14,8 @@
   <link href="/css/board/boardstyle.css" rel="stylesheet">
 
   <!-- include libraries(jQuery, bootstrap) -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-        rel="stylesheet">
+<!--  <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"-->
+<!--        rel="stylesheet">-->
 
   <!-- include summernote css/js -->
   <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css"
@@ -24,7 +24,7 @@
 </head>
 
 <body>
-<<!-------------------------------구분선-------------------------->
+<!-------------------------------구분선-------------------------->
 <div class="b-example-divider"></div>
 <!------------------------------header------------------------------>
 <div th:replace="/common/header.html :: fragment-header"></div>
@@ -48,10 +48,14 @@
   <form data-th-action="@{/party/add}" method="post" enctype="multipart/form-data">
   <div class="container border rounded">
 
+    <div class="row p-3 justify-content-center" style="text-align: center; font-size: 26px">
+      <div class="col-8">파티참여</div>
+    </div>
+
     <!--1줄-->
     <div class="row p-3 justify-content-center">
 <!--      <div class="col-3"><span>모임시간대 : <input type="text" name="meal" placeholder="ex) 점심파티 등"></span></div>-->
-      <div class="col-1">
+      <div class="col-2">
         <span>모임시간 : </span>
         <select class="form-select form-select-sm xx-select-meal" aria-label=".form-select-sm example" id="xx-select-meal">
         <option selected="">모임시간</option>
@@ -65,7 +69,7 @@
       </div>
 
 <!--      <div class="col-3"><span>음식종류 : <input type="text" name="food" placeholder="ex) 양식 등"></span></div>-->
-      <div class="col-1">
+      <div class="col-2">
         <span>음식종류 : </span>
         <select class="form-select form-select-sm xx-select-food" aria-label=".form-select-sm example" id="xx-select-food">
         <option selected="">음식종류</option>
@@ -84,7 +88,7 @@
 
 <!--      <div class="col-2"></div>-->
 <!--      <div class="col-3"><span>현재 인원 : / <input type="text" name="limit" placeholder="인원제한"></span></div>-->
-      <div class="col-2">
+      <div class="col-4">
         <span>인원제한 : </span>
         <select class="form-select form-select-sm xx-select-limit" aria-label=".form-select-sm example" id="xx-select-limit">
           <option selected="">인원제한 최대 15명</option>
@@ -107,14 +111,12 @@
         <input type="text" name="limit" hidden id="xx-input-limit">
       </div>
 
-
-      <div class="col-2">파티참여</div>
     </div>
 
     <!--2줄-->
     <div class="row p-3 justify-content-center">
 <!--      <div class="col"><span>제목 : <input type="text" name="title" placeholder="제목"></span></div>-->
-      <div class="col-6"><span>제목 : <input class="form-control form-control-sm" type="text" name="title" aria-label=".form-control-sm example"></span></div>
+      <div class="col-8"><span>제목 : <input class="form-control form-control-sm" type="text" name="title" aria-label=".form-control-sm example"></span></div>
     </div>
 
     <!--3줄-->
@@ -126,16 +128,16 @@
 
     <!--4줄-->
     <div class="container" style="text-align: center">
-    <div class="row p-3 border-bottom">
-      <div class="col">
+      <div class="row p-3 border-bottom justify-content-center">
+      <div class="col-8">
         <textarea id='content' name='content'></textarea>
       </div>
     </div>
     </div>
 
     <!--5줄-->
-    <div class="row p-3">
-      <div class="col">
+    <div class="row p-3 justify-content-center" style="font-size: 26px">
+      <div class="col-8">
         참여조건
       </div>
     </div>
@@ -143,31 +145,31 @@
     <!--6줄-->
     <div class="row p-3 justify-content-center">
 <!--      <div class="col-3"><span>성별 : <input type="text" name="gender" placeholder="성별"></span></div>-->
-      <div class="col-3">
+      <div class="col-4">
         <span>성별 : </span>
       <div class="form-check form-check-inline">
-        <input class="form-check-input xx-radio-m" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="남자">
+        <input class="form-check-input xx-radio-m" type="radio" name="gender" id="flexRadioDefault1" value="남자">
         <label class="form-check-label" for="flexRadioDefault1">
           남자
         </label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input xx-radio-g" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="여자">
+        <input class="form-check-input xx-radio-g" type="radio" name="gender" id="flexRadioDefault2" value="여자">
         <label class="form-check-label" for="flexRadioDefault2">
           여자
         </label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input xx-radio-a" type="radio" name="flexRadioDefault" id="flexRadioDefault3" checked="" value="아무나">
+        <input class="form-check-input xx-radio-a" type="radio" name="gender" id="flexRadioDefault3" checked="" value="아무나">
         <label class="form-check-label" for="flexRadioDefault3">
           아무나
         </label>
       </div>
-      <input type="text" name="gender" placeholder="성별" hidden id="xx-input-gender">
+<!--      <input type="text" name="gender" placeholder="성별" hidden id="xx-input-gender">-->
       </div>
 
 <!--      <div class="col-3"><span>연령대 : <input type="text" name="age" placeholder="연령대"></span></div>-->
-      <div class="col-3">
+      <div class="col-4">
         <span>연령대 : </span>
       <select class="form-select form-select-sm xx-select-age" aria-label=".form-select-sm example" id="xx-select-age">
         <option selected="">연령대</option>
@@ -185,20 +187,20 @@
     <!--7줄-->
 <!--    <div class="row p-3">-->
     <div class="row p-3 justify-content-center">
-      <div class="col-6"><span> 모임시간 : <input type="datetime-local" name="time"></span></div>
+      <div class="col-8"><span> 모임시간 : <input type="datetime-local" name="time"></span></div>
     </div>
 
     <!--8줄-->
     <div class="row p-3 justify-content-center">
 <!--      <div class="col-3"><span>장소명 : <input type="text" name="location" placeholder="알볼로피자"></span></div>-->
-      <div class="col-3"><span>장소명 : <input class="form-control form-control-sm" type="text" name="location" aria-label=".form-control-sm example"></span></div>
-      <div class="col-3"><span>주소 : <input class="form-control form-control-sm" type="text" name="address" aria-label=".form-control-sm example"></span></div>
+      <div class="col-4"><span>장소명 : <input class="form-control form-control-sm" type="text" name="location" aria-label=".form-control-sm example"></span></div>
+      <div class="col-4"><span>주소 : <input class="form-control form-control-sm" type="text" name="address" aria-label=".form-control-sm example"></span></div>
 <!--      <div class="col-3"><span>주소 : <input type="text" name="address" placeholder="알볼로피자"></span></div>-->
     </div>
 
 <!--    <div class="mb-3 col-6">-->
     <div class="row p-3 justify-content-center">
-      <div class="col-6">
+      <div class="col-8">
       <label for="formFileSm" class="form-label">파일 첨부</label>
       <input class="form-control form-control-sm" id="formFileSm" type="file" name="files" multiple>
       </div>
@@ -211,9 +213,15 @@
     <!--      <td><input name='files' type="file" multiple></td>-->
     <!--    </tr>-->
 
-    <button type="submit" class="btn btn-outline-secondary">작성</button>
+
     <!--  <button type="submit" class="btn btn-outline-secondary"><a th:href="@{modify(no=${party.no})}">수정</a></button>-->
-    <button type="button" class="btn btn-outline-secondary"><a href="/">메인</a></button>
+
+
+    <div class="hstack gap-3 justify-content-center" style="margin-top: 2rem; margin-bottom: 3rem">
+      <button type="button" class="btn btn-outline-secondary"><a href="/">메인</a></button>
+      <button type="submit" class="btn btn-outline-secondary">작성</button>
+    </div>
+
   </div>
 </form>
 <!-- 입력폼 업데이트 중 마지막 -->

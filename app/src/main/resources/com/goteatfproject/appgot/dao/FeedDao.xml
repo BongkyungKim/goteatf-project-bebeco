@@ -11,7 +11,7 @@
     <result column="cont" property="content"/>
     <result column="date" property="date"/>
     <result column="feedThumbnail" property="thumbnail"/>
-<!--    <result column="thumbnail" property="thumbnail"/>-->
+    <!--    <result column="thumbnail" property="thumbnail"/>-->
     <result column="pub" property="pub"/>
     <result column="likecnt" property="likeCnt"/>
 
@@ -265,6 +265,7 @@
       feed f
     join member m on m.mno = f.mno
     where f.mno=#{memberNo}
+      and f.pub = false
     order by
       fno desc
     LIMIT #{cri.pageStart}, #{cri.perPageNum}
@@ -279,13 +280,17 @@
     m.mno,
     m.nick,
     m.addr,
+    m.thumbnail,
     f.title,
     f.cont,
     f.date,
-    f.thumbnail feedThumbnail
+    f.thumbnail feedThumbnail,
+    ff.feedfileno,
+    ff.path
     from
     feed f
     join member m on m.mno = f.mno
+    left outer join feed_file ff on f.fno = ff.fno
     where
     f.fno = #{value}
   </select>
@@ -296,7 +301,7 @@
     where fno = #{no}
   </update>
 
-<!-- 간치 -->
+  <!-- 간치 -->
   <select id="findAllMain" resultMap="feedMap">
     select
     f.fno,
@@ -313,12 +318,38 @@
     limit 8
   </select>
 
-<!--  마이페이지 피드게시글 강제삭제-->
+  <!--  마이페이지 피드게시글 강제삭제-->
   <delete id="allDelete2">
     delete from feed_like where fno=#{no};
     delete from feed_file where fno=#{no};
     delete from feed where fno=#{no};
   </delete>
+
+  <!-- 검색결과 페이지 -->
+  <select id="findAllSearch" resultMap="feedMap">
+    select
+    f.fno,
+    m.mno,
+    m.nick,
+    m.addr,
+    f.title,
+    f.cont,
+    f.date,
+    f.thumbnail feedThumbnail,
+    f.likecnt
+    from
+    feed f
+    join member m on m.mno = f.mno
+    <if test="keywordAll != null">
+      where
+      m.nick like concat("%", #{keyword}, "%")
+      or f.title like concat("%", #{keyword}, "%")
+      or f.cont like concat("%", #{keyword}, "%")
+    </if>
+    order by
+    f.likecnt desc
+    limit 10
+  </select>
 
 </mapper>
 

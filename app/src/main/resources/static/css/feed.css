@@ -126,7 +126,7 @@ section{
 
 .story .stories a img{
   border-radius: 50%;
-  border: 2px solid #ce0c64;
+  border: 2px solid #ffc107;
   object-fit: cover;
   margin: 3px;
 }

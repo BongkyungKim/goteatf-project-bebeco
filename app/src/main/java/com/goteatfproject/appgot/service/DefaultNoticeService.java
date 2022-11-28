@@ -1,12 +1,14 @@
 package com.goteatfproject.appgot.service;
 
 import com.goteatfproject.appgot.dao.NoticeDao;
+import com.goteatfproject.appgot.vo.Criteria;
 import com.goteatfproject.appgot.vo.Notice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DefaultNoticeService implements NoticeService {
@@ -42,14 +44,9 @@ public class DefaultNoticeService implements NoticeService {
     return noticeDao.delete(no) > 0;
   }
 
+  //페이징
   @Override
-  public List<Notice> list(String keyword, String titleSort, int pageNo, int pageSize) throws Exception {
-    int startIndex = (pageNo - 1) * pageSize; // 이전 페이지까지 레코드 개수
-    return noticeDao.findAll(keyword, titleSort, startIndex, pageSize);
-  }
-
-  @Override
-  public int size(String keyword, String titleSort) throws Exception {
-    return noticeDao.count(keyword, titleSort);
+  public List<Map<String, Object>> selectNoticeList(Criteria cri) {
+    return noticeDao.selectNoticeList(cri);
   }
 }

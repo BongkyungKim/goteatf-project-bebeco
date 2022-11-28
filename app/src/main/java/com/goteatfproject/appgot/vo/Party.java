@@ -44,6 +44,8 @@ public class Party {
 
   private Comment commentList;
 
+  private Volunteer volunteerList; // 1124 확인중
+
   Party() {
     this.meal=null;
   }

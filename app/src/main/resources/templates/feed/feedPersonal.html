@@ -100,7 +100,7 @@
           <div class="post-title">
             <div class="post-left">
               <div class="image"
-                   style="border-radius: 50%; border: 2px solid #ce0c64; object-fit: cover;">
+                   style="border-radius: 50%; border: 3px solid #ffc107; object-fit: cover;">
                 <img th:src="@{/member/files/{path}(path=${personal.writer.thumbnail})}"
                      alt="춘데렐라" style="width: 60px; height: 60px;">
               </div>
@@ -110,13 +110,12 @@
               </div>
             </div>
             <div class="post-right">
-              <button  th:if="${session.loginMember.no} == ${member.no}"th:onclick="|location.href='/../feed/@{updateForm(no=${personal.no})}'|"
-                       class="btn btn-outline-secondary" role="button" data-bs-toggle="button">수정</button>
+              <button th:if="${session.loginMember.no} == ${member.no}" th:onclick="|location.href='/../feed/@{updateForm(no=${personal.no})}'|" class="btn btn-outline-dark" role="button" data-bs-toggle="button" style="background-color: #ffc107; border-color: white">수정</button>
             </div>
           </div>
 
           <div class="post-content">
-            <a th:href="@{personal(nick=${member.nick})}"><img id="thumbNail" th:src="@{/feed/files/{path}(path=${personal.thumbnail})}"
+            <a th:href="@{personal(nick=${member.nick})}"><img th:src="@{/feed/files/{path}(path=${personal.thumbnail})}"
                                                                class="img-thumbnail" alt="이미지가 없습니다." height="300" width="300">
             </a>
           </div>
@@ -149,7 +148,6 @@
       </th:block>
     </div>
   </div>
-</div>
 </div>
 
 
@@ -297,10 +295,10 @@
 </footer>
 
 
-<!--jquery-->
+<!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.6.1.js"
         integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
         crossorigin="anonymous"></script>
-<!--jquery end-->
+<!-- jquery end-->
 </body>
 </html>

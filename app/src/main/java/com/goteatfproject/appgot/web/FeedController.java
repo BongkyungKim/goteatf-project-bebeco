@@ -9,6 +9,9 @@ import com.goteatfproject.appgot.vo.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
@@ -92,19 +95,17 @@ public class FeedController {
 
 
     // 한 유저의 게시물 출력 홈페이지
-    System.out.println("dd");
+    System.out.println("dd=====");
     // 아이디로 회원 정보 조회
     Member member = memberService.profileByNick(nick);
+    System.out.println("member1 =======> " + member.getNick());
     if(nick == null) {
       member = memberService.profileByNick(loginMember.getNick());
-      System.out.println(member + "ㅎㅅㅎㅅ");
+      System.out.println("member2=====>" + member);
     }
-
-
 
     System.out.println(member);
     // 로그인한 회원 정보 담기
-
 
     // 개인페이지의 유저 번호 가져오기
     int memberNo = member.getNo();
@@ -346,14 +347,14 @@ public class FeedController {
 
   // 파티 게시물 상세보기
   @GetMapping("detail")
-  public Map detail(int no) throws Exception {
+  public Map<String, Object> detail(int no) throws Exception {
 
     Feed feed = feedService.get(no);
 
     if (feed == null) {
       throw new Exception("해당 번호의 게시글이 없습니다!");
     }
-    Map map = new HashMap();
+    Map<String, Object> map = new HashMap<>();
     map.put("feed", feed);
     return map;
   }
@@ -371,12 +372,18 @@ public class FeedController {
   // 피드 게시물 수정
   @PostMapping("update")
   public String update(Feed feed, Model model, HttpSession session) throws Exception {
+
+    System.out.println("session4 =---> " + session.getAttribute("loginMember"));
+
+    String nick = URLEncoder.encode(feed.getWriter().getNick(), "UTF-8");
+    System.out.println("nick = " + nick);
+
     checkOwner(feed.getNo(), session);
 
     if (!feedService.update(feed)) {
       throw new Exception("게시글을 변경할 수 없습니다.");
     }
-    return "redirect:personal";
+    return "redirect:personal?nick=" + nick;
   }
 
   private void checkOwner(int feedNo, HttpSession session) throws Exception {
@@ -389,12 +396,15 @@ public class FeedController {
 
   @GetMapping("delete")
   public String delete(int no, HttpSession session) throws Exception {
+
+//    String nick = feedService.get(no).getWriter().getNick();
+    String nick = URLEncoder.encode(feedService.get(no).getWriter().getNick(), "UTF-8");
+    System.out.println("deleteNick ====> " + nick);
     checkOwner(no, session);
     feedService.delete(no);
-//    if (!feedService.delete(no)) {
-//      throw new Exception("게시글을 삭제할 수 없습니다.");
-//    }
-    return "redirect:personal";
+
+//    return "redirect:personal";
+    return "redirect:personal?nick=" + nick;
   }
 
   @GetMapping("fileDelete")

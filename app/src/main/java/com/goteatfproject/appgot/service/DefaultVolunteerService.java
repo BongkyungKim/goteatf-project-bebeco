@@ -51,7 +51,7 @@ public class DefaultVolunteerService implements VolunteerService {
   @Override
   public void partyOut(Volunteer volunteer) throws Exception {
     if (volunteerDao.partyOut(volunteer) == 0) {
-      throw new Exception("나가기 실패!");
+      throw new Exception("파티나가기 실패!");
     }
   }
 

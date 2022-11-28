@@ -6,8 +6,6 @@ import com.goteatfproject.appgot.service.VolunteerService;
 import com.goteatfproject.appgot.vo.Member;
 import com.goteatfproject.appgot.vo.Party;
 import com.goteatfproject.appgot.vo.Volunteer;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,17 +41,45 @@ public class VolunteerController {
       HttpSession session, @RequestBody Volunteer volunteer) throws Exception {
     System.out.println("state값 = " + volunteer.getState());
     System.out.println("url값 = " + volunteer.getUrlNo());
+    System.out.println("memberNo값 = " + volunteer.getMemberNo());
+    List<Volunteer> volunteers = volunteerService.get(volunteer.getUrlNo());
+    System.out.println("volunteers =====> " + volunteers);
+
 
     // 파티 번호를 가져와서 해당 번호로 게시물 상세조회 실행 => 리밋, 맥스 가져와서 if문 돌리기
     Party parties = (Party) partyService.get(volunteer.getUrlNo());
     System.out.println("parLi ========> " + parties.getLimit());
     System.out.println("parNa ========> " + parties.getMax());
+    System.out.println("parNo ========> " + parties.getNo());
+    System.out.println("parNo2 ========> " + parties.getWriter().getNo());
+    System.out.println("parties = " + parties);
+//    System.out.println("partiesNo =>>>>>>> " + parties.getVolunteerList().getMemberNo());
 
     int lit = parties.getLimit();
     int max = parties.getMax();
+    // 파티 참여신청하는 사람의 닉네임
+//    System.out.println("volunteer번호 ====> ");
+    // 기존 파티 참여자의 닉네임
+//    System.out.println("volunteerService번호 =====> " + volunteerService.get2(volunteer.getUrlNo()).getMemberNo());
+    Member member = (Member) session.getAttribute("loginMember");
+    int memberNo = member.getNo();
+    System.out.println("memberNo =====> " + memberNo);
 
+    for (Volunteer value : volunteers) {
+      System.out.println("valueNo====> = " + value.getMemberNo());
+      if (value.getMemberNo() != memberNo) {// 51 54 != 52
+        continue;
+      }
+        return "3";
+    }
+
+
+//    if (volunteer.getMemberNo() == memberNo) {
+//      return "3"; // ajax 중복입장 불가
+//    }
     // 게시물 넘버의 리밋 맥스 가져와서 비교
     // vno=pno, mno, date 는 nn ,, state, etc는 null
+
     if (lit != max) {
       checkOwner(volunteer.getUrlNo(), session); // 작성자는 신청불가
       volunteer.setWriter((Member) session.getAttribute("loginMember"));
@@ -65,10 +91,11 @@ public class VolunteerController {
       boolean state = volunteer.getState();
       if (state) {
         return "1"; // ajax 미정
+//        return "0"; // ajax 성공
       }
-      return "0"; // ajax 성공
+//      return "3"; // ajax 인원초과
     }
-      return "3"; // ajax 인원초과
+    return "2";
   }
 
   // 모든 게시물 파티참여자 조회

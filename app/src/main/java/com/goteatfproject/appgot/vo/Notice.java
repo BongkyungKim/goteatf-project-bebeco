@@ -13,6 +13,8 @@ public class Notice {
   private int no;
   private String title;
   private String content;
+  private String tname;
   private Date createDate;
   private Member writer;
+
 }

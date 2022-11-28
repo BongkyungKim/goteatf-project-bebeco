@@ -58,4 +58,7 @@ public interface FeedDao {
 
   // 마이페이지 피드게시글 강제삭제 — 1120 추가
   int allDelete2(int no);
+
+  // 검색페이지 결과
+  List<Party> findAllSearch(String keywordAll);
 }

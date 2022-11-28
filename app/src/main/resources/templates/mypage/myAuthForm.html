@@ -35,7 +35,7 @@
           <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myAuthForm}">개인 정보 수정</a>
           <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myPartyList}">파티게시물 관리</a>
           <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myFeedList}">피드게시물 관리</a>
-          <a class="list-group-item list-group-item-action list-group-item-light p-3" href="">예약 내역</a>
+          <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myReservationList}">예약 내역 관리</a>
           <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myFollowList}">팔로우 관리</a>
         </div>
       </div>
@@ -47,7 +47,7 @@
             <div class="col-12 border">
               <!-- 개인 상세 정보 -->
               <p>본인 확인을 위해 현재 사용하고 있는 비밀번호를 한 번 더 입력해주세요.</p>
-              <form action="currentPassword" id="currentPasswordForm" method="post">
+              <form action="currentPassword" id="currentPasswordForm" name="myForm" method="post">
               <table>
                 <input type="password" id="password" name="password"/>
               </table>
@@ -88,6 +88,14 @@
     		}
     	});
     });
+    </script>
+    <script>
+      /* 엔터 이벤트 막기 */
+      document.myForm.addEventListener('keydown', function(event) {
+        if (event.keyCode === 13) {
+          event.preventDefault();
+        };
+      }, true);
     </script>
   </body>
 </html>

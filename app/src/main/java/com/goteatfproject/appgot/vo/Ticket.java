@@ -17,5 +17,13 @@ public class Ticket {
   int paycnt;
   boolean cancel;
   int totalcost;
+  int mno;
+  int eno;
+  Event event;
+  String title;
+
+  Ticket(){
+    this.ticketNo=0;
+  }
 
 }

@@ -9,62 +9,34 @@
     <id column="csno" property="no"/>
     <result column="title" property="title"/>
     <result column="cont" property="content"/>
+    <result column="tname" property="tname"/>
     <result column="createdate" property="createDate"/>
 
     <association property="writer" javaType="member">
       <id column="mno" property="no"/>
-      <result column="name" property="nick"/>
+      <result column="nick" property="nick"/>
     </association>
 
   </resultMap>
 
-  <select id="findAll" resultMap="noticeMap">
-    select
-    cs.csno,
-    cs.title,
-    cs.cont,
-    cs.createdate,
-    m.mno,
-    m.nick
-    from
-    cs_notice cs
+  <select id="selectNoticeList" resultMap="noticeMap" parameterType="hashmap">
+    <![CDATA[
+  select
+cs.csno,
+m.mno,
+m.nick,
+cs.title,
+cs.cont,
+cs.createdate,
+cs.tname
 
-    join member m on cs.mno = m.mno
-    <if test="keyword != null">
-      where
-      cs.title like concat("%", #{keyword}, "%")
-      or cs.cont like concat("%", #{keyword}, "%")
-      or m.nick like concat("%", #{keyword}, "%")
-    </if>
-    order by
-    <if test="titleSort != null">
-      title ${titleSort}
-    </if>
-    <if test="titleSort == null">
-      cs.csno desc
-    </if>
-        limit #{startIndex}, #{size}
-  </select>
+  from cs_notice cs
 
-  <select id="count" resultType="int">
-    select
-    count(*)
-    from
-    cs_notice cs
-    join member m on cs.mno = m.mno
-    <if test="keyword != null">
-      where
-      cs.title like concat("%", #{keyword}, "%")
-      or cs.cont like concat("%", #{keyword}, "%")
-      or m.nick like concat("%", #{keyword}, "%")
-    </if>
-    order by
-    <if test="titleSort != null">
-      title ${titleSort}
-    </if>
-    <if test="titleSort == null">
-      cs.csno desc
-    </if>
+  join member m on cs.mno = m.mno
+   order by
+      csno desc
+      LIMIT #{pageStart}, #{perPageNum}
+      ]]>
   </select>
 
   <insert id="insert" parameterType="notice"

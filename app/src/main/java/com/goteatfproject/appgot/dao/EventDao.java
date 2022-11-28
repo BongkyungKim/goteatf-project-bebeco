@@ -1,8 +1,11 @@
 package com.goteatfproject.appgot.dao;
 
 import com.goteatfproject.appgot.vo.AttachedFile;
+import com.goteatfproject.appgot.vo.Comment;
 import com.goteatfproject.appgot.vo.Criteria;
 import com.goteatfproject.appgot.vo.Event;
+import com.goteatfproject.appgot.vo.EventComment;
+import com.goteatfproject.appgot.vo.Party;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
@@ -53,4 +56,24 @@ public interface EventDao {
   // 마이페이지 이벤트 게시글 본인 글 상세보기
   // 사용안함
   Event findByAdminEventListDetail(int no);
+
+  // 검색페이지 결과
+  List<Party> findAllSearch();
+
+  // 댓글 등록
+  public void insertComment(EventComment eventComment);
+
+  // 댓글 리스트 출력
+  public List<Comment> selectCommentList(EventComment eventComment);
+
+  // 댓글 수정
+  int updateComment(EventComment eventComment);
+
+  // 댓글 삭제
+  int deleteComment(int no);
+
+  // 검색페이지 결과
+  List<Party> findAllSearch(String keywordAll);
+
+  public void updateEventCount(int no);
 }

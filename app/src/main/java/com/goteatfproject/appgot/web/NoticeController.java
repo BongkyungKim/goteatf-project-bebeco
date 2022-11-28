@@ -9,15 +9,13 @@ import java.util.UUID;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
+
+import com.goteatfproject.appgot.vo.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import com.goteatfproject.appgot.vo.Member;
-import com.goteatfproject.appgot.vo.Notice;
+import org.springframework.web.bind.annotation.*;
 import com.goteatfproject.appgot.service.NoticeService;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/notice/")
@@ -47,96 +45,24 @@ public class NoticeController {
     return "redirect:list";
   }
 
-
+  // 파티 게시판 페이징 적용
   @GetMapping("list")
-  public String list(
-      String keyword,
-      String titleSort,
-      @RequestParam(defaultValue = "1") int pageNo,
-      @RequestParam(defaultValue = "3") int pageSize,
-      Model model) throws Exception {
-    if (keyword != null && keyword.length() == 0) {
-      keyword = null;
-    }
-    if (titleSort != null && titleSort.length() == 0) {
-      titleSort = null;
-    }
+  @ResponseBody
+  public ModelAndView selectNoticeList(Notice notice, Criteria cri) throws Exception {
 
-    if (pageSize < 3) {
-      pageSize = 3;
-    } else if (pageSize > 7) {
-      pageSize = 7;
-    }
+    ModelAndView mv = new ModelAndView();
 
-    int count = noticeService.size(keyword, titleSort);
+    PageMaker pageMaker = new PageMaker();
+    pageMaker.setCri(cri);
+    pageMaker.setTotalCount(10);
 
-    int maxPageNo = count / pageSize;
-    if ((count % pageSize) > 0) {
-      maxPageNo++;
-    }
+    List<Map<String, Object>> list = noticeService.selectNoticeList(cri);
+    mv.addObject("list", list);
+    mv.addObject("pageMaker", pageMaker);
 
-    if (pageNo < 1) {
-      pageNo = 1;
-    } else if (pageNo > maxPageNo) {
-      pageNo = maxPageNo;
-    }
-
-    model.addAttribute("notices", noticeService.list(keyword, titleSort, pageNo, pageSize));
-    model.addAttribute("keyword", keyword);
-    model.addAttribute("titleSort", titleSort);
-    model.addAttribute("pageNo", pageNo);
-    model.addAttribute("maxPageNo", maxPageNo);
-    model.addAttribute("pageSize", pageSize);
-
-    return "notice/noticeList";
+    mv.setViewName("notice/noticeList");
+    return mv;
   }
-
-  @RequestMapping("list-ajax")
-  public void listAjax(
-      String keyword,
-      String titleSort,
-      @RequestParam(defaultValue = "1") int pageNo,
-      @RequestParam(defaultValue = "3") int pageSize,
-      Model model) throws Exception {
-    if (keyword != null && keyword.length() == 0) {
-      keyword = null;
-    }
-    if (titleSort != null && titleSort.length() == 0) {
-      titleSort = null;
-    }
-
-    if (pageSize < 3) {
-      pageSize = 3;
-    } else if (pageSize > 7) {
-      pageSize = 7;
-    }
-
-    int count = noticeService.size(keyword, titleSort);
-
-    int maxPageNo = count / pageSize;
-    if ((count % pageSize) > 0) {
-      maxPageNo++;
-    }
-
-    if (pageNo < 1) {
-      pageNo = 1;
-    } else if (pageNo > maxPageNo) {
-      pageNo = maxPageNo;
-    }
-    if (pageNo == 0) {
-      pageNo = 1;
-    }
-
-
-    System.out.println("=====> " + pageNo);
-    model.addAttribute("notices", noticeService.list(keyword, titleSort, pageNo, pageSize));
-    model.addAttribute("keyword", keyword);
-    model.addAttribute("titleSort", titleSort);
-    model.addAttribute("pageNo", pageNo);
-    model.addAttribute("maxPageNo", maxPageNo);
-    model.addAttribute("pageSize", pageSize);
-  }
-
   @GetMapping("detail")
   public Map detail(int no) throws Exception {
     Notice notice = noticeService.get(no);
@@ -185,6 +111,5 @@ public class NoticeController {
     return "redirect:list";
   }
 }
-
 
 

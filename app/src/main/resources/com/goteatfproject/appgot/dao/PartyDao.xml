@@ -95,7 +95,7 @@
       insert into party(mno, meal, food, title, cont, gender, max, time, age,
       lit, loc, post, addr, viewcnt, createdate, thumbnail, date)
       values(#{writer.no}, #{meal}, #{food}, #{title}, #{content}, #{gender}, #{max},
-      #{time}, #{age}, #{limit}, #{location}, '', #{address}, 0, now(), 'defaultimage.jpg', now())
+      #{time}, #{age}, #{limit}, #{location}, '', #{address}, 0, now(), #{thumbnail}, now())
 <!--      #{time}, #{age}, #{limit}, #{location}, '', #{address}, 0, now(), #{thumbnail}) TODO 변경1-->
     </insert>
 
@@ -137,6 +137,7 @@
     p.createdate,
     p.thumbnail,
     p.food,
+    p.time,
     m.mno,
     m.nick,
     pf.path
@@ -214,7 +215,15 @@
 <!-- TODO 변경3     -->
     </select>
 
-    <update id="update" parameterType="party">
+  <update id="update" parameterType="party">
+    update party set
+    title = #{title},
+    cont = #{content}
+    where
+    pno = #{no}
+  </update>
+
+    <update id="update2" parameterType="party">
       update party set
       title = #{title},
       meal = #{meal},
@@ -413,7 +422,7 @@
     from
     party p
     join member m on m.mno = p.mno
-    <if test="meal != 'all'">
+    <if test="meal != 'null'">
       where p.meal = #{meal}
     </if>
     order by
@@ -428,6 +437,77 @@
     delete from volunteer where vno=#{no};
     delete from party where pno=#{no};
   </delete>
+
+<!-- 검색결과 페이지 -->
+  <select id="findAllSearch" resultMap="partyMap">
+    select
+    p.pno,
+    p.title,
+    p.cont,
+    p.meal,
+    p.lit,
+    p.age,
+    p.gender,
+    p.max,
+    p.viewcnt,
+    p.thumbnail,
+    p.createdate,
+    m.mno,
+    m.nick
+    from
+    party p
+    join member m on m.mno = p.mno
+    <if test="keywordAll != null">
+      where
+      p.title like concat("%", #{keyword}, "%")
+      or p.cont like concat("%", #{keyword}, "%")
+      or m.nick like concat("%", #{keyword}, "%")
+    </if>
+    order by
+    p.pno desc
+    limit 10
+  </select>
+
+<!-- 게시물 조회수 카운트 -->
+  <update id="updatePartyCount" parameterType="party">
+    update
+      party
+    set
+    viewcnt = viewcnt + 1
+    where
+    pno = #{no}
+  </update>
+
+  <select id="findByNo2" resultMap="partyMap">
+    select
+    p.pno,
+    p.title,
+    p.viewcnt,
+    p.time,
+    p.meal,
+    p.food,
+    p.cont,
+    p.createdate,
+    p.lit,
+    p.max,
+    p.age,
+    p.gender,
+    p.addr,
+    p.loc,
+    m.nick,
+    m.mno,
+    pf.pfileno,
+    pf.path,
+    v.mno,
+    v.vno
+    from
+    party p
+    join member m on m.mno = p.mno
+    left outer join party_file pf on p.pno = pf.pno
+    join volunteer v on p.pno = v.vno
+    where
+    p.pno = #{value}
+  </select>
 
 </mapper>
 

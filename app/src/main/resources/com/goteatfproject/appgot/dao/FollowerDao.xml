@@ -21,7 +21,7 @@
 
   <!-- 언팔로우 기능 -->
   <delete id="unfollow">
-    delete from where follow=#{follow} and following=#{following}
+    delete from follower where follow=#{follow} and following=#{following}
   </delete>
 
   <!-- 팔로우 유무 조회 기능 -->

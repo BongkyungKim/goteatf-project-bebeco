@@ -43,7 +43,7 @@
 
   <div class="mb-3">
     <label for="exampleFormControlInput1" class="form-label">제목</label>
-    <input name="title" type="textar" class="form-control" id="exampleFormControlInput1" th:value="${feed.title}">
+    <input name="title" type="text" class="form-control" id="exampleFormControlInput1" th:value="${feed.title}">
   </div>
   <div class="mb-3">
 <!--    <label for="textarea" class="form-label">내용</label>-->
@@ -53,16 +53,17 @@
 
   <div class="mb-3">
     <label for="exampleFormControlInput1" class="form-label" style="display: block;">썸네일</label>
-    <img id="thumbNail" th:src="@{/feed/files/{path}(path=${feed.thumbnail})}" class="img-thumbnail" alt="이미지가 없습니다." height="400" width="400">
+    <img id="thumbNail" name="thumbnail" th:src="@{/feed/files/{path}(path=${feed.thumbnail})}" class="img-thumbnail" alt="이미지가 없습니다." height="400" width="400">
 
   </div>
 
   <input type="hidden" name="writer.no" th:value="${feed.writer.no}">
+  <input type="hidden" name="writer.nick" th:value="${feed.writer.nick}">
   <input type="hidden" name="no" th:value="${feed.no}">
 
 
-  <button type="submit" class="btn btn-outline-secondary">변경</button>
-  <button type="button" class="btn btn-outline-secondary"><a th:href="@{delete(no=${feed.no})}">삭제</a></button>
+  <button type="submit" class="btn btn-outline-dark" style="background-color: #ffc107; border-color: white">변경</button>
+  <button type="button" class="btn btn-outline-dark" style="background-color: #ffc107; border-color: white"><a th:href="@{delete(no=${feed.no})}" style="text-decoration: none">삭제</a></button>
 
   <div class="line-3"></div>
 

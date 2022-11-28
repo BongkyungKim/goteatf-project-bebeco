@@ -73,9 +73,9 @@ public class DefaultFeedService implements FeedService {
       return false;
     }
 
-    if (feed.getFeedAttachedFiles().size() > 0) {
-      feedDao.insertFiles(feed);
-    }
+//    if (feed.getFeedAttachedFiles().size() > 0) {
+//      feedDao.insertFiles(feed);
+//    }
     return true;
   }
 
@@ -122,5 +122,10 @@ public class DefaultFeedService implements FeedService {
   @Override
   public boolean allDelete2(int no) {
     return feedDao.allDelete2(no) > 0;
+  }
+
+  // 검색페이지 결과
+  public List<Party> searchList(String keywordAll) throws Exception {
+    return feedDao.findAllSearch(keywordAll);
   }
 }

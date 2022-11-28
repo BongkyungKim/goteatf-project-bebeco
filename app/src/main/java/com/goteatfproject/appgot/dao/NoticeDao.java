@@ -1,11 +1,12 @@
 package com.goteatfproject.appgot.dao;
 
 import com.goteatfproject.appgot.vo.AttachedFile;
+import com.goteatfproject.appgot.vo.Criteria;
 import com.goteatfproject.appgot.vo.Notice;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface NoticeDao {
@@ -18,14 +19,7 @@ public interface NoticeDao {
 
   int delete(int no);
 
-
-  List<Notice> findAll(
-      @Param("keyword") String keyword,
-      @Param("titleSort") String titleSort,
-      @Param("startIndex") int startIndex,
-      @Param("size") int size);
-
-  int count(@Param("keyword") String keyword, @Param("titleSort") String titleSort);
+  List<Map<String, Object>> selectNoticeList(Criteria cri);
 
   int insertFiles(Notice notice);
 
@@ -34,4 +28,3 @@ public interface NoticeDao {
 
 
 }
-

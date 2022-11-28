@@ -1,9 +1,14 @@
 package com.goteatfproject.appgot.service;
 
 import com.goteatfproject.appgot.dao.EventDao;
+import com.goteatfproject.appgot.dao.TicketDao;
 import com.goteatfproject.appgot.vo.AttachedFile;
+import com.goteatfproject.appgot.vo.Comment;
 import com.goteatfproject.appgot.vo.Criteria;
 import com.goteatfproject.appgot.vo.Event;
+import com.goteatfproject.appgot.vo.EventComment;
+import com.goteatfproject.appgot.vo.Party;
+import com.goteatfproject.appgot.vo.Ticket;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +20,9 @@ public class DefaultEventService implements EventService {
 
   @Autowired
   EventDao eventDao;
+
+  @Autowired
+  TicketDao ticketDao;
 
   @Override
   @Transactional
@@ -42,6 +50,7 @@ public class DefaultEventService implements EventService {
 
   @Override
   public Event get(int no) throws Exception {
+    eventDao.updateEventCount(no);
     return eventDao.findByNo(no);
   }
 
@@ -115,6 +124,46 @@ public class DefaultEventService implements EventService {
   //결제 여부
   public boolean ticketing(Map<String, Object> ticket){
     return eventDao.ticketing(ticket);
+  }
+
+  // 검색페이지 결과
+  public List<Party> searchList() throws Exception {
+    return eventDao.findAllSearch();
+  }
+
+  // 댓글 등록
+  @Override
+  public void insertComment(EventComment eventComment) throws Exception {
+    eventDao.insertComment(eventComment);
+  }
+
+  // 댓글 리스트 출력
+  @Override
+  public List<Comment> getCommentList(EventComment eventComment) throws Exception {
+    return eventDao.selectCommentList(eventComment);
+  }
+
+  // 댓글 수정
+  @Override
+  public boolean updateComment(EventComment eventComment) throws Exception {
+    return eventDao.updateComment(eventComment) != 0; // 넘어오는 값이 0이 아니면 true, 0이면 false
+  }
+
+  // 댓글 삭제
+  @Override
+  public boolean deleteComment(int no) throws Exception {
+    return eventDao.deleteComment(no) > 0;
+  }
+
+  // 검색페이지 결과
+  public List<Party> searchList(String keywordAll) throws Exception {
+    return eventDao.findAllSearch(keywordAll);
+  }
+
+  @Override
+  public List<Ticket> getTicketNo(int no) throws Exception {
+
+    return ticketDao.findByNo(no);
   }
 }
 

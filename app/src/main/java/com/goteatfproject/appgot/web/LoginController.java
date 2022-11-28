@@ -34,7 +34,7 @@ public class LoginController {
       String id,
       String password,
       String saveEmail,
-      String toUrl, // TODO url2
+      String toURL, // TODO url2
       HttpServletResponse response,
       HttpSession session) throws Exception {
 
@@ -61,7 +61,13 @@ public class LoginController {
       return "redirect:/admin/main";
     }
 
-    return "redirect:/";
+    System.out.println("toURL ======> " + toURL);
+
+    toURL = toURL==null || toURL.equals("") ? "/" : toURL;
+//
+    return "redirect:"+toURL;
+
+//    return "redirect:/";
   }
 
   @GetMapping("/logout")

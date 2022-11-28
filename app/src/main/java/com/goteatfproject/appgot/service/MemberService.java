@@ -53,15 +53,15 @@ public interface MemberService {
   Member getMemberDetail(int no) throws Exception;
 
   // 관리자페이지 회원리스트 정보검색
-  List<Member> getSearchMember(String keyword);
+  List<Member> getSearchMember(String keyword) throws Exception;
 
-  boolean memberBlock(int no);
+  boolean memberBlock(int no) throws Exception;
 
-  boolean memberActive(int no);
+  boolean memberActive(int no) throws Exception;
 
   // 아이디 중복체크
-  public int idCheck(String id);
+  public int idCheck(String id) throws Exception;
 
   // 닉네임 중복체크
-  public int nickCheck(String nick);
+  public int nickCheck(String nick) throws Exception;
 }

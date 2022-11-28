@@ -53,14 +53,35 @@ public class DefaultPartyService implements PartyService {
 
   @Override
   public Party get(int no) throws Exception {
+    partyDao.updatePartyCount(no);
     return partyDao.findByNo(no);
   }
+  @Override
+  public Party get2(int no) throws Exception {
+    return partyDao.findByNo2(no);
+  }
 
+  // 마이페이지 파티게시글 수정
   @Transactional
   @Override
   public boolean update(Party party) throws Exception {
 
     if (partyDao.update(party) == 0) {
+      return false;
+    }
+
+    if (party.getAttachedFiles().size() > 0) {
+      partyDao.insertFiles(party);
+    }
+    return true;
+  }
+
+  // 파티게시판 파티게시글 수정
+  @Transactional
+  @Override
+  public boolean update2(Party party) throws Exception {
+
+    if (partyDao.update2(party) == 0) {
       return false;
     }
 
@@ -157,5 +178,9 @@ public class DefaultPartyService implements PartyService {
   @Override
   public boolean allDelete(int no) {
     return partyDao.allDelete(no) > 0;
+  }
+
+  public List<Party> searchList(String keywordAll) throws Exception {
+    return partyDao.findAllSearch(keywordAll);
   }
 }

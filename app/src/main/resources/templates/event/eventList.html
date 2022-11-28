@@ -60,10 +60,7 @@
                 </a>
 
                 <ul class="dropdown-menu text-small ">
-                  <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">New project...</a></li>
                   <li th:if="${session.loginMember != null}"><a class="dropdown-item" th:href="@{/my/main}">마이페이지</a></li>
-                  <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">설정</a></li>
-                  <li th:if="${session.loginMember != null}"><a class="dropdown-item" href="#">프로필</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
@@ -137,9 +134,7 @@
             <div class="container">
 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button type="button" class="btn btn-outline-primary"
-                            onclick="location.href='/event/form'">파티원 모집하기
-                    </button>
+                    <button type="button" class="btn btn-outline-primary" onclick="location.href='/event/form'">파티원 모집하기</button>
                 </div>
 
                 <div class="line-3"></div>
@@ -165,7 +160,7 @@
                             <div class="card-body">
                 
                               <div class="d-grid gap-2">
-                                <button class="btn btn-primary" th:href="@{/event/orderform}" onclick="location.href='/event/orderform'" type="button">파티 참가하기</button>
+                                <a th:href="@{detail(no=${event.no})}"><button class="btn btn-primary" type="button">이벤트 참가하기</button></a>
                               </div>
                             </div>
                           </div>

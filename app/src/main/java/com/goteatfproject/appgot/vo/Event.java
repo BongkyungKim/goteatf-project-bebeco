@@ -36,6 +36,8 @@ public class Event {
 
   private List<AttachedFile> attachedFiles;
 
+  private EventComment commentList;
+
   public List<AttachedFile> getAttachedFiles() {
     return attachedFiles;
   }

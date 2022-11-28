@@ -20,7 +20,25 @@
     .eventsection{
       background-color: rgba(255,40,39,0.06);
     }
+  </style>
 
+  <style>
+    .partysection{
+      background-color: rgba(255,246,210,0.2);
+    }
+
+    .eventsection{
+      background-color: rgba(255,40,39,0.06);
+    }
+
+    .pipi
+    {
+      height:300px ;
+    }
+
+    div {
+      font-weight: bold;
+    }
   </style>
 
   <!-- jquery -->
@@ -88,14 +106,13 @@
     <div class="row p-3">
 
       <div class="col-4">
-
-        <div class="list-group" id="list-tab mealSelect"  role="tablist">
-          <a class="list-group-item selectbtn  list-group-item-action active " value="점심" id="list-1-list" data-bs-toggle="list" href="#list-1" role="tab"  aria-controls="list-1">점심파티</a>
-          <a class="list-group-item  selectbtn list-group-item-action" id="list-2-list" value="저녁" data-bs-toggle="list" href="#list-1" role="tab" aria-controls="list-2">저녁파티</a>
-          <a class="list-group-item selectbtn  list-group-item-action" id="list-3-list" value="야식"  data-bs-toggle="list" href="#list-1" role="tab" aria-controls="list-3">야식파티</a>
-          <a class="list-group-item  selectbtn list-group-item-action" id="list-4-list"  value="술" data-bs-toggle="list" href="#list-1" role="tab" aria-controls="list-4">술파티</a>
-          <a class="list-group-item  selectbtn list-group-item-action" id="list-5-list"  value="디저트" data-bs-toggle="list" href="#list-1" role="tab" aria-controls="list-5">디저트파티</a>
-          <a class="list-group-item   selectbtn  list-group-item-action" id="list-6-list"  value="대환장" data-bs-toggle="list" href="#list-1" role="tab" aria-controls="list-6">대환장파티</a>
+        <div class="list-group" id="list-tab mealSelect" role="tablist">
+          <a class="list-group-item list-group-item-action selectbtn" id="list-1-list" value="점심" data-bs-toggle="list" href="#list-1" role="tab" aria-controls="list-1">점심파티</a>
+          <a class="list-group-item list-group-item-action selectbtn" id="list-2-list" value="저녁" data-bs-toggle="list" href="#list-2" role="tab" aria-controls="list-2">저녁파티</a>
+          <a class="list-group-item list-group-item-action selectbtn" id="list-3-list" value="야식"  data-bs-toggle="list" href="#list-3" role="tab" aria-controls="list-3">야식파티</a>
+          <a class="list-group-item list-group-item-action selectbtn" id="list-4-list" value="술" data-bs-toggle="list" href="#list-4" role="tab" aria-controls="list-4">술파티</a>
+          <a class="list-group-item list-group-item-action selectbtn" id="list-5-list" value="디저트" data-bs-toggle="list" href="#list-5" role="tab" aria-controls="list-5">디저트파티</a>
+          <a class="list-group-item list-group-item-action selectbtn" id="list-6-list" value="대환장" data-bs-toggle="list" href="#list-6" role="tab" aria-controls="list-6">대환장파티</a>
         </div>
       </div>
 
@@ -137,14 +154,19 @@
   <div class="row p-3">
     <div class="col">
       <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="list-1" role="tabpanel" aria-labelledby="list-1-list">
+        <div class="tab-pane fade show active" id="list-1" role="tabpanel" aria-labelledby="list-1-list"></div>
+        <div class="tab-pane fade" id="list-2" role="tabpanel" aria-labelledby="list-2-list"></div>
+        <div class="tab-pane fade" id="list-3" role="tabpanel" aria-labelledby="list-3-list"></div>
+        <div class="tab-pane fade" id="list-4" role="tabpanel" aria-labelledby="list-4-list"></div>
+        <div class="tab-pane fade" id="list-5" role="tabpanel" aria-labelledby="list-5-list"></div>
+        <div class="tab-pane fade" id="list-6" role="tabpanel" aria-labelledby="list-6-list"></div>
           <div th:replace="/common/partyindex.html :: fragment-partyindex"></div>
           <!--수정중입니다요-->
-        </div>
       </div>
     </div>
   </div>
 </div>
+
 <!-------------------------------구분선-------------------------->
 <div class="line-3"></div>
 <!-------------------------------이벤트 영역-------------------------->
@@ -181,16 +203,12 @@
                 </div>
               </div>
             </div>
-
           </div>
-
-
         </div>
       </div>
       <div class="col-3">
         <div th:replace="/common/sidecard2.html :: fragment-sidecard2"></div>
       </div>
-
     </div>
   </div>
 </div>
@@ -207,18 +225,15 @@
 
         <div class="col" th:each="feed : ${feeds}">
 
-
           <div class="card text-bg-dark">
             <img  th:src="@{/feed/files/{path}(path=${feed.thumbnail})}" class="card-img opacity-25" alt="...">
 
             <div class="card-img-overlay">
 
-
               <div class="card-body">
                 <div class="line-3"></div>
                 <h4 class="card-title mt-0 " th:text="${feed.title}"><a class="text-white" herf="#"></a></h4>
               </div>
-
 
               <div class="card-footer  align-self-end">
                 <div class="line-3"></div><div class="line-3"></div>
@@ -249,8 +264,6 @@
 
 <!------------------------------- event -------------------------->
 
-
-
 <!-------------------------------구분선-------------------------->
 <!-------------------------------구분선-------------------------->
 <div class="c-example-divider"></div>
@@ -267,14 +280,12 @@
 </footer>
 
 <script>
-
+// 셀렉 버튼을 누른다 -> 해당 버튼을 누르면 벨류값이 밀에 상수로 저장 ->
   $(document).ready(function () {
 
-    $(".selectbtn").click(function () {
+    $('.selectbtn').click(function () {
       const meal = $(this).attr("value")
-
       let url = "/";
-
       window.location.href = url + "?meal=" + meal;
 
       console.log(meal)

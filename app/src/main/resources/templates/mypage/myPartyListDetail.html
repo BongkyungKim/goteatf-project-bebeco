@@ -51,14 +51,13 @@
       <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myAuthForm}">개인 정보 수정</a>
       <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myPartyList}">파티게시물 관리</a>
       <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myFeedList}">피드게시물 관리</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3"
-         href="">예약 내역</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myReservationList}">예약 내역 관리</a>
       <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myFollowList}">팔로우 관리</a>
     </div>
   </div>
   <!-- Page content wrapper-->
   <!-- 상세보기 -->
-  <form th:action="@{/party/update}" method="post" enctype="multipart/form-data" style="margin: 15px">
+  <form th:action="@{/my/updateParty}" method="post" enctype="multipart/form-data" style="margin: 15px">
     <h2 class="mt-4">파티게시물 상세정보</h2>
     <div class="container border rounded">
   

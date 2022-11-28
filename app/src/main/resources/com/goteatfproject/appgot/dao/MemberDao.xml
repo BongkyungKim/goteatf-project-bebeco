@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.goteatfproject.appgot.dao.MemberDao">
 
   <!-- 자바 객체의 프로퍼티와 컬럼 이름을 연결한다. -->
@@ -12,10 +12,12 @@
     <result column="createddate" property="createdDate"/>
     <result column="nick" property="nick"/>
     <result column="birth" property="birth"/>
+    <result column="tel" property="tel"/>
     <result column="addr" property="address"/>
     <result column="intro" property="intro"/>
     <result column="thumbnail" property="thumbnail"/>
     <result column="outstate" property="outState"/>
+    <result column="post" property="post"/>
   </resultMap>
 
   <insert id="insert" useGeneratedKeys="true" parameterType="member">
@@ -25,16 +27,6 @@
     #{post}, #{address}, #{subAddr}, #{interest}, #{intro}, 'jj.png')
   </insert>
 
-<!--  <insert id="insert" useGeneratedKeys="true" parameterType="member">-->
-<!--    insert into member (id, pwd, name, nick, birth, tel, gender, createddate, post,-->
-<!--    addr, subaddr, interest, intro, thumbnail)-->
-<!--    values(#{id}, sha2(#{password},256), #{name}, #{nick}, #{birth}, #{tel}, #{gender}, now(),-->
-<!--    #{post}, #{address}, #{subAddr},-->
-<!--    <foreach collection="interest" item="item" separator=",">-->
-<!--      #{item}-->
-<!--    </foreach>,  #{intro}, 'jj.png')-->
-<!--  </insert>-->
-
   <!-- 회원상세정보 -->
   <select id="findByNo" resultMap="memberMap">
     select
@@ -42,24 +34,29 @@
     name,
     id,
     nick,
+    tel,
     intro,
+    addr,
+    subAddr,
+    interest,
     thumbnail,
-    createddate
+    createddate,
+    post
     from
     member
     where
     mno=#{value}
   </select>
-  
+
   <select id="findAll" resultMap="memberMap">
-    select 
-      mno,
-      name,
-      id
-    from 
-      member
-    order by 
-      mno
+    select
+    mno,
+    name,
+    id
+    from
+    member
+    order by
+    mno
   </select>
 
   <!--   로그인 +  탈퇴 ( outstate = 0 회원 활성화 / outstate = 1 회원 비활성화)-->
@@ -77,27 +74,38 @@
     and outstate=0
   </select>
 
-  <!-- 마이페이지 개인 정보 수정 -->
+<!--  마이페이지 개인 정보 수정-->
   <update id="update" parameterType="Member">
     update member set
     name=#{name},
     id=#{id},
     nick=#{nick},
+    tel=#{tel},
+    post=#{post},
+    addr=#{address},
+    subAddr=#{subAddr},
+    interest=#{interest},
     pwd=sha2(#{password},256)
     where
     mno=#{no}
   </update>
 
-  <!-- 마이페이지 개인 정보 수정(새 패스워드 없을때) -->
-  <!-- 1120 추가 -->
+<!--  마이페이지 개인 정보 수정(새 패스워드 없을때)-->
+<!--  1120 추가-->
   <update id="update2" parameterType="Member">
     update member set
     name=#{name},
     id=#{id},
-    nick=#{nick}
+    nick=#{nick},
+    tel=#{tel},
+    post=#{post},
+    addr=#{address},
+    subAddr=#{subAddr},
+    interest=#{interest}
     where
     mno=#{no}
   </update>
+
 
   <!-- 마이페이지 개인 정보 프로필 사진 수정  -->
   <update id="updateProfile" parameterType="Member">
@@ -215,12 +223,13 @@
     createddate,
     outState,
     id
-    from  member
+    from member
     <!--  keyword=all 아니면 if문 실행 안됨  -->
     <if test="keyword != null">
       where
       name like concat("%", #{keyword}, "%")
       or id like concat("%", #{keyword}, "%")
+      or mno like concat("%", #{keyword}, "%")
     </if>
     order by
     mno
@@ -264,12 +273,12 @@
     mno = #{no}
   </update>
 
-<!-- 아이디 중복체크 -->
+  <!-- 아이디 중복체크 -->
   <select id="idCheck" parameterType="String" resultType="int">
     SELECT COUNT(id) FROM member WHERE id= #{id}
   </select>
 
-  <!-- 닉네임 중복체크 -->
+<!--  닉네임 중복체크-->
   <select id="nickCheck" parameterType="String" resultType="int">
     SELECT COUNT(nick) FROM member WHERE nick= #{nick}
   </select>
