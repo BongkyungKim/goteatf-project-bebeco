@@ -1,0 +1,101 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EAT-F by Chunderella</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link href="/css/notice/style.css" rel="stylesheet">
+    <!-- TODO 추가 - 2 같지만 수정 -->
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <!-- TODO 추가 - 1 -->
+    <link href="/css/notice/noticeStyles.css" rel="stylesheet" />undefined
+  </head>undefined<body>
+    <!-------------------------------구분선-------------------------->
+    <div class="b-example-divider"></div>
+    <!------------------------------header------------------------------>
+    <div th:replace="/common/header.html :: fragment-header"></div>
+    <!-------------------------------구분선-------------------------->
+    <div class="line-3"></div>
+    <div class="line-3"></div>
+    <!------------------------------nav------------------------------>
+    <div th:replace="/common/nav.html :: fragment-nav"></div>
+    <!-------------------------------구분선-------------------------->
+    <div class="a-example-divider"></div>
+    <!-- 부트스트랩 -->
+    <!-- 부트스트랩 왼쪽 사이드바 -->
+    <div class="d-flex" id="wrapper">
+      <!-- Sidebar-->
+      <div class="border-end bg-white" id="sidebar-wrapper">
+        <div class="sidebar-heading border-bottom bg-light">
+          <a th:href="@{/my/main}" style="text-decoration-line: none; color: inherit;">마이페이지</a>
+        </div>
+        <div class="list-group list-group-flush">
+          <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myAuthForm}">개인 정보 수정</a>
+          <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myPartyList}">파티게시물 관리</a>
+          <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myFeedList}">피드게시물 관리</a>
+          <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myReservationList}">예약 내역 관리</a>
+          <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myFollowList}">팔로우 관리</a>
+        </div>
+      </div>
+      <!-- Page content wrapper-->
+      <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <h2 class="mt-4 text-secondary">개인 정보 수정</h2>
+          <div class="row">
+            <div class="col-12 border">
+              <!-- 개인 상세 정보 -->
+              <p>본인 확인을 위해 현재 사용하고 있는 비밀번호를 한 번 더 입력해주세요.</p>
+              <form action="currentPassword" id="currentPasswordForm" name="myForm" method="post">
+              <table>
+                <input type="password" id="password" name="password"/>
+              </table>
+                <br><button type="button" class="btn btn-outline-secondary" id="passwordCheckBtn">확인하기</button>
+              </form>
+              <div class="line-2"></div>
+            </div>
+          </div>
+          <!-- 테이블 부트스트랩 end -->
+        </div>
+      </div>
+    </div>
+    <!-------------------------------구분선-------------------------->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <!-- Core theme JS-->
+    <!-- noticeList 왼쪽 사이드바 -->
+    <!-- TODO 추가 - 6-->
+    <script src="/js/notice/notice.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+    $("#passwordCheckBtn").click(function(){
+    	let currentPassword = $("#password").val();
+    	$.ajax({
+    		type:"POST",
+    		url:"/my/currentPassword",
+    		data:{"password":currentPassword},
+    		success:function(result) {
+    			if (result != 0) {
+            console.log("비밀번호 일치");
+            window.location.href="/my/myProfile";
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: '현재 비밀번호가 일치하지 않습니다.',
+            });
+          }
+    		}
+    	});
+    });
+    </script>
+    <script>
+      /* 엔터 이벤트 막기 */
+      document.myForm.addEventListener('keydown', function(event) {
+        if (event.keyCode === 13) {
+          event.preventDefault();
+        };
+      }, true);
+    </script>
+  </body>
+</html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>BEBECO</title>
+  <title>Chunderella</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
         rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
@@ -12,8 +12,6 @@
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 
   <link href="/css/notice/style.css" rel="stylesheet">
-
-  <!-- Core theme CSS (includes Bootstrap)-->
   <link href="/css/notice/noticeStyles.css" rel="stylesheet"/>
 
 </head>
@@ -42,98 +40,89 @@
     <div class="sidebar-heading border-bottom bg-light">고객센터</div>
     <div class="list-group list-group-flush">
       <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/notice/list}">공지사항</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3" href="#!">자주 묻는 질문</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/notice/noticeOne}">1:1 문의</a>
     </div>
   </div>
+
+
   <!-- Page content wrapper-->
   <div id="page-content-wrapper">
-    <!-- Top navigation-->
-<!--    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">-->
-<!--      <div class="container-fluid">-->
-<!--        <button class="btn btn-primary" id="sidebarToggle">Toggle Menu</button>-->
-<!--        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>-->
-<!--        <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
-<!--          <ul class="navbar-nav ms-auto mt-2 mt-lg-0">-->
-<!--            <li class="nav-item active"><a class="nav-link" href="#!">Home</a></li>-->
-<!--            <li class="nav-item"><a class="nav-link" href="#!">Link</a></li>-->
-<!--            <li class="nav-item dropdown">-->
-<!--              <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>-->
-<!--              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">-->
-<!--                <a class="dropdown-item" href="#!">Action</a>-->
-<!--                <a class="dropdown-item" href="#!">Another action</a>-->
-<!--                <div class="dropdown-divider"></div>-->
-<!--                <a class="dropdown-item" href="#!">Something else here</a>-->
-<!--              </div>-->
-<!--            </li>-->
-<!--          </ul>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </nav>-->
-    <!-- Page content-->
+
+
+
     <div class="container-fluid">
       <h2 class="mt-4">공지사항</h2>
 
-<!--  테이블 부트스트랩   -->
+      <!--  테이블 부트스트랩   -->
       <table class="table table-hover">
         <thead>
         <tr>
-          <th scope="col">번호</th>
-          <th scope="col">카테고리</th>
-          <th scope="col">제목</th>
+          <th scope="col">분류</th>
+          <th scope="col">공지번호</th>
           <th scope="col">작성자</th>
+          <th scope="col">제목</th>
+          <th scope="col">내용</th>
           <th scope="col">작성일</th>
-          <th scope="col">조회수</th>
         </tr>
         </thead>
-        <tbody class="table-group-divider">
-        <tr>
-          <th scope="row">1</th>
-          <td>-</td>
-          <td>제목</td>
-          <td>작성자</td>
-          <td>작성일</td>
-          <td>조회수</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-          <td>@fat</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td colspan="2">Larry the Bird</td>
-          <td>@twitter</td>
-          <td>@twitter</td>
-          <td>@twitter</td>
+
+        <tbody>
+        <tr data-th-each="notice : ${list}" >
+          <td data-th-text="${notice.tname}">분류</td>
+          <td data-th-text="${notice.no}">번호</td>
+          <td data-th-text="${notice.writer.nick}">작성자</td>
+          <td> <a href='detail?no=1' data-th-href="@{detail(no=${notice.no})}" data-th-text="${notice.title}" class="text-dark">제목</a></td>
+          <td data-th-text="${notice.content}">내용</td>
+          <td data-th-text="${notice.createDate}">작성일</td>
         </tr>
         </tbody>
-      </table>
-      <!--  테이블 부트스트랩 end   -->
 
-<!--      <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>-->
-<!--      <p>-->
-<!--        Make sure to keep all page content within the-->
-<!--        <code>#page-content-wrapper</code>-->
-<!--        . The top navbar is optional, and just for demonstration. Just create an element with the-->
-<!--        <code>#sidebarToggle</code>-->
-<!--        ID which will toggle the menu when clicked.-->
-<!--      </p>-->
+
+
+
+      </table>
     </div>
+
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        <li class="page-item disabled" th:if="${pageMaker.prev}">
+          <a class="page-link"
+             th:href="@{list(pageMaker.startPage-1)}" aria-label="Previous">
+            <span aria-hidden="true">이전페이지</span>
+          </a>
+        </li>
+        <th:block th:each="pageNum: ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+          <li class="page-item">
+            <a class="page-link" th:href="@{list(page=${pageNum})}"><i th:text="${pageNum}"></i></a>
+          </li>
+        </th:block>
+        <li class="page-item" th:if="${pageMaker.next && pageMaker.endPage >0}">
+          <a class="page-link" th:href="@{list(page=${pageMaker.endPage+1})}" aria-label="Next">
+            <span aria-hidden="true">다음페이지</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-        crossorigin="anonymous"></script>
 
-<!-- Bootstrap core JS 적용시 고객센터 등 드롭다운 불가-->
-<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>-->
-<!-- Core theme JS-->
+
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+    crossorigin="anonymous"></script>
+
+<!— jquery —>
+<script src="https://code.jquery.com/jquery-3.6.1.js"
+        integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+        crossorigin="anonymous"></script>
+<!— jquery end—>
 <script src="/js/notice/notice.js"></script>
 
 </body>
 </html>
+
+
+

@@ -18,6 +18,7 @@
   <!-- Core theme CSS (includes Bootstrap)--> <!-- TODO 추가 - 1 -->
   <link href="/css/notice/noticeStyles.css" rel="stylesheet"/>
 
+
 </head>
 <body>
 <!-------------------------------구분선-------------------------->
@@ -41,65 +42,112 @@
       <a th:href="@{/my/main}" style="text-decoration-line: none; color: inherit;">마이페이지</a>
     </div>
     <div class="list-group list-group-flush">
-      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myProfile}">개인 정보 수정</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myAuthForm}">개인 정보 수정</a>
       <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myPartyList}">파티게시물 관리</a>
       <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myFeedList}">피드게시물 관리</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myEventList}">이벤트게시물 관리</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3"
-         href="">예약 내역</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3"
-         href="">팔로우 관리</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3"
-         href="">1:1 문의 내역</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3"
-         href="">주소지 관리</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myReservationList}">예약 내역 관리</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myFollowList}">팔로우 관리</a>
     </div>
   </div>
   <!-- Page content wrapper-->
   <div id="page-content-wrapper">
-    <div class="container-fluid">
-      <h2 class="mt-4">마이페이지 메인화면</h2>
+    <div class="container-fluid mypagemain rounded">
+      
+      <div class="row"></div>
+      <div class="line-2"></div>
+      
+      <!-- 마이페이지 메인화면 -->
+      <div class="row" style="margin-left: 125px">
+        <div class="col-3">
 
-      <div class="row">
-        <div class="col-4 border">
-
-          <!-- 프로필 사진 & 자기 소개 글 -->
+          <!-- 프로필 사진 -->
           <form action="updateProfile" id="updateProfileForm" method="post" enctype="multipart/form-data">
             <div>
+            <div class="line-2"></div>
               <table>
-                <th>프로필 사진</th>
+                <th class="fs-4 text-secondary">프로필 사진</th>
+                 <div class = "line-1"></div>
                 <tr>
-                  <td><img th:src="@{/member/files/{path}(path=${member.thumbnail})}" width="300px" height="280px"></td>
+                  <td>
+                   <center>
+                      <img th:src="@{/member/files/{path}(path=${member.thumbnail})}" height="200px" style="width: 100%; border-radius: 8%" >
+                  </center>
+                </td>
                 </tr>
                 <tr>
                   <td>
-                    <input name='files' type="file">
-                    <button type="submit" id="updateProfileBtn">수정</button>
+                    <label for="formFile" class="form-label"></label>
+                    <input name="files" class="form-control" type="file" id="formFile" multiple>
                   </td>
                 </tr>
               </table>
+              <div class="line-1"></div>
+                <button type="submit" class="btn btn-outline-secondary" id="updateProfileBtn">수정</button>
             </div>
           </form>
         </div>
-        <div class="col-8 border">
+        
+        <!-- 자기 소개 글  -->
+        <div class="col-3">
+        <div class = "line-2"></div>
+
           <form action="updateIntro" id="updateIntroForm" method="post">
             <div>
               <table>
-                <th>자기 소개</th>
+                <th class="fs-4 text-secondary">자기 소개</th>
                 <tr>
-                  <td><textarea name='intro' type='text' th:text="${member.intro}" rows='11' cols='90'
-                                placeholder="자기소개를 입력해주세요."></textarea></td>
-                </tr>
-                <tr>
-                  <td  style="text-align: right;">
-                    <button type="submit" id="updateIntroBtn">수정</button>
+                  <td>
+                    <textarea class="form-control" name='intro' type='text' th:text="${member.intro}" rows='10' style="width: 200%; border-radius: 20px" placeholder="자기소개를 입력해주세요." autofocus></textarea>
                   </td>
                 </tr>
               </table>
             </div>
+            <div class="line-2"></div>
+            <div class="line-1"></div>
+            <button type="submit" class="btn btn-outline-secondary" id="updateIntroBtn">수정</button>
           </form>
         </div>
       </div>
+      
+      <br>
+      <!-- 본인 작성 글 전체 리스트 -->
+      <div class="container" style="margin-left: 110px">
+        <div class="row" style="width: 140%">
+          <div class="col-6">
+            <table class="table table-hover">
+              <button type="button" class="btn btn-outline-secondary position-relative">
+                내가 작성한 전체 게시글
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                      th:each="board : ${boards}"
+                      th:text="${boardStat.count}">
+            <span class="visually-hidden">unread messages</span>
+                </span>
+              </button>
+              <thead>
+              <tr class="text-secondary">
+                <th scope="col">게시판</th>
+                <th scope="col">제목</th>
+                <th scope="col">작성일</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+  
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="board : ${boards}">
+                <td th:text="${board.tableName}"></td>
+                <td th:if="${board.tableName == 'party'}"><a href="" th:href="@{/my/myPartyListDetail(no=${board.no})}" th:text="${board.title}" class="text-dark"></a></td>
+                <td th:if="${board.tableName == 'feed'}"><a href="" th:href="@{/my/myFeedListDetail(no=${board.no})}" th:text="${board.title}" class="text-dark"></a></td>
+                <td th:text="${board.date}"></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
 
       <!-- 테이블 부트스트랩 end   -->
     </div>

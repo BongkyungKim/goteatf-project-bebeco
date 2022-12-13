@@ -1,0 +1,201 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EAT-F by Chunderella</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+        crossorigin="anonymous">
+
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+  <link href="/css/notice/style.css" rel="stylesheet"> <!-- TODO 추가 - 2 같지만 수정 -->
+  
+   <!-- Core theme CSS (includes Bootstrap)--> <!-- TODO 추가 - 1 -->
+   <link href="/css/notice/noticeStyles.css" rel="stylesheet"/>
+
+
+  <!-- include summernote css/js -->
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css"
+        rel="stylesheet">
+  <!-- 서머노트css end-->
+
+
+</head>
+<body>
+<!-------------------------------구분선-------------------------->
+<div class="b-example-divider"></div>
+<!------------------------------header------------------------------>
+<div th:replace="/common/header.html :: fragment-header"></div>
+<!-------------------------------구분선-------------------------->
+<div class="line-3"></div>
+<div class="line-3"></div>
+<!------------------------------nav------------------------------>
+<div th:replace="/common/nav.html :: fragment-nav"></div>
+<!-------------------------------구분선-------------------------->
+<div class="a-example-divider"></div>
+<!-- 부트스트랩 -->
+
+<!-- 부트스트랩 왼쪽 사이드바 -->
+<div class="d-flex" id="wrapper">
+  <!-- Sidebar-->
+  <div class="border-end bg-white" id="sidebar-wrapper">
+    <div class="sidebar-heading border-bottom bg-light">
+      <a th:href="@{/admin/main}" style="text-decoration-line: none; color: inherit;">관리자페이지</a>
+    </div>
+    <div class="list-group list-group-flush">
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/}">사이트 바로가기</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/admin/adminPartyList}">파티게시물 관리</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/admin/adminFeedList}">피드게시물 관리</a>
+       <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/admin/adminEventList}">이벤트게시물 관리</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/admin/adminMemberList}">회원 관리</a>
+    </div>
+  </div>
+  <!-- Page content wrapper-->
+  <!-- 상세보기 -->
+  <form action="/event/update"method="post" enctype="multipart/form-data" style="margin: 15px">
+    <h2 class="mt-4">이벤트게시물 상세정보</h2>
+    <div class="container border rounded">
+  
+      <!--1줄-->
+      <div class="row p-3">
+        <div class="col-2" th:text="'[이벤트 번호:' + ' '+  ${event.no} + ']'">
+      </div>
+        <div class="col-2">
+        </div>
+        <div class="col-2">
+        </div>
+        <div class="col-2">
+        </div>
+  
+        <div class="col-2">
+        </div>
+        <div class="col-2">
+      </div>
+    </div>
+  
+      <!-- 2줄 -->
+      <div class="row p-3">
+        <div class="col"><input name='title' type='text'value='제목' th:value="${event.title}" size='93'>
+        <input type="hidden" name="no" data-th-value="${event.no}">
+        </div>
+      </div>
+  
+      <!-- 3줄 -->
+      <div class="row p-3 border-bottom">
+        <div class="col-2" th:text="${event.writer.name}">
+        </div>
+        <div class="col-2" th:text=" '조회수:' + ${event.viewCnt}">
+        </div>
+        <div class="col-6" th:text=" '작성일:' + ${event.createDate}">
+        </div>
+      
+      </div>
+      
+      <!-- 4줄 -->
+      <div class="row p-3 border-bottom" style="height: 300px;">
+        <div class="col">
+          <textarea id='content' name='content' th:text="${event.content}" readonly></textarea>
+        </div>
+      </div>
+      <!-- 5줄 -->
+      <div class="row p-3">
+        <div class="col">
+        </div>
+      </div>
+      <!-- 6줄 -->
+      <div class="row p-3">
+        <div class="col-3">
+        </div>
+        <div class="col-3">
+        </div>
+      </div>
+      
+     <!--  7줄 -->
+      <div class="row p-3">
+        <div class="col">
+        </div>
+      </div> 
+  
+    <!-- 8줄 -->
+      <div class="row p-3">
+        <div class="col-5"><p th:text="'장소명 : ' +'[' + ${event.location} + ']'"></p>
+        </div>
+        <div class="col-7" th:text="'주소 : ' +'[' + ${event.address} + ']'">
+        </div>
+      </div>
+      <!------------ 파일첨부 ------------>
+  
+   <p>첨부파일</p>
+  
+     <ul>
+       <li data-th-each="file : ${event.attachedFiles}">
+         <a href=""
+            data-th-href="@{files/{path}(path=${file.filepath})}"
+            data-th-text="${file.filepath}">test.gif</a>
+         [<a href="fileDelete?no=1"
+             data-th-href="@{/event/fileDelete(no=${file.no})}">파일삭제</a>]
+       </li>
+     </ul>
+     파일 추가: <input name='files' type="file" multiple>
+  
+  <!------------ 파일첨부 end------------>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-outline-secondary">수정</button>
+    <button type="button" class="btn btn-outline-secondary" style="border:none;"><a th:href="@{eventBlock(no=${event.no})}" class="btn btn-outline-secondary">비활성화</a></button>
+    
+  </form>
+  <!---------------------------- 상세보기 end ------------------------------>
+</div>
+
+
+ <!-------------------------------구분선-------------------------->
+ <div class="c-example-divider"></div>
+ <!-------------------------------구분선-------------------------->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous">
+</script>
+
+<!-- Core theme JS--> <!-- noticeList 왼쪽 사이드바 --> <!-- TODO 추가 - 6-->
+<script src="/js/notice/notice.js"></script>
+
+<!-- jquery -->
+<script src="https://code.jquery.com/jquery-3.6.1.js"
+integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+crossorigin="anonymous"></script>
+<!-- jquery end-->
+<!-- 서머노트 -->
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<!-- 서머노트 end -->
+
+<!-- 서머노트 -->
+<script>
+  $(document).ready(function() {
+    $('textarea[name=content]').html('[[${event.content}]]')
+
+    $('textarea[name=content]').summernote({
+      toolbar:false,
+      height: 260,
+      width: 800,
+      minHeight : null,
+      maxHeight : null,
+      disableDragAndDrop: true,
+      lang: "ko-KR",
+      
+    });
+  });
+</script>
+<!-- 서머노트 end-->
+
+</body>
+</html>
+

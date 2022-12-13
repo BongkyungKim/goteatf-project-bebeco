@@ -1,0 +1,141 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EAT-F by Chunderella</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+        crossorigin="anonymous">
+
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+  <link href="/css/notice/style.css" rel="stylesheet"> <!-- TODO 추가 - 2 같지만 수정 -->
+
+  <!-- Core theme CSS (includes Bootstrap)--> <!-- TODO 추가 - 1 -->
+  <link href="/css/notice/noticeStyles.css" rel="stylesheet"/>
+
+
+</head>
+<body>
+<!-------------------------------구분선-------------------------->
+<div class="b-example-divider"></div>
+<!------------------------------header------------------------------>
+<div th:replace="/common/header.html :: fragment-header"></div>
+<!-------------------------------구분선-------------------------->
+<div class="line-3"></div>
+<div class="line-3"></div>
+<!------------------------------nav------------------------------>
+<div th:replace="/common/nav.html :: fragment-nav"></div>
+<!-------------------------------구분선-------------------------->
+<div class="a-example-divider"></div>
+<!-- 부트스트랩 -->
+
+<!-- 부트스트랩 왼쪽 사이드바 -->
+<div class="d-flex" id="wrapper">
+  <!-- Sidebar-->
+  <div class="border-end bg-white" id="sidebar-wrapper">
+    <div class="sidebar-heading border-bottom bg-light">
+      <a th:href="@{/my/main}" style="text-decoration-line: none; color: inherit;">마이페이지</a>
+    </div>
+    <div class="list-group list-group-flush">
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myAuthForm}">개인 정보 수정</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myPartyList}">파티게시물 관리</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myFeedList}">피드게시물 관리</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myReservationList}">예약 내역 관리</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myFollowList}">팔로우 관리</a>
+    </div>
+  </div>
+  <!-- Page content wrapper-->
+  <div id="page-content-wrapper">
+    <div class="container-fluid">
+      <h2 class="mt-4 text-secondary">팔로우 관리</h2>
+
+      <!--  테이블 부트스트랩  -->
+      <form action="followBlocks" method="post">
+        <table class="table table-hover">
+          <thead>
+          <tr class="text-secondary">
+            <th scope="col">번호</th>
+            <th scope="col">프로필</th>
+            <th scope="col">닉네임</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+          </thead>
+          <tbody class="table-group-divider" id="checkedBlock">
+          <tr th:each="follow : ${follows}">
+            <th scope="row" valign="middle" style="font-size: 20px; font-weight: 500"><input type="checkbox" name="selectBlock" th:value="${follow.following}" th:text="${follow.following}" style="margin-right: 5px"></th>
+            <td>
+              <a th:href="@{/feed/personal(nick=${follow.nick})}">
+                <img th:src="@{/member/files/{path}(path=${follow.thumbnail})}" alt="mdo" width="70" height="70" class="rounded-circle"></a>
+            </td>
+            <td valign="middle" style="font-size: 20px; font-weight: 500;"><a href="" th:href="@{/feed/personal(nick=${follow.nick})}" th:text="${follow.nick}" style="text-decoration-line: none; color: black"></a></td>
+          </tr>
+          </tbody>
+        </table>
+        <button type="button" class="btn btn-outline-secondary" value="삭제" onclick="followDelete()">팔로우 취소</button>
+      </form>
+
+      <!--  테이블 부트스트랩 end   -->
+    </div>
+  </div>
+</div>
+
+
+<!-------------------------------구분선-------------------------->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous">
+</script>
+
+<!-- Core theme JS--> <!-- noticeList 왼쪽 사이드바 --> <!-- TODO 추가 - 6-->
+<script src="/js/notice/notice.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+
+<!-- 팔로우 체크박스 삭제 -->
+<script>
+  let checkedValue = [];
+
+  // 삭제 버튼 클릭시 followDelete() 함수 실행
+  function followDelete(){
+    // $("#checkedBlock").find('input:checked') 체크박스의 checked 된 태그를 찾는다
+    $("#checkedBlock").find('input:checked').each(function(index){
+      // this = index (선택 된 태그)
+      if($(this).is(":checked")==true){
+        console.log($(this).val());
+        checkedValue.push($(this).val());
+      }
+    });
+
+    console.log(checkedValue);
+    followDeleteAjax();
+  }
+
+  function followDeleteAjax() {
+    $.ajax({
+      type: "POST",
+      url: "/my/followDeletes",
+      data: {"checkedValue": checkedValue},
+      success: function(result) {
+        console.log(result);
+        window.location.href="/my/myFollowList"
+      }
+    })
+  }
+
+
+</script>
+<!-- 팔로우 체크박스 삭제 end -->
+
+</body>
+</html>

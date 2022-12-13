@@ -49,7 +49,7 @@
 
     <!------------------------------- 카테고리 -------------------------->
 
-    <select id="mealSelect" onchange="categoryChange()">
+    <select id="xx-mealSelect" onchange="categoryChange()">
       <option value="all">원하는 파티를 선택해주세요</option>
       <option value="점심">점심파티</option>
       <option value="저녁">저녁파티</option>
@@ -58,7 +58,7 @@
       <option value="디저트">디저트파티</option>
     </select>
 
-    <select id="foodSelect" onchange="categoryChange2()">
+    <select id="xx-foodSelect" onchange="categoryChange2()">
       <option value="all">원하는 종류를 선택해주세요</option>
       <option value="한식">한식</option>
       <option value="분식">분식</option>
@@ -73,23 +73,27 @@
 
     <!------------------------------- 카테고리 메뉴 선택 스크립트 -------------------------->
     <script th:inline="javascript">
+      // 셀렉트박스의 meal value값이 입력 ex) 점심, 저녁 ...
       let mealValue = [[${meal}]];
       console.log(mealValue);
 
-      let mealOptionLength = $("#mealSelect").find("option").length;
-      for(let i = 0; i < mealOptionLength; i++) {
-        if($("#mealSelect").find("option").eq(i).val() == mealValue) {
-          $("#mealSelect").find("option").eq(i).attr("selected", true);
+      // 셀렉트박스에 등록한 전체 목록 길이
+      let mealOptionLength = $("#xx-mealSelect").find("option").length;
+      for(let i = 0; i < mealOptionLength; i++) { // 길이 만큼 for문 설정
+        // 선택한 i번째 값 == mealValue값이 같으면
+        if($("#xx-mealSelect").find("option").eq(i).val() == mealValue) {
+          // 선택한 i번째 옵션 선택
+          $("#xx-mealSelect").find("option").eq(i).attr("selected", true);
         }
       }
 
-      let foodValue = [[${food}]]
+      let foodValue = [[${food}]] // 셀렉트박스 meal과 동일
       console.log(foodValue);
 
-      let foodOptionLength = $("#foodSelect").find("option").length;
+      let foodOptionLength = $("#xx-foodSelect").find("option").length;
       for(let i = 0; i < foodOptionLength; i++) {
-        if($("#foodSelect").find("option").eq(i).val() == foodValue) {
-          $("#foodSelect").find("option").eq(i).attr("selected", true);
+        if($("#xx-foodSelect").find("option").eq(i).val() == foodValue) {
+          $("#xx-foodSelect").find("option").eq(i).attr("selected", true);
         }
       }
     </script>
@@ -97,9 +101,11 @@
     <!------------------------------- 카테고리 필터 스크립트 -------------------------->
     <script th:inline="javascript">
       function categoryChange() {
-        let mealSelect = document.getElementById("mealSelect"); // 원하는 meal data를 가져온다
+        // 카테고리 아이디 값을 가져온다
+        let mealSelect = document.getElementById("xx-mealSelect");
+        // 위 아이디 값과 연결되고 셀렉트박스에서 선택된 Index의 value값을 가져온다
         let mealValue = mealSelect.options[document.getElementById(
-            "mealSelect").selectedIndex].value; // 셀렉트된 선택된 값을 가져온다
+            "xx-mealSelect").selectedIndex].value;
 
         console.log(foodValue == null);
         if(foodValue != null) {
@@ -111,9 +117,9 @@
 
       function categoryChange2() {
         // 2차 카테고리 아이디 값을 가져온다
-        let foodSelect = document.getElementById("foodSelect");
+        let foodSelect = document.getElementById("xx-foodSelect");
         // 그 아이디 값을 가져와서 셀렉트박스(<select id="foodSelect" onchange="categoryChange2()">) 안에서 선택한 option value 값을 가져온다 (예: 중식 선택  -> 중식)
-        let foodValue = foodSelect.options[document.getElementById("foodSelect").selectedIndex].value;
+        let foodValue = foodSelect.options[document.getElementById("xx-foodSelect").selectedIndex].value;
         if(foodValue == 'all') {
           window.location.href = "/party/list?meal=" + mealValue;
         } else {

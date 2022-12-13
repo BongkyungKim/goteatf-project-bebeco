@@ -42,44 +42,41 @@
       <a th:href="@{/my/main}" style="text-decoration-line: none; color: inherit;">마이페이지</a>
     </div>
     <div class="list-group list-group-flush">
-      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myProfile}">개인 정보 수정</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myAuthForm}">개인 정보 수정</a>
       <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myPartyList}">파티게시물 관리</a>
       <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myFeedList}">피드게시물 관리</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myEventList}">이벤트게시물 관리</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3"
-         href="">예약 내역</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3"
-         href="">팔로우 관리</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3"
-         href="">1:1 문의 내역</a>
-      <a class="list-group-item list-group-item-action list-group-item-light p-3"
-         href="">주소지 관리</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myReservationList}">예약 내역 관리</a>
+      <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/my/myFollowList}">팔로우 관리</a>
     </div>
   </div>
   <!-- Page content wrapper-->
   <div id="page-content-wrapper">
     <div class="container-fluid">
-      <h2 class="mt-4">파티게시물 관리</h2>
+      <h2 class="mt-4 text-secondary">파티게시물 관리</h2>
 
       <!--  테이블 부트스트랩   -->
-      <table class="table table-hover">
-        <thead>
-        <tr>
-          <th scope="col">번호</th>
-          <th scope="col">제목</th>
-          <th scope="col">작성일</th>
-          <th scope="col">조회수</th>
-        </tr>
-        </thead>
-        <tbody class="table-group-divider">
-        <tr th:each="party : ${myPartyList}">
-          <th scope="row" th:text="${party.no}"></th>
-          <td><a href="" th:href="@{/my/myPartyListDetail(no=${party.no})}" th:text="${party.title}"></a></td>
-          <td th:text="${party.createDate}"></td>
-          <td th:text="${party.viewCnt}"></td>
-        </tr>
-        </tbody>
-      </table>
+      <form action="partyBlocks" method="post">
+        <table class="table table-hover">
+          <thead>
+          <tr class="text-secondary">
+            <th scope="col">번호</th>
+            <th scope="col">제목</th>
+            <th scope="col">닉네임</th>
+            <th scope="col">작성일</th>
+          </tr>
+          </thead>
+          <tbody class="table-group-divider" id="checkedBlock">
+          <tr th:each="party : ${myPartyList}">
+            <th scope="row"><input type="checkbox" name="selectBlock" th:value="${party.no}" th:text="${party.no}"></th>
+            <td><a href="" th:href="@{/my/myPartyListDetail(no=${party.no})}" th:text="${party.title}" class="text-dark"></a></td>
+            <td th:text="${party.writer.nick}"></td>
+            <td th:text="${party.createDate}"></td>
+            
+          </tr>
+          </tbody>
+        </table>
+        <button type="button" class="btn btn-outline-secondary" value="삭제" onclick="partyDelete()">삭제</button>
+      </form>
 
       <!--  테이블 부트스트랩 end   -->
     </div>
@@ -121,6 +118,42 @@
 
 <!-- Core theme JS--> <!-- noticeList 왼쪽 사이드바 --> <!-- TODO 추가 - 6-->
 <script src="/js/notice/notice.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+
+<!-- 파티게시물 체크박스 삭제 -->
+<script>
+  let checkedValue = [];
+
+  // 삭제 버튼 클릭시 partyDelete() 함수 실행
+  function partyDelete(){
+    // $("#checkedBlock").find('input:checked') 체크박스의 checked 된 태그를 찾는다
+    $("#checkedBlock").find('input:checked').each(function(index){
+      // this = index (선택 된 태그)
+      if($(this).is(":checked")==true){
+        console.log($(this).val());
+        checkedValue.push($(this).val());
+      }
+    });
+
+    console.log(checkedValue);
+    partyDeleteAjax();
+  }
+
+  function partyDeleteAjax() {
+    $.ajax({
+      type: "POST",
+      url: "/my/partyDeletes",
+      data: {"checkedValue": checkedValue},
+      success: function(result) {
+        console.log(result);
+        window.location.href="/my/myPartyList"
+      }
+    })
+  }
+
+
+</script>
+<!-- 파티게시물 체크박스 삭제 end -->
 
 </body>
 </html>

@@ -18,15 +18,12 @@
    <!-- Core theme CSS (includes Bootstrap)--> <!-- TODO 추가 - 1 -->
    <link href="/css/notice/noticeStyles.css" rel="stylesheet"/>
 
-  <!-- 서머노트css -->
-  <!-- include libraries(jQuery, bootstrap) -->
-  <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-        rel="stylesheet"> -->
 
   <!-- include summernote css/js -->
   <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css"
         rel="stylesheet">
   <!-- 서머노트css end-->
+
 
 </head>
 <body>
@@ -60,7 +57,8 @@
   </div>
   <!-- Page content wrapper-->
   <!-- 상세보기 -->
-  <form>
+  <form style="margin: 15px">
+    <h2 class="mt-4">파티게시물 상세정보</h2>
     <div class="container border rounded">
   
       <!--1줄-->
@@ -96,6 +94,7 @@
         </div>
         <div class="col-6" th:text=" '작성일:' + ${party.createDate}">
         </div>
+      
       </div>
       
       <!--4줄-->
@@ -104,14 +103,12 @@
           <textarea id='content' name='content' th:text="${party.content}" readonly></textarea>
         </div>
       </div>
-
       <!--5줄-->
       <div class="row p-3">
         <div class="col">
           참여조건
         </div>
       </div>
-
       <!--6줄-->
       <div class="row p-3">
         <div class="col-3" th:text="'성별 : ' + '[' + ${party.gender} + ']'">
@@ -119,7 +116,6 @@
         <div class="col-3" th:text="'연령대 : ' + '[' + ${party.age} + '대]'">
         </div>
       </div>
-
       <!--7줄-->
       <div class="row p-3">
         <div class="col" th:text="'[' + ${#dates.createNowForTimeZone(party.time)} + '시]'">
@@ -135,11 +131,11 @@
       </div>
     </div>
     <br>
-    <button type="button" class="btn btn-outline-secondary"><a th:href="@{partyBlock(no=${party.no})}">비활성화</a></button>
-    
+    <button type="button" class="btn btn-outline-secondary" style="border:none;"><a th:href="@{partyBlock(no=${party.no})}" class="btn btn-outline-secondary">비활성화</a></button>
   </form> 
   <!---------------------------- 상세보기 end ------------------------------>
 </div>
+
 
  <!-------------------------------구분선-------------------------->
  <div class="c-example-divider"></div>
@@ -186,9 +182,3 @@ crossorigin="anonymous"></script>
 </body>
 </html>
 
-<!-------------------------------구분선-------------------------->
-<!-- Core theme JS--> <!-- noticeList 왼쪽 사이드바 --> <!-- TODO 추가 - 6-->
-<!--<script src="/js/notice/notice.js"></script>-->
-
-<!--</body>-->
-<!--</html>-->

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.goteatfproject.appgot.dao.NoticeDao">
 
   <!-- 자바 객체의 프로퍼티와 컬럼 이름을 연결한다. -->
@@ -9,75 +9,71 @@
     <id column="csno" property="no"/>
     <result column="title" property="title"/>
     <result column="cont" property="content"/>
-    <result column="createdate" property="createdate"/>
-    <result column="filename" property="fileName"/>
+    <result column="tname" property="tname"/>
+    <result column="createdate" property="createDate"/>
+
+    <association property="writer" javaType="member">
+      <id column="mno" property="no"/>
+      <result column="nick" property="nick"/>
+    </association>
+
   </resultMap>
 
-<!--  <insert id="insert" useGeneratedKeys="true" parameterType="notice">-->
-<!--&lt;!&ndash;    insert into member&ndash;&gt;-->
-<!--&lt;!&ndash;    values(#{no},#{id},sha2(#{pwd},256), #{grade}, #{name},&ndash;&gt;-->
-<!--&lt;!&ndash;    #{nick}, #{birth}, #{tel}, #{gender}, #{inDate}, #{postNum},&ndash;&gt;-->
-<!--&lt;!&ndash;    #{mainAddr}, #{subAddr}, #{interest}, #{outState}, #{outDate},&ndash;&gt;-->
-<!--&lt;!&ndash;    #{pImg}, #{intro})&ndash;&gt;-->
-<!--    insert into member (id, pwd, grade, name, nick, tel, createddate, post,-->
-<!--    addr, interest, outstate)-->
-<!--    values(#{id}, sha2(#{password},256), 0, #{name}, #{nick}, #{tel}, now(),-->
-<!--    #{post}, #{addr}, #{interest}, 0)-->
+  <select id="selectNoticeList" resultMap="noticeMap" parameterType="hashmap">
+    <![CDATA[
+  select
+cs.csno,
+m.mno,
+m.nick,
+cs.title,
+cs.cont,
+cs.createdate,
+cs.tname
 
-<!--    insert into member (id, pwd, grade, name, nick, tel, createddate, post,-->
-<!--    addr, interest, outstate)-->
-<!--    values('user2@test.com', sha2('1111',256), 0, '비트캠프', '비트간치2', '010-3456-7890',-->
-<!--    now(), '30123', '세종시', '피자', 0)-->
-<!--  </insert>-->
+  from cs_notice cs
+
+  join member m on cs.mno = m.mno
+   order by
+      csno desc
+      LIMIT #{pageStart}, #{perPageNum}
+      ]]>
+  </select>
+
+  <insert id="insert" parameterType="notice"
+      useGeneratedKeys="true" keyColumn="csno" keyProperty="no">
+    insert into cs_notice(title,cont,mno,createdate)
+    values(#{title},#{content},#{writer.no},now())
+  </insert>
+
+  <update id="update" parameterType="notice">
+    update cs_notice set
+    title=#{title},
+    cont=#{content}
+    where csno=#{no}
+  </update>
+
+  <delete id="delete">
+    delete from cs_notice
+    where csno=#{value}
+  </delete>
+
+  <delete id="deleteByMember">
+    delete from cs_notice
+    where mno=#{value}
+  </delete>
 
   <select id="findByNo" resultMap="noticeMap">
     select
-      csno,
-      title,
-      cont,
-      createdate,
-      filename
+    m.mno,
+    m.nick,
+    cs.title,
+    cs.cont,
+    cs.createdate
     from
-      cs_notice
+    cs_notice cs
+    join member m on m.mno = cs.mno
     where
-      csno=#{value}
+    cs.csno=#{value}
   </select>
-  
-  <select id="findAll" resultMap="noticeMap">
-    select 
-      csno,
-      title,
-      createdate
-    from 
-      cs_notice
-    order by 
-      csno desc
-  </select>
-
-<!--  <select id="findByEmailPassword" resultMap="memberMap">-->
-<!--    select-->
-<!--      mno,-->
-<!--      name,-->
-<!--      id,-->
-<!--      createddate-->
-<!--    from-->
-<!--      member-->
-<!--    where-->
-<!--      id=#{id} and pwd=sha2(#{password},256)-->
-<!--  </select>-->
-<!--  -->
-<!--  <update id="update" parameterType="Member">-->
-<!--    update app_member set -->
-<!--      name=#{name}, -->
-<!--      email=#{email}, -->
-<!--      pwd=sha2(#{password},256) -->
-<!--    where -->
-<!--      mno=#{no}-->
-<!--  </update>-->
-<!--  -->
-<!--  <delete id="delete">-->
-<!--    delete from app_member -->
-<!--    where mno=#{value}-->
-<!--  </delete>-->
 
 </mapper>

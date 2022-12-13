@@ -10,8 +10,10 @@
     <result column="title" property="title"/>
     <result column="cont" property="content"/>
     <result column="date" property="date"/>
-    <result column="thumbnail" property="thumbnail"/>
+    <result column="feedThumbnail" property="thumbnail"/>
+    <!--    <result column="thumbnail" property="thumbnail"/>-->
     <result column="pub" property="pub"/>
+    <result column="likecnt" property="likeCnt"/>
 
     <association property="writer" javaType="member">
       <id column="mno" property="no"/>
@@ -19,7 +21,13 @@
       <result column="addr" property="address"/>
       <result column="nick" property="nick"/>
       <result column="intro" property="intro"/>
+      <result column="thumbnail" property="thumbnail"/>
     </association>
+
+    <collection property="feedLikeList" ofType="feedLike">
+      <id column="flno" property="flno"/>
+      <result column="flmno" property="flmno"/>
+    </collection>
 
     <collection property="feedAttachedFiles" ofType="feedAttachedFile">
       <id column="feedfileno" property="no"/>
@@ -46,7 +54,8 @@
     f.title,
     f.cont,
     f.date,
-    f.thumbnail
+    f.thumbnail feedThumbnail,
+    f.likecnt
     from
     feed f
     join member m on m.mno = f.mno
@@ -64,7 +73,7 @@
     f.title,
     f.cont,
     f.date,
-    f.thumbnail,
+    f.thumbnail feedThumbnail,
     f.pub
     from
     feed f
@@ -88,10 +97,12 @@
     m.mno,
     m.nick,
     m.addr,
+    m.thumbnail,
     f.title,
     f.cont,
     f.date,
-    f.thumbnail
+    f.thumbnail feedThumbnail,
+    f.likecnt
     from
     feed f
     join member m on m.mno = f.mno
@@ -104,6 +115,7 @@
     mno,
     nick,
     addr,
+    thumbnail,
     intro
     from
     member
@@ -117,22 +129,39 @@
     m.mno,
     m.nick,
     m.addr,
+    m.thumbnail,
     f.title,
     f.cont,
     f.date,
-    f.thumbnail
+    f.thumbnail feedThumbnail,
+    f.likecnt,
+    fl.mno flmno
     from feed f
     join member m on m.mno = f.mno
+    left join feed_like fl on f.fno=fl.fno
     where f.mno in
     (select following from follower
     where follow=#{writer.no})
+    order by f.fno desc
   </select>
 
   <!--  아이디로 유저 번호를 조회해서 그번호로 게시물 모두 조회 쿼리문  -->
   <select id="selectListByNick" resultMap="feedMap">
-    select *
+    select
+    f.fno,
+    m.mno,
+    m.nick,
+    m.addr,
+    m.thumbnail,
+    f.title,
+    f.cont,
+    f.date,
+    f.thumbnail feedThumbnail,
+    f.likecnt,
+    fl.mno flmno
     from feed f
     join member m on m.mno=f.mno
+    left join feed_like fl on f.fno=fl.fno
     where m.nick=#{nick}
     order by f.fno desc
   </select>
@@ -143,10 +172,12 @@
     m.mno,
     m.nick,
     m.addr,
+    m.thumbnail,
     f.title,
     f.cont,
     f.date,
-    f.thumbnail,
+    f.thumbnail feedThumbnail,
+    f.likecnt,
     ff.feedfileno,
     ff.path
     from
@@ -229,11 +260,12 @@
     f.title,
     f.cont,
     f.date,
-    f.thumbnail
+    f.thumbnail feedThumbnail
     from
       feed f
     join member m on m.mno = f.mno
     where f.mno=#{memberNo}
+      and f.pub = false
     order by
       fno desc
     LIMIT #{cri.pageStart}, #{cri.perPageNum}
@@ -248,13 +280,17 @@
     m.mno,
     m.nick,
     m.addr,
+    m.thumbnail,
     f.title,
     f.cont,
     f.date,
-    f.thumbnail
+    f.thumbnail feedThumbnail,
+    ff.feedfileno,
+    ff.path
     from
     feed f
     join member m on m.mno = f.mno
+    left outer join feed_file ff on f.fno = ff.fno
     where
     f.fno = #{value}
   </select>
@@ -265,7 +301,7 @@
     where fno = #{no}
   </update>
 
-<!-- 간치 -->
+  <!-- 간치 -->
   <select id="findAllMain" resultMap="feedMap">
     select
     f.fno,
@@ -275,11 +311,44 @@
     f.title,
     f.cont,
     f.date,
-    f.thumbnail
+    f.thumbnail feedThumbnail
     from
     feed f
     join member m on m.mno = f.mno
     limit 8
+  </select>
+
+  <!--  마이페이지 피드게시글 강제삭제-->
+  <delete id="allDelete2">
+    delete from feed_like where fno=#{no};
+    delete from feed_file where fno=#{no};
+    delete from feed where fno=#{no};
+  </delete>
+
+  <!-- 검색결과 페이지 -->
+  <select id="findAllSearch" resultMap="feedMap">
+    select
+    f.fno,
+    m.mno,
+    m.nick,
+    m.addr,
+    f.title,
+    f.cont,
+    f.date,
+    f.thumbnail feedThumbnail,
+    f.likecnt
+    from
+    feed f
+    join member m on m.mno = f.mno
+    <if test="keywordAll != null">
+      where
+      m.nick like concat("%", #{keyword}, "%")
+      or f.title like concat("%", #{keyword}, "%")
+      or f.cont like concat("%", #{keyword}, "%")
+    </if>
+    order by
+    f.likecnt desc
+    limit 10
   </select>
 
 </mapper>

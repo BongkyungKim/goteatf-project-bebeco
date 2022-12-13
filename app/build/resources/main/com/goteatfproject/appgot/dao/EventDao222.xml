@@ -1,0 +1,399 @@
+<!--<?xml version="1.0" encoding="UTF-8" ?>-->
+<!--<!DOCTYPE mapper-->
+<!--    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"-->
+<!--    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">-->
+<!--<mapper namespace="com.goteatfproject.appgot.dao.EventDao">-->
+
+<!--  <resultMap type="event" id="eventMap">-->
+<!--  <id column="eno" property="no"/>-->
+<!--  <result column="title" property="title"/>-->
+<!--  <result column="cont" property="content"/>-->
+<!--  <result column="date" property="date"/>-->
+<!--  <result column="loc" property="location"/>-->
+<!--  <result column="post" property="post"/>-->
+<!--  <result column="addr" property="address"/>-->
+<!--  <result column="viewcnt" property="viewCnt"/>-->
+<!--  <result column="pub" property="pub"/>-->
+<!--  <result column="createdate" property="createDate"/>-->
+<!--  <result column="thumbnail" property="thumbnail"/>-->
+
+<!--  <result column="cost" property="cost"/>-->
+
+<!--  <association property="writer" javaType="member">-->
+<!--    <id column="mno" property="no"/>-->
+<!--    <result column="nick" property="nick"/>-->
+<!--    <result column="name" property="name"/>-->
+<!--  </association>-->
+
+<!--    <association property="commentList" javaType="eventComment"> &lt;!&ndash; eventComment객체는 event객체의 setter commentList에 담아 &ndash;&gt;-->
+<!--      <id column="rno" property="reviewNo"/>-->
+<!--    </association>-->
+
+<!--  <collection property="attachedFiles" ofType="attachedFile">-->
+<!--    <id column="efileno" property="no"/>-->
+<!--    <result column="path" property="filepath"/>-->
+<!--    <result column="filename" property="fileName"/>-->
+<!--    <result column="savename" property="saveName"/>-->
+<!--  </collection>-->
+
+
+<!--  </resultMap>-->
+
+<!--  <resultMap type="attachedFile" id="attachedFileMap">-->
+<!--    <id column="efileno" property="no"/>-->
+<!--    <result column="path" property="filepath"/>-->
+<!--    <result column="filename" property="fileName"/>-->
+<!--    <result column="savename" property="saveName"/>-->
+<!--    <result column="eno" property="eventNo"/>-->
+<!--  </resultMap>-->
+
+<!--  <resultMap type="eventComment" id="eventCommentMap">-->
+<!--    <id column="rno" property="reviewNo"/>-->
+<!--    <result column="eno" property="eventNo"/>-->
+<!--    <result column="cont" property="commentCont"/>-->
+<!--    <result column="date" property="date"/>-->
+
+<!--    <association property="writer" javaType="member"> &lt;!&ndash; member객체는 party객체의 setter writer에 담아 &ndash;&gt;-->
+<!--      <id column="mno" property="no"/>-->
+<!--      <result column="nick" property="nick"/>-->
+<!--    </association>-->
+<!--  </resultMap>-->
+
+<!--&lt;!&ndash; COST 추가 예정 &ndash;&gt;-->
+<!--  <insert id="insert" parameterType="event"-->
+<!--          useGeneratedKeys="true" keyColumn="eno" keyProperty="no">-->
+<!--    insert into event(mno, title, cont, date, loc, addr, createdate, thumbnail, cost)-->
+<!--    VALUES-->
+<!--    (#{writer.no}, #{title}, #{content},  #{date},  #{location},  #{address},  now(), #{thumbnail}, 10000)-->
+<!--  </insert>-->
+
+<!--    &lt;!&ndash;페이징 목록 &ndash;&gt;-->
+<!--  <select id="selectEventList" resultMap="eventMap" parameterType="hashmap">-->
+<!--    <![CDATA[-->
+<!--  select-->
+<!--  e.eno,-->
+<!--  m.mno,-->
+<!--  m.nick,-->
+<!--  e.title,-->
+<!--  e.cont,-->
+<!--  e.date,-->
+<!--  e.loc,-->
+<!--  e.addr,-->
+<!--  e.viewcnt,-->
+<!--  e.pub,-->
+<!--  e.createdate,-->
+<!--  e.thumbnail-->
+
+<!--  from event e-->
+<!--  -->
+<!--  join member m on e.mno = m.mno-->
+<!--  where e.pub = false-->
+<!--   order by-->
+<!--      eno desc-->
+<!--      LIMIT #{pageStart}, #{perPageNum}-->
+<!--      ]]>-->
+<!--  </select>-->
+
+<!--  &lt;!&ndash;페이징 목록: 마이페이지 본인 작성 글 리스트 출력 사용&ndash;&gt;-->
+<!--  <select id="selectEventList2" resultMap="eventMap" parameterType="hashmap">-->
+<!--    <![CDATA[-->
+<!--  select-->
+<!--  e.eno,-->
+<!--  m.mno,-->
+<!--  e.title,-->
+<!--  e.cont,-->
+<!--  e.date,-->
+<!--  e.loc,-->
+<!--  e.addr,-->
+<!--  e.viewcnt,-->
+<!--  e.pub,-->
+<!--  e.createdate,-->
+<!--  e.thumbnail-->
+
+<!--  from event e-->
+<!--  -->
+<!--  join member m on e.mno = m.mno-->
+<!--  where m.mno =#{memberNo}-->
+<!--   order by-->
+<!--      eno desc-->
+<!--      LIMIT #{cri.pageStart}, #{cri.perPageNum}-->
+<!--      ]]>-->
+<!--  </select>-->
+<!--  -->
+<!--  &lt;!&ndash;페이징 목록: 관리자페이지 리스트 출력 사용&ndash;&gt;-->
+<!--  <select id="selectEventList3" resultMap="eventMap" parameterType="hashmap">-->
+<!--    <![CDATA[-->
+<!--  select-->
+<!--  e.eno,-->
+<!--  m.mno,-->
+<!--  m.nick,-->
+<!--  e.title,-->
+<!--  e.cont,-->
+<!--  e.date,-->
+<!--  e.loc,-->
+<!--  e.addr,-->
+<!--  e.viewcnt,-->
+<!--  e.pub,-->
+<!--  e.createdate,-->
+<!--  e.thumbnail-->
+
+<!--  from event e-->
+<!--  -->
+<!--  join member m on e.mno = m.mno-->
+<!--  where e.pub = false-->
+<!--   order by-->
+<!--      eno desc-->
+<!--      LIMIT #{pageStart}, #{perPageNum}-->
+<!--      ]]>-->
+<!--  </select>-->
+<!--  -->
+
+<!--  <select id="findByNo" resultMap="eventMap">-->
+<!--    select-->
+<!--    e.eno,-->
+<!--    e.title,-->
+<!--    e.viewcnt,-->
+<!--    e.createdate,-->
+<!--    e.cont,-->
+<!--    e.cost,-->
+<!--    e.loc,-->
+<!--    e.addr,-->
+<!--    e.date,-->
+<!--    m.nick,-->
+<!--    m.mno,-->
+<!--    ef.efileno,-->
+<!--    ef.path-->
+<!--    from-->
+<!--    event e-->
+<!--    join member m on m.mno = e.mno-->
+<!--    left outer join event_file ef on e.eno = ef.eno-->
+<!--    where-->
+<!--    e.eno = #{value}-->
+<!--  </select>-->
+
+<!--  <update id="update" parameterType="event">-->
+<!--    update event set-->
+<!--    title = #{title},-->
+<!--    cont = #{content}-->
+<!--    where-->
+<!--    eno = #{no}-->
+<!--  </update>-->
+
+<!--  <delete id="delete">-->
+<!--    delete from event-->
+<!--    where eno = #{value}-->
+<!--  </delete>-->
+
+<!--  <insert id="insertFiles" parameterType="event">-->
+<!--    insert into event_file(path, eno, filename, savename)-->
+<!--    values-->
+<!--    &lt;!&ndash;  여러 파일 들어가면 첨부파일 , 사용해서 구분&ndash;&gt;-->
+<!--    <foreach collection="attachedFiles" item="file" separator=",">-->
+<!--      (#{file.filepath}, #{no}, #{file.fileName}, #{file.saveName})-->
+<!--    </foreach>-->
+<!--  </insert>-->
+
+<!--  <select id="findFileByNo" resultMap="attachedFileMap">-->
+<!--    select-->
+<!--    efileno,-->
+<!--    path,-->
+<!--   eno-->
+<!--    from-->
+<!--    event_file-->
+<!--    where-->
+<!--    efileno = #{value}-->
+<!--  </select>-->
+
+<!--  <select id="findFilesByEvent" resultMap="attachedFileMap">-->
+<!--    select-->
+<!--    efileno,-->
+<!--    path,-->
+<!--    eno-->
+<!--    from-->
+<!--    event_file-->
+<!--    where-->
+<!--    eno = #{value}-->
+<!--  </select>-->
+
+<!--  <delete id="deleteFile">-->
+<!--    delete from event_file-->
+<!--    where efileno = #{value}-->
+<!--  </delete>-->
+
+<!--  <delete id="deleteFiles">-->
+<!--    delete from event_file-->
+<!--    where eno = #{value}-->
+<!--  </delete>-->
+
+<!--  <delete id="deleteFilesByMemberEvents">-->
+<!--    delete from event_file-->
+<!--    where eno in (select eno from event where mno = #{value})-->
+<!--  </delete>-->
+
+<!--&lt;!&ndash;  관리자페이지 이벤트게시글 비활성화 (1: 비활성화)&ndash;&gt;-->
+<!--  <update id="eventBlock" parameterType="event">-->
+<!--    update event set pub = true-->
+<!--    where eno = #{no}-->
+<!--  </update>-->
+
+<!--&lt;!&ndash;  관리자페이지 이벤트게시글 상세보기&ndash;&gt;-->
+<!--  <select id="findByAdminEventListDetail" resultMap="eventMap">-->
+<!--    select-->
+<!--    e.eno,-->
+<!--    m.mno,-->
+<!--    m.name,-->
+<!--    e.title,-->
+<!--    e.cont,-->
+<!--    e.date,-->
+<!--    e.loc,-->
+<!--    e.addr,-->
+<!--    e.viewcnt,-->
+<!--    e.pub,-->
+<!--    e.createdate,-->
+<!--    e.thumbnail,-->
+<!--    ef.efileno,-->
+<!--    ef.path-->
+<!--    from-->
+<!--    event e-->
+<!--    join member m on e.mno = m.mno-->
+<!--    left outer join event_file ef on e.eno = ef.eno-->
+<!--    where-->
+<!--    e.eno =#{no}-->
+<!--  </select>-->
+
+<!--  &lt;!&ndash; 간치 &ndash;&gt;-->
+<!--  &lt;!&ndash;이벤트 리스트에 뽑는 쿼리문&ndash;&gt;-->
+<!--  <select id="findAll" resultMap="eventMap" >-->
+<!--    select-->
+<!--    e.eno,-->
+<!--    m.mno,-->
+<!--    e.title,-->
+<!--    e.cont,-->
+<!--    e.date,-->
+<!--    e.loc,-->
+<!--    e.addr,-->
+<!--    e.viewcnt,-->
+<!--    e.pub,-->
+<!--    e.createdate,-->
+<!--    e.thumbnail-->
+
+<!--    from event e-->
+
+<!--    join member m on e.mno = m.mno-->
+<!--    order by-->
+<!--    eno desc-->
+<!--  </select>-->
+
+<!--  &lt;!&ndash;메인에뽑는 리스트&ndash;&gt;-->
+<!--  <select id="findAllMain" resultMap="eventMap" >-->
+<!--    select-->
+<!--    e.eno,-->
+<!--    m.mno,-->
+<!--    m.nick,-->
+<!--    e.title,-->
+<!--    e.cont,-->
+<!--    e.date,-->
+<!--    e.loc,-->
+<!--    e.addr,-->
+<!--    e.viewcnt,-->
+<!--    e.pub,-->
+<!--    e.createdate,-->
+<!--    e.thumbnail-->
+
+<!--    from event e-->
+
+<!--    join member m on e.mno = m.mno-->
+<!--    order by-->
+<!--    eno desc-->
+<!--    limit 6-->
+<!--  </select>-->
+
+<!--  <insert id="ticketing" parameterType="Hashmap">-->
+<!--    insert into ticket-->
+<!--    (eno, totalcost, mno, paycnt, pay, paydate)-->
+<!--    values-->
+<!--    (#{eno}, #{totalcost}, #{mno}, #{paycnt}, '카카오페이', now())-->
+<!--  </insert>-->
+
+<!--&lt;!&ndash;  검색결과 페이지 &ndash;&gt;-->
+<!--  <select id="findAllSearch" resultMap="eventMap" >-->
+<!--    select-->
+<!--    e.eno,-->
+<!--    m.mno,-->
+<!--    e.title,-->
+<!--    e.cont,-->
+<!--    e.date,-->
+<!--    e.loc,-->
+<!--    e.addr,-->
+<!--    e.viewcnt,-->
+<!--    e.pub,-->
+<!--    e.createdate,-->
+<!--    e.thumbnail-->
+
+<!--    from event e-->
+<!--    join member m on e.mno = m.mno-->
+<!--    <if test="keywordAll != null">-->
+<!--      where-->
+<!--      e.title like concat("%", #{keyword}, "%")-->
+<!--      or e.cont like concat("%", #{keyword}, "%")-->
+<!--    </if>-->
+<!--    order by-->
+<!--    e.eno desc-->
+<!--    limit 10-->
+<!--  </select>-->
+
+<!--  &lt;!&ndash; 댓글 작성 &ndash;&gt;-->
+<!--  <insert id="insertComment" parameterType="eventComment">-->
+<!--    insert into review (mno, eno, cont, date)-->
+<!--    values (#{writer.no}, #{eventNo}, #{commentCont}, now())-->
+<!--  </insert>-->
+
+<!--  &lt;!&ndash; 댓글 출력 &ndash;&gt;-->
+<!--  <select id="selectCommentList" resultMap="eventCommentMap">-->
+<!--    select-->
+<!--    r.rno,-->
+<!--    r.eno,-->
+<!--    r.cont,-->
+<!--    r.date,-->
+<!--    r.pub,-->
+<!--    m.nick,-->
+<!--    m.mno-->
+<!--    from-->
+<!--    review r-->
+<!--    join member m on r.mno = m.mno-->
+<!--    where eno = #{eventNo}-->
+<!--  </select>-->
+
+<!--  &lt;!&ndash; 댓글 수정 &ndash;&gt;-->
+<!--  <update id="updateComment" parameterType="eventComment">-->
+<!--    update-->
+<!--    review-->
+<!--    set-->
+<!--    cont = #{commentCont}-->
+<!--    where-->
+<!--    rno = #{reviewNo}-->
+<!--    and-->
+<!--    mno = #{writer.no}-->
+<!--  </update>-->
+
+<!--  &lt;!&ndash; 댓글 삭제 &ndash;&gt;-->
+<!--  <delete id="deleteComment">-->
+<!--    delete from-->
+<!--    review-->
+<!--    where-->
+<!--    rno = #{reviewNo}-->
+<!--  </delete>-->
+
+<!--  &lt;!&ndash; 게시물 조회수 카운트 &ndash;&gt;-->
+<!--  <update id="updateEventCount" parameterType="party">-->
+<!--    update-->
+<!--    event-->
+<!--    set-->
+<!--    viewcnt = viewcnt + 1-->
+<!--    where-->
+<!--    eno = #{no}-->
+<!--  </update>-->
+<!--</mapper>-->
+
+
+
